@@ -1,6 +1,5 @@
 package ac.knu.likeknu.domain;
 
-import ac.knu.likeknu.controller.dto.response.MainAnnouncementsResponse;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
