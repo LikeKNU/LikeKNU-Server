@@ -1,6 +1,7 @@
 package ac.knu.likeknu.controller;
 
 import ac.knu.likeknu.controller.dto.response.MainAnnouncementsResponse;
+import ac.knu.likeknu.controller.dto.response.ResponseDto;
 import ac.knu.likeknu.domain.Announcement;
 import ac.knu.likeknu.domain.Campus;
 import ac.knu.likeknu.service.MainService;
@@ -20,11 +21,11 @@ public class MainController {
     private final MainService mainService;
 
     @GetMapping("/announcements")
-    public ResponseEntity<List<MainAnnouncementsResponse>> getMainAnnouncements(@RequestParam(name = "campus") String campus) {
+    public ResponseDto<List<MainAnnouncementsResponse>> getMainAnnouncements(@RequestParam(name = "campus") String campus) {
 
         ResponseEntity<List<MainAnnouncementsResponse>> responseEntity = mainService.getAnnouncementsResponse(Campus.of(campus));
         List<MainAnnouncementsResponse> responses = responseEntity.getBody();
 
-        return ResponseEntity.ok(responses);
+        return ResponseDto.of(responses);
     }
 }
