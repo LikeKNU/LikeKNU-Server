@@ -25,11 +25,6 @@ public class MainController {
         ResponseEntity<List<MainAnnouncementsResponse>> responseEntity = mainService.getAnnouncementsResponse(Campus.of(campus));
         List<MainAnnouncementsResponse> responses = responseEntity.getBody();
 
-        if(responses == null) {
-            log.info("response body is null");
-            return responseEntity.ofNullable(null);
-        }
-
         return ResponseEntity.ok(responses);
     }
 }

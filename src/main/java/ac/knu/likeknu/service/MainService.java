@@ -29,11 +29,14 @@ public class MainService {
                         .findTop4ByCampusInAndTagOrderByAnnouncementDateDesc(campusList, Tag.SCHOOL_NEWS)
                         .orElse(null);
 
-        return ResponseEntity.ofNullable(
-                (getAnnouncements.isEmpty() || getAnnouncements == null) ? null :
-                        getAnnouncements.stream()
-                                .map((Announcement a) -> MainAnnouncementsResponse.of(a))
-                                .collect(Collectors.toList()));
+        if(getAnnouncements == null)
+            throw new NullPointerException("null 값이 반환되었습니다.");
+
+        return ResponseEntity.ok(
+                getAnnouncements.stream()
+                        .map((Announcement a) -> MainAnnouncementsResponse.of(a))
+                        .collect(Collectors.toList())
+        );
     }
 
 }
