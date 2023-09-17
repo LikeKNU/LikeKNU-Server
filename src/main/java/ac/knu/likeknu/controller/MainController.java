@@ -6,10 +6,7 @@ import ac.knu.likeknu.service.MainService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,8 +18,8 @@ public class MainController {
 
     private final MainService mainService;
 
-    @GetMapping("/announcements/{campus}")
-    public ResponseEntity<List<MainAnnouncementsResponse>> getMainAnnouncements(@PathVariable(name = "campus") String campus) {
+    @GetMapping("/announcements")
+    public ResponseEntity<List<MainAnnouncementsResponse>> getMainAnnouncements(@RequestParam(name = "campus") String campus) {
         ResponseEntity<List<MainAnnouncementsResponse>> responseEntity = mainService.getAnnouncementsResponse(campus);
         List<MainAnnouncementsResponse> responses = responseEntity.getBody();
 
