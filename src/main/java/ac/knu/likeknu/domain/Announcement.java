@@ -20,23 +20,29 @@ public class Announcement {
     @Column
     private String announcementTitle;
 
-    @Column String announcementUrl;
+    @Column
+    private String announcementUrl;
 
     @Column
     private LocalDate announcementDate;
 
-    private String campus;
+    @Enumerated(EnumType.STRING)
+    private Campus campus;
 
-    private String tag;
+    @Enumerated(EnumType.STRING)
+    private Tag tag;
+
+    @Enumerated(EnumType.STRING)
+    private Category category;
 
     @Builder
-    public Announcement(Long announcementId, String announcementTitle, String announcementUrl, LocalDate announcementDate, String campus, String tag) {
-        this.announcementId = announcementId;
+    public Announcement(String announcementTitle, String announcementUrl, LocalDate announcementDate, Campus campus, Tag tag, Category category) {
         this.announcementTitle = announcementTitle;
         this.announcementUrl = announcementUrl;
         this.announcementDate = announcementDate;
         this.campus = campus;
         this.tag = tag;
+        this.category = category;
     }
 
 }
