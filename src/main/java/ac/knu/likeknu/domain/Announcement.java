@@ -15,7 +15,7 @@ public class Announcement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String announcementId;
+    private Long announcementId;
 
     @Column
     private String announcementTitle;
@@ -30,7 +30,7 @@ public class Announcement {
     private String tag;
 
     @Builder
-    public Announcement(String announcementId, String announcementTitle, String announcementUrl, LocalDate announcementDate, String campus, String tag) {
+    public Announcement(Long announcementId, String announcementTitle, String announcementUrl, LocalDate announcementDate, String campus, String tag) {
         this.announcementId = announcementId;
         this.announcementTitle = announcementTitle;
         this.announcementUrl = announcementUrl;

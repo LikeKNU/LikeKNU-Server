@@ -1,6 +1,7 @@
 package ac.knu.likeknu.controller;
 
 import ac.knu.likeknu.controller.dto.response.MainAnnouncementsResponse;
+import ac.knu.likeknu.domain.Announcement;
 import ac.knu.likeknu.service.MainService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
