@@ -2,8 +2,8 @@ package ac.knu.likeknu.announcement;
 
 import ac.knu.likeknu.domain.Announcement;
 import ac.knu.likeknu.domain.Campus;
-import ac.knu.likeknu.domain.Category;
 import ac.knu.likeknu.domain.Tag;
+import ac.knu.likeknu.domain.Category;
 import ac.knu.likeknu.repository.AnnouncementRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,10 +38,10 @@ public class MainControllerTest {
                 .build();
 
         // 더미 데이터 저장
-        Announcement announcement = new Announcement("testTitle1", "testUrl", LocalDate.now(), Campus.CHEONAN, Tag.SCHOOL_NEWS, Category.Test);
-        Announcement announcement2 = new Announcement("testTitle2", "testUrl", LocalDate.now(), Campus.ALL, Tag.SCHOOL_NEWS, Category.Test);
-        Announcement announcement3 = new Announcement("testTitle3", "testUrl", LocalDate.now(), Campus.ALL, Tag.LIBRARY, Category.Test);
-        Announcement announcement4 = new Announcement("testTitle4", "testUrl", LocalDate.now(), Campus.ALL, Tag.SCHOOL_NEWS, Category.Test);
+        Announcement announcement = new Announcement("testTitle1", "testUrl", LocalDate.now(), Campus.CHEONAN, Category.SCHOOL_NEWS, Tag.Test);
+        Announcement announcement2 = new Announcement("testTitle2", "testUrl", LocalDate.now(), Campus.ALL, Category.SCHOOL_NEWS, Tag.Test);
+        Announcement announcement3 = new Announcement("testTitle3", "testUrl", LocalDate.now(), Campus.ALL, Category.LIBRARY, Tag.Test);
+        Announcement announcement4 = new Announcement("testTitle4", "testUrl", LocalDate.now(), Campus.ALL, Category.SCHOOL_NEWS, Tag.Test);
 
         announcementRepository.save(announcement);
         announcementRepository.save(announcement2);

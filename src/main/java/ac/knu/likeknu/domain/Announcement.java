@@ -29,19 +29,19 @@ public class Announcement {
     private Campus campus;
 
     @Enumerated(EnumType.STRING)
-    private Tag tag;
-
-    @Enumerated(EnumType.STRING)
     private Category category;
 
+    @Enumerated(EnumType.STRING)
+    private Tag tag;
+
     @Builder
-    public Announcement(String announcementTitle, String announcementUrl, LocalDate announcementDate, Campus campus, Tag tag, Category category) {
+    public Announcement(String announcementTitle, String announcementUrl, LocalDate announcementDate, Campus campus, Category category, Tag tag) {
         this.announcementTitle = announcementTitle;
         this.announcementUrl = announcementUrl;
         this.announcementDate = announcementDate;
         this.campus = campus;
-        this.tag = tag;
         this.category = category;
+        this.tag = tag;
     }
 
 }

@@ -2,7 +2,7 @@ package ac.knu.likeknu.repository;
 
 import ac.knu.likeknu.domain.Announcement;
 import ac.knu.likeknu.domain.Campus;
-import ac.knu.likeknu.domain.Tag;
+import ac.knu.likeknu.domain.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +17,6 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
      * @param campus
      * @return
      */
-    Optional<List<Announcement>> findTop4ByCampusInAndTagOrderByAnnouncementDateDesc(List<Campus> campus, Tag tag);
+    Optional<List<Announcement>> findTop4ByCampusInAndCategoryOrderByAnnouncementDateDesc(List<Campus> campus, Category category);
 
 }
