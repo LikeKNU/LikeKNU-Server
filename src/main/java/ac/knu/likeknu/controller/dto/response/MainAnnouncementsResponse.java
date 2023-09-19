@@ -7,12 +7,12 @@ import lombok.Getter;
 @Getter
 public class MainAnnouncementsResponse {
 
-    private Long announcementId;
+    private String announcementId;
     private String announcementTitle;
     private String announcementUrl;
 
     @Builder
-    public MainAnnouncementsResponse(Long announcementId, String announcementTitle, String announcementUrl) {
+    public MainAnnouncementsResponse(String announcementId, String announcementTitle, String announcementUrl) {
         this.announcementId = announcementId;
         this.announcementTitle = announcementTitle;
         this.announcementUrl = announcementUrl;
