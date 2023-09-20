@@ -6,6 +6,7 @@ import ac.knu.likeknu.domain.Announcement;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.Category;
 import ac.knu.likeknu.domain.Menu;
+import ac.knu.likeknu.domain.value.MealType;
 import ac.knu.likeknu.repository.AnnouncementRepository;
 import ac.knu.likeknu.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,7 +46,9 @@ public class MainService {
     }
 
     public List<MainMenuResponse> getMenuResponse(Campus campus) {
-        Optional<List<Menu>> getTodayMenu = menuRepository.findByDateAndCampus(LocalDate.now(), campus);
+        int hour = LocalDateTime.now().getHour();
+
+        Optional<List<Menu>> getTodayMenu = menuRepository.findByDateAndCampusAndMealType(LocalDate.now(), campus, MealType.of(hour));
 
         return getTodayMenu.get().stream()
                 .map((Menu m) -> MainMenuResponse.of(m))
