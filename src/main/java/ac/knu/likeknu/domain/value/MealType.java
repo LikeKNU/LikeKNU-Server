@@ -1,4 +1,4 @@
-package ac.knu.likeknu.domain;
+package ac.knu.likeknu.domain.value;
 
 import lombok.Getter;
 

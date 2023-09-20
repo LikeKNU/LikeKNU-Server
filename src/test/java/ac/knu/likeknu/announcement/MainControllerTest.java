@@ -1,9 +1,9 @@
 package ac.knu.likeknu.announcement;
 
 import ac.knu.likeknu.domain.Announcement;
-import ac.knu.likeknu.domain.Campus;
-import ac.knu.likeknu.domain.Tag;
-import ac.knu.likeknu.domain.Category;
+import ac.knu.likeknu.domain.value.Campus;
+import ac.knu.likeknu.domain.value.Tag;
+import ac.knu.likeknu.domain.value.Category;
 import ac.knu.likeknu.repository.AnnouncementRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
