@@ -1,8 +1,8 @@
 package ac.knu.likeknu.controller.dto.response;
 
+import ac.knu.likeknu.domain.value.Campus;
+import ac.knu.likeknu.domain.value.MealType;
 import ac.knu.likeknu.domain.Cafeteria;
-import ac.knu.likeknu.domain.Campus;
-import ac.knu.likeknu.domain.MealType;
 import ac.knu.likeknu.domain.Menu;
 import lombok.Builder;
 

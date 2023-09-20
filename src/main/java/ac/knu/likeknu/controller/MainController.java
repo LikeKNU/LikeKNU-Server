@@ -3,7 +3,7 @@ package ac.knu.likeknu.controller;
 import ac.knu.likeknu.controller.dto.response.MainAnnouncementsResponse;
 import ac.knu.likeknu.controller.dto.response.MainMenuResponse;
 import ac.knu.likeknu.controller.dto.response.ResponseDto;
-import ac.knu.likeknu.domain.Campus;
+import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.service.MainService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

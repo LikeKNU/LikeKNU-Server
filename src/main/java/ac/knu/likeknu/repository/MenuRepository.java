@@ -1,8 +1,8 @@
 package ac.knu.likeknu.repository;
 
-import ac.knu.likeknu.domain.Campus;
-import ac.knu.likeknu.domain.MealType;
+import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.Menu;
+import ac.knu.likeknu.domain.value.MealType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
