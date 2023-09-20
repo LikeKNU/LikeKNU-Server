@@ -28,16 +28,20 @@ public class Menu extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Campus campus;
 
+    @Enumerated(EnumType.STRING)
+    private Cafeteria cafeteria;
+
     protected Menu() {
         super(Domain.MENU);
     }
 
     @Builder
-    public Menu(String menus, MealType mealType, LocalDate date, Campus campus) {
+    public Menu(String menus, MealType mealType, LocalDate date, Campus campus, Cafeteria cafeteria) {
         this();
         this.menus = menus;
         this.mealType = mealType;
         this.date = date;
         this.campus = campus;
+        this.cafeteria =  cafeteria;
     }
 }
