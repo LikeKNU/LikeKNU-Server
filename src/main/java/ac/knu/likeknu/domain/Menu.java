@@ -1,20 +1,20 @@
 package ac.knu.likeknu.domain;
 
-import jakarta.persistence.*;
+import ac.knu.likeknu.domain.value.Campus;
+import ac.knu.likeknu.domain.value.Domain;
+import ac.knu.likeknu.domain.value.MealType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Getter
 @Entity
-@NoArgsConstructor
-public class Menu {
-
-    @Id
-    private String menuId;
+public class Menu extends BaseEntity {
 
     @Column
     private String menus;
@@ -28,8 +28,13 @@ public class Menu {
     @Enumerated(EnumType.STRING)
     private Campus campus;
 
+    protected Menu() {
+        super(Domain.MENU);
+    }
+
     @Builder
     public Menu(String menus, MealType mealType, LocalDate date, Campus campus) {
+        this();
         this.menus = menus;
         this.mealType = mealType;
         this.date = date;

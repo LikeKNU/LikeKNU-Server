@@ -2,10 +2,9 @@ package ac.knu.likeknu.service;
 
 import ac.knu.likeknu.controller.dto.response.MainAnnouncementsResponse;
 import ac.knu.likeknu.controller.dto.response.MainMenuResponse;
-import ac.knu.likeknu.controller.dto.response.ResponseDto;
 import ac.knu.likeknu.domain.Announcement;
-import ac.knu.likeknu.domain.Campus;
-import ac.knu.likeknu.domain.Category;
+import ac.knu.likeknu.domain.value.Campus;
+import ac.knu.likeknu.domain.value.Category;
 import ac.knu.likeknu.domain.Menu;
 import ac.knu.likeknu.repository.AnnouncementRepository;
 import ac.knu.likeknu.repository.MenuRepository;
@@ -18,8 +17,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static io.lettuce.core.GeoArgs.Unit.m;
 
 @Slf4j
 @Service
