@@ -1,5 +1,6 @@
 package ac.knu.likeknu.controller.dto.response;
 
+import ac.knu.likeknu.domain.Cafeteria;
 import ac.knu.likeknu.domain.Campus;
 import ac.knu.likeknu.domain.MealType;
 import ac.knu.likeknu.domain.Menu;
@@ -12,13 +13,15 @@ public class MainMenuResponse {
 
     private List<String> menu;
     private Campus campus;
+    private Cafeteria cafeteria;
     private MealType mealType;
     private LocalDate date;
 
     @Builder
-    public MainMenuResponse(List<String> menu, Campus campus, MealType mealType, LocalDate date) {
+    public MainMenuResponse(List<String> menu, Campus campus, Cafeteria cafeteria, MealType mealType, LocalDate date) {
         this.menu = menu;
         this.campus = campus;
+        this.cafeteria = cafeteria;
         this.mealType = mealType;
         this.date = date;
     }

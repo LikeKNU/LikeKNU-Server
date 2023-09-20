@@ -23,7 +23,7 @@ public enum Campus {
             throw new IllegalArgumentException();
 
         for(Campus c : Campus.values()) {
-            if(c.campus.equals(campus))
+            if(c.name().equals(campus))
                 return c;
         }
 
