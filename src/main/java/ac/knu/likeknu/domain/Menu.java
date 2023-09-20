@@ -28,8 +28,11 @@ public class Menu {
     @Enumerated(EnumType.STRING)
     private Campus campus;
 
+    @Enumerated(EnumType.STRING)
+    private Cafeteria cafeteria;
+
     @Builder
-    public Menu(String menus, MealType mealType, LocalDate date, Campus campus) {
+    public Menu(String menus, MealType mealType, LocalDate date, Campus campus, Cafeteria cafeteria) {
         this.menus = menus;
         this.mealType = mealType;
         this.date = date;
