@@ -1,6 +1,7 @@
 package ac.knu.likeknu.controller;
 
 import ac.knu.likeknu.controller.dto.response.MainAnnouncementsResponse;
+import ac.knu.likeknu.controller.dto.response.MainMenuResponse;
 import ac.knu.likeknu.controller.dto.response.ResponseDto;
 import ac.knu.likeknu.domain.Campus;
 import ac.knu.likeknu.service.MainService;
@@ -24,6 +25,13 @@ public class MainController {
 
         ResponseEntity<List<MainAnnouncementsResponse>> responseEntity = mainService.getAnnouncementsResponse(Campus.of(campus));
         List<MainAnnouncementsResponse> responses = responseEntity.getBody();
+
+        return ResponseDto.of(responses);
+    }
+
+    @GetMapping("/menu")
+    public ResponseDto<List<MainMenuResponse>> getMainMenu(@RequestParam(name = "campus") String campus) {
+        List<MainMenuResponse> responses = mainService.getMenuResponse(Campus.of(campus));
 
         return ResponseDto.of(responses);
     }

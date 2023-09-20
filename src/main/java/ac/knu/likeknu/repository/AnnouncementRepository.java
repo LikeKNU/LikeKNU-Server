@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AnnouncementRepository extends JpaRepository<Announcement, Long> {
+public interface AnnouncementRepository extends JpaRepository<Announcement, String> {
 
     /**
      * campus 리스트와 tag를 이용해 최상위 4개 공지 entity 가져오기

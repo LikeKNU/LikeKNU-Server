@@ -13,8 +13,7 @@ import java.time.LocalDate;
 public class Announcement {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long announcementId;
+    private String announcementId;
 
     @Column
     private String announcementTitle;
