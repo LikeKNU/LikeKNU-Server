@@ -8,6 +8,7 @@ import ac.knu.likeknu.domain.value.Category;
 import ac.knu.likeknu.domain.Menu;
 import ac.knu.likeknu.domain.value.MealType;
 import ac.knu.likeknu.repository.AnnouncementRepository;
+import ac.knu.likeknu.repository.CafeteriaRepository;
 import ac.knu.likeknu.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ public class MainService {
 
     private final AnnouncementRepository announcementRepository;
     private final MenuRepository menuRepository;
+    private final CafeteriaRepository cafeteriaRepository;
 
     public List<MainAnnouncementsResponse> getAnnouncementsResponse(Campus campus) {
         List<Campus> campusList = List.of(Campus.ALL, campus);
