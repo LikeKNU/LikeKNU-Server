@@ -42,9 +42,9 @@ public class MainService {
     public List<MainMenuResponse> getMenuResponse(Campus campus) {
         int hour = LocalDateTime.now().getHour();
 
-        Optional<List<Menu>> getTodayMenu = menuRepository.findByDateAndCampusAndMealType(LocalDate.now(), campus, MealType.of(hour));
+        List<Menu> getTodayMenu = menuRepository.findByDateAndCampusAndMealType(LocalDate.now(), campus, MealType.of(hour));
 
-        return getTodayMenu.get().stream()
+        return getTodayMenu.stream()
                 .map((Menu m) -> MainMenuResponse.of(m))
                 .collect(Collectors.toList());
     }
