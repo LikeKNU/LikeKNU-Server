@@ -32,6 +32,7 @@ public class MainMenuResponse {
         return MainMenuResponse.builder()
                 .menu(menus)
                 .campus(menu.getCampus())
+                .cafeteria(menu.getCafeteria())
                 .mealType(menu.getMealType())
                 .date(menu.getDate())
                 .build();
