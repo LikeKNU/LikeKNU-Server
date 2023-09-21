@@ -1,5 +1,6 @@
 package ac.knu.likeknu.domain;
 
+import ac.knu.likeknu.domain.value.CafeteriaName;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.Domain;
 import ac.knu.likeknu.domain.value.MealType;
@@ -29,14 +30,14 @@ public class Menu extends BaseEntity {
     private Campus campus;
 
     @Enumerated(EnumType.STRING)
-    private Cafeteria cafeteria;
+    private CafeteriaName cafeteria;
 
     protected Menu() {
         super(Domain.MENU);
     }
 
     @Builder
-    public Menu(String menus, MealType mealType, LocalDate date, Campus campus, Cafeteria cafeteria) {
+    public Menu(String menus, MealType mealType, LocalDate date, Campus campus, CafeteriaName cafeteria) {
         this();
         this.menus = menus;
         this.mealType = mealType;
