@@ -17,6 +17,6 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Stri
      * @param campus
      * @return
      */
-    Optional<List<Announcement>> findTop4ByCampusInAndCategoryOrderByAnnouncementDateDesc(List<Campus> campus, Category category);
+    List<Announcement> findTop4ByCampusInAndCategoryOrderByAnnouncementDateDesc(List<Campus> campus, Category category);
 
 }

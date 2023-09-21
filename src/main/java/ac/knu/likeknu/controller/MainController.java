@@ -7,7 +7,6 @@ import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.service.MainService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,10 +21,7 @@ public class MainController {
 
     @GetMapping("/announcements")
     public ResponseDto<List<MainAnnouncementsResponse>> getMainAnnouncements(@RequestParam(name = "campus") String campus) {
-
-        ResponseEntity<List<MainAnnouncementsResponse>> responseEntity = mainService.getAnnouncementsResponse(Campus.of(campus));
-        List<MainAnnouncementsResponse> responses = responseEntity.getBody();
-
+        List<MainAnnouncementsResponse> responses = mainService.getAnnouncementsResponse(Campus.of(campus));
         return ResponseDto.of(responses);
     }
 

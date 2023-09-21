@@ -13,6 +13,6 @@ import java.util.Optional;
 @Repository
 public interface MenuRepository extends JpaRepository<Menu, String> {
 
-    Optional<List<Menu>> findByDateAndCampusAndMealType(LocalDate Date, Campus campus, MealType mealType);
+    List<Menu> findByDateAndCampusAndMealType(LocalDate Date, Campus campus, MealType mealType);
 
 }

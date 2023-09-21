@@ -2,5 +2,5 @@ package ac.knu.likeknu.domain.value;
 
 public enum Domain {
 
-    ANNOUNCEMENT, MENU
+    ANNOUNCEMENT, MENU, CAFETERIA
 }
