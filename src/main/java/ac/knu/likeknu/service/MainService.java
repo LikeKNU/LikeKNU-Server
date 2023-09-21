@@ -11,7 +11,6 @@ import ac.knu.likeknu.repository.AnnouncementRepository;
 import ac.knu.likeknu.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -28,21 +27,16 @@ public class MainService {
     private final AnnouncementRepository announcementRepository;
     private final MenuRepository menuRepository;
 
-    public ResponseEntity<List<MainAnnouncementsResponse>> getAnnouncementsResponse(Campus campus) {
+    public List<MainAnnouncementsResponse> getAnnouncementsResponse(Campus campus) {
         List<Campus> campusList = List.of(Campus.ALL, campus);
 
-        Optional<List<Announcement>> getAnnouncementsOptinal =
+        List<Announcement> getAnnouncements =
                 announcementRepository
                         .findTop4ByCampusInAndCategoryOrderByAnnouncementDateDesc(campusList, Category.SCHOOL_NEWS);
 
-        if(getAnnouncementsOptinal.isEmpty())
-            log.info("게시물이 없습니다.");
-
-        return ResponseEntity.ok(
-                getAnnouncementsOptinal.get().stream()
+        return getAnnouncements.stream()
                         .map((Announcement a) -> MainAnnouncementsResponse.of(a))
-                        .collect(Collectors.toList())
-        );
+                        .collect(Collectors.toList());
     }
 
     public List<MainMenuResponse> getMenuResponse(Campus campus) {
