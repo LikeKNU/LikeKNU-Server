@@ -20,7 +20,7 @@ public class MainAnnouncementsResponse {
 
     public static MainAnnouncementsResponse of(Announcement announcement) {
         return MainAnnouncementsResponse.builder()
-                .announcementId(announcement.getAnnouncementId())
+                .announcementId(announcement.getId())
                 .announcementTitle(announcement.getAnnouncementTitle())
                 .announcementUrl(announcement.getAnnouncementUrl())
                 .build();

@@ -1,20 +1,58 @@
 package ac.knu.likeknu.domain;
 
+import ac.knu.likeknu.domain.value.CafeteriaName;
+import ac.knu.likeknu.domain.value.Campus;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public enum Cafeteria {
+@Entity
+public class Cafeteria {
 
-    STUDENT_CAFETERIA("학생식당"),
-    EMPLOYEE_CAFETERIA("직원식당"),
-    EUNHANGSA_VISION("은행사/비전"),
-    DREAM("드림"),
-    DORMITORY("생활관식당");
+    @Id
+    private String id;
 
-    private final String cafeteriaName;
+    @Enumerated(EnumType.STRING)
+    private CafeteriaName cafeteriaName;
 
-    Cafeteria(String cafeteriaName) {
-        this.cafeteriaName = cafeteriaName;
+    @Column
+    private String weekdayBreakfast;
+
+    @Column
+    private String weekdayLunch;
+
+    @Column
+    private String weekdayDinner;
+
+    @Column
+    private String weekendBreakfast;
+
+    @Column
+    private String weekendLunch;
+
+    @Column
+    private String weekendDinner;
+
+    @Enumerated(EnumType.STRING)
+    private Campus campus;
+
+    protected Cafeteria() {
     }
 
+    @Builder
+    public Cafeteria(CafeteriaName cafeteriaName, String weekdayBreakfast, String weekdayLunch, String weekdayDinner, String weekendBreakfast, String weekendLunch, String weekendDinner, Campus campus) {
+        this.cafeteriaName = cafeteriaName;
+        this.weekdayBreakfast = weekdayBreakfast;
+        this.weekdayLunch = weekdayLunch;
+        this.weekdayDinner = weekdayDinner;
+        this.weekendBreakfast = weekendBreakfast;
+        this.weekendLunch = weekendLunch;
+        this.weekendDinner = weekendDinner;
+        this.campus = campus;
+    }
 }
