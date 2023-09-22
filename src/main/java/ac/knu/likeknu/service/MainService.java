@@ -3,6 +3,7 @@ package ac.knu.likeknu.service;
 import ac.knu.likeknu.controller.dto.response.MainAnnouncementsResponse;
 import ac.knu.likeknu.controller.dto.response.MainMenuResponse;
 import ac.knu.likeknu.domain.Announcement;
+import ac.knu.likeknu.domain.Cafeteria;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.Category;
 import ac.knu.likeknu.domain.Menu;
@@ -15,9 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -42,12 +41,16 @@ public class MainService {
     }
 
     public List<MainMenuResponse> getMenuResponse(Campus campus) {
-        int hour = LocalDateTime.now().getHour();
+        MealType mealType = MealType.of();
 
-        List<Menu> getTodayMenu = menuRepository.findByDateAndCampusAndMealType(LocalDate.now(), campus, MealType.of(hour));
+        List<Menu> getTodayMenu = menuRepository.findByDateAndCampusAndMealType(LocalDate.now(), campus, mealType);
+        Cafeteria cafeteria = cafeteriaRepository.findByCampus(campus)
+                .orElseThrow(() -> new IllegalArgumentException("데이터가 없습니다."));
+
+        String time = cafeteria.getTime();
 
         return getTodayMenu.stream()
-                .map((Menu m) -> MainMenuResponse.of(m))
+                .map((Menu m) -> MainMenuResponse.of(m, time))
                 .collect(Collectors.toList());
     }
 
