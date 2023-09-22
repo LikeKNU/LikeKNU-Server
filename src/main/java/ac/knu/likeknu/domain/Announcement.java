@@ -2,12 +2,12 @@ package ac.knu.likeknu.domain;
 
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.Category;
-import ac.knu.likeknu.domain.value.Domain;
 import ac.knu.likeknu.domain.value.Tag;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,7 +15,10 @@ import java.time.LocalDate;
 
 @Getter
 @Entity
-public class Announcement extends BaseEntity {
+public class Announcement {
+
+    @Id
+    private String id;
 
     @Column
     private String announcementTitle;
@@ -36,12 +39,10 @@ public class Announcement extends BaseEntity {
     private Tag tag;
 
     protected Announcement() {
-        super(Domain.ANNOUNCEMENT);
     }
 
     @Builder
     public Announcement(String announcementTitle, String announcementUrl, LocalDate announcementDate, Campus campus, Category category, Tag tag) {
-        this();
         this.announcementTitle = announcementTitle;
         this.announcementUrl = announcementUrl;
         this.announcementDate = announcementDate;
