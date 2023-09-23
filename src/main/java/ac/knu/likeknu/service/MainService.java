@@ -50,7 +50,7 @@ public class MainService {
         String time = cafeteria.getTime();
 
         return getTodayMenu.stream()
-                .map((Menu m) -> MainMenuResponse.of(m, time))
+                .map((Menu m) -> MainMenuResponse.of(m))
                 .collect(Collectors.toList());
     }
 
