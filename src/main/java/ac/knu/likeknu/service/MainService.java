@@ -26,7 +26,6 @@ public class MainService {
 
     private final AnnouncementRepository announcementRepository;
     private final MenuRepository menuRepository;
-    private final CafeteriaRepository cafeteriaRepository;
 
     public List<MainAnnouncementsResponse> getAnnouncementsResponse(Campus campus) {
         List<Campus> campusList = List.of(Campus.ALL, campus);
@@ -41,13 +40,7 @@ public class MainService {
     }
 
     public List<MainMenuResponse> getMenuResponse(Campus campus) {
-        MealType mealType = MealType.of();
-
-        List<Menu> getTodayMenu = menuRepository.findByDateAndCampusAndMealType(LocalDate.now(), campus, mealType);
-        Cafeteria cafeteria = cafeteriaRepository.findByCampus(campus)
-                .orElseThrow(() -> new IllegalArgumentException("데이터가 없습니다."));
-
-        String time = cafeteria.getTime();
+        List<Menu> getTodayMenu = menuRepository.findByDateAndCampusAndMealType(LocalDate.now(), campus, MealType.of());
 
         return getTodayMenu.stream()
                 .map((Menu m) -> MainMenuResponse.of(m))

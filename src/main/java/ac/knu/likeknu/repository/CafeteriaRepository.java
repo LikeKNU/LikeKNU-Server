@@ -5,11 +5,11 @@ import ac.knu.likeknu.domain.value.Campus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface CafeteriaRepository extends JpaRepository<Cafeteria, String> {
 
-    Optional<Cafeteria> findByCampus(Campus campus);
+    List<Cafeteria> findByCampus(Campus campus);
 
 }
