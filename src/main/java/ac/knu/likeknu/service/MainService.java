@@ -3,6 +3,7 @@ package ac.knu.likeknu.service;
 import ac.knu.likeknu.controller.dto.response.MainAnnouncementsResponse;
 import ac.knu.likeknu.controller.dto.response.MainMenuResponse;
 import ac.knu.likeknu.domain.Announcement;
+import ac.knu.likeknu.domain.Cafeteria;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.Category;
 import ac.knu.likeknu.domain.Menu;
@@ -15,9 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -27,7 +26,6 @@ public class MainService {
 
     private final AnnouncementRepository announcementRepository;
     private final MenuRepository menuRepository;
-    private final CafeteriaRepository cafeteriaRepository;
 
     public List<MainAnnouncementsResponse> getAnnouncementsResponse(Campus campus) {
         List<Campus> campusList = List.of(Campus.ALL, campus);
@@ -42,9 +40,7 @@ public class MainService {
     }
 
     public List<MainMenuResponse> getMenuResponse(Campus campus) {
-        int hour = LocalDateTime.now().getHour();
-
-        List<Menu> getTodayMenu = menuRepository.findByDateAndCampusAndMealType(LocalDate.now(), campus, MealType.of(hour));
+        List<Menu> getTodayMenu = menuRepository.findByDateAndCampusAndMealType(LocalDate.now(), campus, MealType.of());
 
         return getTodayMenu.stream()
                 .map((Menu m) -> MainMenuResponse.of(m))

@@ -2,6 +2,8 @@ package ac.knu.likeknu.domain.value;
 
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 public enum MealType {
 
@@ -17,7 +19,9 @@ public enum MealType {
         this.hour = hour;
     }
 
-    public static MealType of(int hour) {
+    public static MealType of() {
+        int hour = LocalDateTime.now().getHour();
+
         for(MealType m : MealType.values()) {
             if(m.getHour() > hour)
                 return m;

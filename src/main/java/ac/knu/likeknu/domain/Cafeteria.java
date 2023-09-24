@@ -2,6 +2,8 @@ package ac.knu.likeknu.domain;
 
 import ac.knu.likeknu.domain.value.CafeteriaName;
 import ac.knu.likeknu.domain.value.Campus;
+import ac.knu.likeknu.domain.value.MealType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,6 +11,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -54,5 +58,43 @@ public class Cafeteria {
         this.weekendLunch = weekendLunch;
         this.weekendDinner = weekendDinner;
         this.campus = campus;
+    }
+
+    public String getTime() {
+        MealType mealType = MealType.of();
+
+        if(mealType == null)
+            return null;
+
+        if(isWeekend()) {
+            //주말일 때
+            if(isBreakfast(mealType))
+                return weekendBreakfast;
+            else if(isLunch(mealType))
+                return weekendLunch;
+            else
+                return weekendDinner;
+        }
+        else {
+            //평일일 때
+            if(isBreakfast(mealType))
+                return weekdayBreakfast;
+            else if(isLunch(mealType))
+                return weekdayLunch;
+            else
+                return weekdayDinner;
+        }
+    }
+
+    private boolean isWeekend() {
+        return LocalDateTime.now().getDayOfWeek().getValue() >= 6;
+    }
+
+    private boolean isBreakfast(MealType mealType) {
+        return mealType.equals(MealType.BREAKFAST);
+    }
+
+    private boolean isLunch(MealType mealType) {
+        return mealType.equals(MealType.LUNCH);
     }
 }
