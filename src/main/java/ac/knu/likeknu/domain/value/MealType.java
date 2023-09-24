@@ -19,7 +19,7 @@ public enum MealType {
         this.hour = hour;
     }
 
-    public static MealType of() {
+    public static MealType now() {
         int hour = LocalDateTime.now().getHour();
 
         for(MealType m : MealType.values()) {
