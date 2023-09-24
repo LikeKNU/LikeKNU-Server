@@ -6,7 +6,6 @@ import ac.knu.likeknu.domain.Announcement;
 import ac.knu.likeknu.domain.Cafeteria;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.Category;
-import ac.knu.likeknu.domain.Menu;
 import ac.knu.likeknu.domain.value.MealType;
 import ac.knu.likeknu.repository.AnnouncementRepository;
 import ac.knu.likeknu.repository.CafeteriaRepository;
@@ -26,6 +25,7 @@ public class MainService {
 
     private final AnnouncementRepository announcementRepository;
     private final MenuRepository menuRepository;
+    private final CafeteriaRepository cafeteriaRepository;
 
     public List<MainAnnouncementsResponse> getAnnouncementsResponse(Campus campus) {
         List<Campus> campusList = List.of(Campus.ALL, campus);
@@ -35,16 +35,16 @@ public class MainService {
                         .findTop4ByCampusInAndCategoryOrderByAnnouncementDateDesc(campusList, Category.SCHOOL_NEWS);
 
         return getAnnouncements.stream()
-                        .map((Announcement a) -> MainAnnouncementsResponse.of(a))
-                        .collect(Collectors.toList());
-    }
-
-    public List<MainMenuResponse> getMenuResponse(Campus campus) {
-        List<Menu> getTodayMenu = menuRepository.findByDateAndCampusAndMealType(LocalDate.now(), campus, MealType.of());
-
-        return getTodayMenu.stream()
-                .map((Menu m) -> MainMenuResponse.of(m))
+                .map((Announcement a) -> MainAnnouncementsResponse.of(a))
                 .collect(Collectors.toList());
     }
 
+    public List<MainMenuResponse> getMenuResponse(Campus campus) {
+        List<Cafeteria> cafeterias = cafeteriaRepository.findByCampus(campus);
+        return cafeterias.stream()
+                .map(cafeteria -> menuRepository.findByMenuDateAndCafeteriaAndMealType(LocalDate.now(), cafeteria, MealType.now())
+                        .map(menu -> MainMenuResponse.of(cafeteria, menu.getMenus()))
+                        .orElse(MainMenuResponse.empty(cafeteria)))
+                .toList();
+    }
 }

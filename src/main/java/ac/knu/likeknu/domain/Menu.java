@@ -5,9 +5,10 @@ import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.MealType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -27,23 +28,19 @@ public class Menu {
     private MealType mealType;
 
     @Column
-    private LocalDate date;
+    private LocalDate menuDate;
 
-    @Enumerated(EnumType.STRING)
-    private Campus campus;
-
-    @Enumerated(EnumType.STRING)
-    private CafeteriaName cafeteria;
+    @JoinColumn(name = "cafeteria_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Cafeteria cafeteria;
 
     protected Menu() {
     }
 
     @Builder
-    public Menu(String menus, MealType mealType, LocalDate date, Campus campus, CafeteriaName cafeteria) {
+    public Menu(String menus, MealType mealType, LocalDate date, Campus campus, CafeteriaName cafeteria, LocalDate menuDate) {
         this.menus = menus;
         this.mealType = mealType;
-        this.date = date;
-        this.campus = campus;
-        this.cafeteria = cafeteria;
+        this.menuDate = menuDate;
     }
 }

@@ -3,16 +3,18 @@ package ac.knu.likeknu.domain;
 import ac.knu.likeknu.domain.value.CafeteriaName;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.MealType;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -45,6 +47,9 @@ public class Cafeteria {
     @Enumerated(EnumType.STRING)
     private Campus campus;
 
+    @OneToMany(mappedBy = "cafeteria")
+    private List<Menu> menus = new ArrayList<>();
+
     protected Cafeteria() {
     }
 
@@ -61,7 +66,7 @@ public class Cafeteria {
     }
 
     public String getTime() {
-        MealType mealType = MealType.of();
+        MealType mealType = MealType.now();
 
         if(mealType == null)
             return null;
