@@ -13,6 +13,7 @@ import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.NamedEntityGraphs;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalTime;
@@ -60,6 +61,17 @@ public class CityBus {
     private List<LocalTime> arrivalTimes = new ArrayList<>();
 
     protected CityBus() {
+    }
+
+    @Builder
+    protected CityBus(String id, String busNumber, String busName, String busColor, String busStop, Boolean isRealtime, List<LocalTime> arrivalTimes) {
+        this.id = id;
+        this.busNumber = busNumber;
+        this.busName = busName;
+        this.busColor = busColor;
+        this.busStop = busStop;
+        this.isRealtime = isRealtime;
+        this.arrivalTimes = arrivalTimes;
     }
 
     public LocalTime getEarliestArrivalTime() {

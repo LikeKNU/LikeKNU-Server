@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
@@ -51,6 +52,17 @@ public class Route {
     private List<CityBus> buses;
 
     protected Route() {
+    }
+
+    @Builder
+    protected Route(String id, RouteType routeType, String departureStop, String arrivalStop, String origin, String destination, Campus campus) {
+        this.id = id;
+        this.routeType = routeType;
+        this.departureStop = departureStop;
+        this.arrivalStop = arrivalStop;
+        this.origin = origin;
+        this.destination = destination;
+        this.campus = campus;
     }
 
     @Override
