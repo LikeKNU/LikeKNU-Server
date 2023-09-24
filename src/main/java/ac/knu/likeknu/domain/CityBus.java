@@ -62,6 +62,13 @@ public class CityBus {
     protected CityBus() {
     }
 
+    public LocalTime getEarliestArrivalTime() {
+        return this.arrivalTimes.stream()
+                .filter(arrivalTime -> arrivalTime.isAfter(LocalTime.now().minusMinutes(1)))
+                .min(LocalTime::compareTo)
+                .orElse(null);
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;

@@ -1,6 +1,5 @@
 package ac.knu.likeknu.domain;
 
-import ac.knu.likeknu.common.EntityGraphNames;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.RouteType;
 import jakarta.persistence.Column;
@@ -11,10 +10,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.NamedAttributeNode;
-import jakarta.persistence.NamedEntityGraph;
-import jakarta.persistence.NamedEntityGraphs;
-import jakarta.persistence.NamedSubgraph;
 import jakarta.persistence.Table;
 import lombok.Getter;
 
@@ -22,19 +17,6 @@ import java.util.List;
 import java.util.Objects;
 
 @Getter
-@NamedEntityGraphs(
-        value = {
-                @NamedEntityGraph(
-                        name = EntityGraphNames.ROUTE_BUSES_ARRIVAL_TIMES,
-                        attributeNodes = {
-                                @NamedAttributeNode(value = "buses", subgraph = "CityBus.arrivalTimes")
-                        },
-                        subgraphs = {
-                                @NamedSubgraph(name = "CityBus.arrivalTimes", attributeNodes = @NamedAttributeNode(value = "arrivalTimes"))
-                        }
-                )
-        }
-)
 @Table(name = "route")
 @Entity
 public class Route {
