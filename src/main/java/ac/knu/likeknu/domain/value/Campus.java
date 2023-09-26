@@ -6,9 +6,9 @@ import lombok.Getter;
 public enum Campus {
 
     ALL("공통", null),
-    SINGWAN("신관", "notice"),
-    CHEONAN("천안", "y-notice"),
-    YESAN("예산", "c-notice");
+    SINGWAN("신관캠", "notice"),
+    CHEONAN("천안캠", "y-notice"),
+    YESAN("예산캠", "c-notice");
 
     private final String campus;
     private final String dormitoryAnnouncementId;
@@ -23,7 +23,7 @@ public enum Campus {
             throw new IllegalArgumentException();
 
         for(Campus c : Campus.values()) {
-            if(c.name().equals(campus))
+            if(c.campus.equals(campus))
                 return c;
         }
 
