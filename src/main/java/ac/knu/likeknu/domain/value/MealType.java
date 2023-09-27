@@ -3,6 +3,7 @@ package ac.knu.likeknu.domain.value;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.stream.Stream;
 
 @Getter
 public enum MealType {
@@ -22,11 +23,9 @@ public enum MealType {
     public static MealType now() {
         int hour = LocalDateTime.now().getHour();
 
-        for(MealType m : MealType.values()) {
-            if(m.getHour() > hour)
-                return m;
-        }
-
-        return null;
+        return Stream.of(MealType.values())
+                .filter((MealType m) -> m.getHour() > hour)
+                .findAny()
+                .orElseThrow(IllegalArgumentException::new);
     }
 }

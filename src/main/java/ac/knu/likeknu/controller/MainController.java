@@ -27,20 +27,20 @@ public class MainController {
 
     @GetMapping("/announcements")
     public ResponseDto<List<MainAnnouncementsResponse>> getMainAnnouncements(@RequestParam(name = "campus") String campus) {
-        List<MainAnnouncementsResponse> responses = mainService.getAnnouncementsResponse(Campus.of(campus));
+        List<MainAnnouncementsResponse> responses = mainService.getAnnouncementsResponse(Campus.valueOf(campus));
         return ResponseDto.of(responses);
     }
 
     @GetMapping("/menu")
     public ResponseDto<List<MainMenuResponse>> getMainMenu(@RequestParam(name = "campus") String campus) {
-        List<MainMenuResponse> responses = mainService.getMenuResponse(Campus.of(campus));
+        List<MainMenuResponse> responses = mainService.getMenuResponse(Campus.valueOf(campus));
 
         return ResponseDto.of(responses);
     }
 
     @GetMapping("/buses")
     public ResponseDto<List<MainCityBusResponse>> getMainPageCityBuses(@RequestParam(name = "campus") String campus) {
-        List<MainCityBusResponse> cityBuses = cityBusService.earliestOutgoingCityBuses(Campus.of(campus));
+        List<MainCityBusResponse> cityBuses = cityBusService.earliestOutgoingCityBuses(Campus.valueOf(campus));
         return ResponseDto.of(cityBuses);
     }
 }
