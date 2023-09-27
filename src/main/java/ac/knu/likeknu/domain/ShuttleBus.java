@@ -13,6 +13,7 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Table(name = "shuttle_bus")
@@ -38,5 +39,20 @@ public class ShuttleBus {
     public ShuttleBus(String shuttleName, Shuttle shuttle) {
         this.shuttleName = shuttleName;
         this.shuttle = shuttle;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+
+        ShuttleBus that = (ShuttleBus) object;
+
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

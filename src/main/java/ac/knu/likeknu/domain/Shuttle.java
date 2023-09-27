@@ -17,6 +17,7 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Table(name = "shuttle")
@@ -53,5 +54,20 @@ public class Shuttle {
         this.destination = destination;
         this.shuttleType = shuttleType;
         this.note = note;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+
+        Shuttle shuttle = (Shuttle) object;
+
+        return Objects.equals(id, shuttle.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

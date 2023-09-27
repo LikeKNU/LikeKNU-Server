@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.time.LocalTime;
+import java.util.Objects;
 
 @ToString
 @Getter
@@ -43,5 +44,20 @@ public class ShuttleTime {
         this.arrivalStop = arrivalStop;
         this.arrivalTime = arrivalTime;
         this.shuttleBus = shuttleBus;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+
+        ShuttleTime that = (ShuttleTime) object;
+
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }
