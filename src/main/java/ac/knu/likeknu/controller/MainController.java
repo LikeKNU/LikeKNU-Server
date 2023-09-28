@@ -49,6 +49,7 @@ public class MainController {
     }
 
     @GetMapping("/buses")
+
     public ResponseDto<List<MainCityBusResponse>> getMainPageCityBuses(
             @RequestParam(name = "campus") Campus campus
     ) {
