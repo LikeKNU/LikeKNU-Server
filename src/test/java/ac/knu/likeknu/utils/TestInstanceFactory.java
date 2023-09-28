@@ -17,6 +17,16 @@ public class TestInstanceFactory {
                 .build();
     }
 
+    public static Route createRoute(String departureStop, String arrivalStop, String origin, String destination) {
+        return Route.builder()
+                .id(UUID.randomUUID().toString())
+                .departureStop(departureStop)
+                .arrivalStop(arrivalStop)
+                .origin(origin)
+                .destination(destination)
+                .build();
+    }
+
     public static CityBus createCityBus(String busNumber) {
         LocalTime currentTime = LocalTime.now();
         return CityBus.builder()
