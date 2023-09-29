@@ -25,7 +25,7 @@ public class AnnouncementController {
 
     @GetMapping("/student-news")
     public PageResponseDto<List<AnnouncementListResponse>> studentNewsList(
-            @RequestParam("campus") Campus campus, @RequestParam("page") int page
+            @RequestParam("campus") Campus campus, @RequestParam(name = "page", defaultValue = "1") int page
     ) {
         PageDto pageDto = PageDto.of(page);
         List<AnnouncementListResponse> studentNewsList =

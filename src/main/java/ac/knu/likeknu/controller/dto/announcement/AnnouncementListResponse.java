@@ -1,7 +1,10 @@
 package ac.knu.likeknu.controller.dto.announcement;
 
+import ac.knu.likeknu.domain.Announcement;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.time.format.DateTimeFormatter;
 
 @Getter
 public class AnnouncementListResponse {
@@ -17,5 +20,15 @@ public class AnnouncementListResponse {
         this.announcementTitle = announcementTitle;
         this.announcementDate = announcementDate;
         this.announcementUrl = announcementUrl;
+    }
+
+    public static AnnouncementListResponse of(Announcement announcement) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+        return AnnouncementListResponse.builder()
+                .announcementId(announcement.getId())
+                .announcementTitle(announcement.getAnnouncementTitle())
+                .announcementDate(announcement.getAnnouncementDate().format(dateTimeFormatter))
+                .announcementUrl(announcement.getAnnouncementUrl())
+                .build();
     }
 }

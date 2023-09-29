@@ -12,6 +12,10 @@ public class PageDto {
         this.currentPage = currentPage;
     }
 
+    public void updateTotalPages(int totalPages) {
+        this.totalPages = totalPages;
+    }
+
     public static PageDto of(int currentPage) {
         if (currentPage < 1) {
             //TODO Custom exception
