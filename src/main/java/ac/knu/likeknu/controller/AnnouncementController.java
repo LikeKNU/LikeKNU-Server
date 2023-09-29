@@ -25,11 +25,23 @@ public class AnnouncementController {
 
     @GetMapping("/student-news")
     public PageResponseDto<List<AnnouncementListResponse>> studentNewsList(
-            @RequestParam("campus") Campus campus, @RequestParam(name = "page", defaultValue = "1") int page
+            @RequestParam("campus") Campus campus,
+            @RequestParam(name = "page", defaultValue = "1") int page
     ) {
         PageDto pageDto = PageDto.of(page);
         List<AnnouncementListResponse> studentNewsList =
                 announcementService.getAnnouncements(campus, Category.SCHOOL_NEWS, pageDto);
         return PageResponseDto.of(studentNewsList, pageDto);
+    }
+
+    @GetMapping("/dormitory")
+    public PageResponseDto<List<AnnouncementListResponse>> dormitoryAnnouncementList(
+            @RequestParam("campus") Campus campus,
+            @RequestParam(name = "page", defaultValue = "1") int page
+    ) {
+        PageDto pageDto = PageDto.of(page);
+        List<AnnouncementListResponse> dormitoryAnnouncementList =
+                announcementService.getAnnouncements(campus, Category.DORMITORY, pageDto);
+        return PageResponseDto.of(dormitoryAnnouncementList, pageDto);
     }
 }
