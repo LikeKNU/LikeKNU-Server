@@ -7,6 +7,7 @@ import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.Category;
 import ac.knu.likeknu.service.AnnouncementService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,25 +24,15 @@ public class AnnouncementController {
         this.announcementService = announcementService;
     }
 
-    @GetMapping("/student-news")
-    public PageResponseDto<List<AnnouncementListResponse>> studentNewsList(
+    @GetMapping("/{category}")
+    public PageResponseDto<List<AnnouncementListResponse>> recentAnnouncementList(
             @RequestParam("campus") Campus campus,
-            @RequestParam(name = "page", defaultValue = "1") int page
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @PathVariable String category
     ) {
         PageDto pageDto = PageDto.of(page);
         List<AnnouncementListResponse> studentNewsList =
-                announcementService.getAnnouncements(campus, Category.SCHOOL_NEWS, pageDto);
+                announcementService.getAnnouncements(campus, Category.of(category), pageDto);
         return PageResponseDto.of(studentNewsList, pageDto);
-    }
-
-    @GetMapping("/dormitory")
-    public PageResponseDto<List<AnnouncementListResponse>> dormitoryAnnouncementList(
-            @RequestParam("campus") Campus campus,
-            @RequestParam(name = "page", defaultValue = "1") int page
-    ) {
-        PageDto pageDto = PageDto.of(page);
-        List<AnnouncementListResponse> dormitoryAnnouncementList =
-                announcementService.getAnnouncements(campus, Category.DORMITORY, pageDto);
-        return PageResponseDto.of(dormitoryAnnouncementList, pageDto);
     }
 }
