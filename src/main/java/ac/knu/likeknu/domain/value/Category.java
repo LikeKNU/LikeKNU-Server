@@ -2,17 +2,28 @@ package ac.knu.likeknu.domain.value;
 
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @Getter
 public enum Category {
 
-    SCHOOL_NEWS("학생소식"),
-    LIBRARY("도서관"),
-    DORMITORY("생활관"),
-    TALENT_DEVELOPMENT("인재개발");
+    SCHOOL_NEWS("학생소식", "school-news"),
+    LIBRARY("도서관", "library"),
+    DORMITORY("생활관", "dormitory"),
+    TALENT_DEVELOPMENT("인재개발", "talent-development");
 
-    private String dept;
+    private final String categoryName;
+    private final String pathVariable;
 
-    Category(String dept) {
-        this.dept = dept;
+    Category(String categoryName, String pathVariable) {
+        this.categoryName = categoryName;
+        this.pathVariable = pathVariable;
+    }
+
+    public static Category of(String category) {
+        return Arrays.stream(Category.values())
+                .filter(it -> it.getPathVariable().equals(category))
+                .findFirst()
+                .orElseThrow();
     }
 }
