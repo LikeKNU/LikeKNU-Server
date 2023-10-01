@@ -32,7 +32,7 @@ public class MainService {
 
         List<Announcement> getAnnouncements =
                 announcementRepository
-                        .findTop4ByCampusInAndCategoryOrderByAnnouncementDateDesc(campusList, Category.SCHOOL_NEWS);
+                        .findTop4ByCampusInAndCategoryOrderByAnnouncementDateDesc(campusList, Category.STUDENT_NEWS);
 
         return getAnnouncements.stream()
                 .map((Announcement a) -> MainAnnouncementsResponse.of(a))

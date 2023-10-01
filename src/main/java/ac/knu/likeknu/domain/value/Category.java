@@ -7,7 +7,7 @@ import java.util.Arrays;
 @Getter
 public enum Category {
 
-    SCHOOL_NEWS("학생소식", "school-news"),
+    STUDENT_NEWS("학생소식", "school-news"),
     LIBRARY("도서관", "library"),
     DORMITORY("생활관", "dormitory"),
     TALENT_DEVELOPMENT("인재개발", "talent-development");
@@ -22,7 +22,7 @@ public enum Category {
 
     public static Category of(String category) {
         return Arrays.stream(Category.values())
-                .filter(it -> it.getPathVariable().equals(category))
+                .filter(it -> it.name().equals(category))
                 .findFirst()
                 .orElseThrow();
     }

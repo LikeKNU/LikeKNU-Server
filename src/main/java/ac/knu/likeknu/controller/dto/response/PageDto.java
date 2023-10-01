@@ -8,8 +8,9 @@ public class PageDto {
     private final int currentPage;
     private int totalPages;
 
-    protected PageDto(int currentPage) {
+    protected PageDto(int currentPage, int totalPages) {
         this.currentPage = currentPage;
+        this.totalPages = totalPages;
     }
 
     public void updateTotalPages(int totalPages) {
@@ -20,6 +21,6 @@ public class PageDto {
         if (currentPage < 1) {
             //TODO Custom exception
         }
-        return new PageDto(currentPage);
+        return new PageDto(currentPage, 1);
     }
 }
