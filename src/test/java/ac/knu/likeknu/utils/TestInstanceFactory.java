@@ -1,8 +1,10 @@
 package ac.knu.likeknu.utils;
 
+import ac.knu.likeknu.domain.Announcement;
 import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
@@ -33,6 +35,14 @@ public class TestInstanceFactory {
                 .id(UUID.randomUUID().toString())
                 .busNumber(busNumber)
                 .arrivalTimes(List.of(currentTime.minusMinutes(10), currentTime, currentTime.plusMinutes(10)))
+                .build();
+    }
+
+    public static Announcement createAnnouncement(String title, String url) {
+        return Announcement.builder()
+                .announcementTitle(title)
+                .announcementDate(LocalDate.now())
+                .announcementUrl(url)
                 .build();
     }
 }
