@@ -55,7 +55,7 @@ class AnnouncementControllerTest {
                 ));
 
         ResultActions resultActions =
-                mockMvc.perform(get("/api/announcements/{category}", Category.STUDENT_NEWS.name())
+                mockMvc.perform(get("/api/announcements/{category}", "student-news")
                         .param("campus", Campus.CHEONAN.name()));
 
         // then

@@ -22,7 +22,7 @@ public enum Category {
 
     public static Category of(String category) {
         return Arrays.stream(Category.values())
-                .filter(it -> it.name().equals(category))
+                .filter(it -> it.pathVariable.equals(category))
                 .findFirst()
                 .orElseThrow();
     }
