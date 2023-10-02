@@ -8,12 +8,14 @@ public class MainScheduleResponse {
 
     private String scheduleId;
     private String scheduleContents;
+    private String scheduleDate;
     private boolean today;
 
     @Builder
-    public MainScheduleResponse(String scheduleId, String scheduleContents, boolean today) {
+    public MainScheduleResponse(String scheduleId, String scheduleContents, String scheduleDate, boolean today) {
         this.scheduleId = scheduleId;
         this.scheduleContents = scheduleContents;
+        this.scheduleDate = scheduleDate;
         this.today = today;
     }
 }
