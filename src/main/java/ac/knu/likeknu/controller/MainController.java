@@ -60,6 +60,7 @@ public class MainController {
 
     @GetMapping("/schedule")
     public ResponseDto<List<MainScheduleResponse>> getMainSchedule() {
-        return ResponseDto.of(null);
+        List<MainScheduleResponse> scheduleResponse = mainService.getScheduleResponse();
+        return ResponseDto.of(scheduleResponse);
     }
 }
