@@ -1,9 +1,6 @@
 package ac.knu.likeknu.controller;
 
-import ac.knu.likeknu.controller.dto.response.MainAnnouncementsResponse;
-import ac.knu.likeknu.controller.dto.response.MainCityBusResponse;
-import ac.knu.likeknu.controller.dto.response.MainMenuResponse;
-import ac.knu.likeknu.controller.dto.response.ResponseDto;
+import ac.knu.likeknu.controller.dto.response.*;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.service.CityBusService;
@@ -59,5 +56,11 @@ public class MainController {
 
         List<MainCityBusResponse> cityBuses = cityBusService.earliestOutgoingCityBuses(campus);
         return ResponseDto.of(cityBuses);
+    }
+
+    @GetMapping("/schedule")
+    public ResponseDto<List<MainScheduleResponse>> getMainSchedule() {
+        List<MainScheduleResponse> scheduleResponse = mainService.getScheduleResponse();
+        return ResponseDto.of(scheduleResponse);
     }
 }
