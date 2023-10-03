@@ -1,7 +1,8 @@
 package ac.knu.likeknu.service;
 
+import ac.knu.likeknu.controller.dto.citybus.CityBusesArrivalTimeResponse;
 import ac.knu.likeknu.controller.dto.response.MainCityBusResponse;
-import ac.knu.likeknu.controller.dto.response.RouteListResponse;
+import ac.knu.likeknu.controller.dto.citybus.RouteListResponse;
 import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.RouteType;
@@ -56,5 +57,9 @@ public class CityBusService {
                 )).stream()
                 .map(RouteListResponse::of)
                 .toList();
+    }
+
+    public List<CityBusesArrivalTimeResponse> getCityBusesArrivalTime(String routeId) {
+        return null;
     }
 }

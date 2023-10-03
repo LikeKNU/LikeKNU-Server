@@ -1,4 +1,4 @@
-package ac.knu.likeknu.controller.dto.response;
+package ac.knu.likeknu.controller.dto.citybus;
 
 import ac.knu.likeknu.domain.Route;
 import lombok.Builder;
