@@ -53,7 +53,7 @@ public class MainService {
     }
 
     public List<MainScheduleResponse> getScheduleResponse() {
-        List<AcademicCalendar> calendarList = academicCalendarRepository.findAllByStartDateBetween(
+        List<AcademicCalendar> calendarList = academicCalendarRepository.findTop3ByStartDateBetweenOrderByStartDateAsc(
                 LocalDate.now(), LocalDate.now().plusDays(7)
         );
 
