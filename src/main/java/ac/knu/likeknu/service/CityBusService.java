@@ -8,6 +8,8 @@ import ac.knu.likeknu.domain.value.RouteType;
 import ac.knu.likeknu.repository.CityBusRepository;
 import ac.knu.likeknu.repository.RouteRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +30,8 @@ public class CityBusService {
     }
 
     public List<MainCityBusResponse> earliestOutgoingCityBuses(Campus campus) {
-        return routeRepository.findByCampusAndRouteType(campus, RouteType.OUTGOING).stream()
+        return routeRepository.findByCampus(campus, Sort.unsorted()).stream()
+                .filter(route -> route.getRouteType().equals(RouteType.OUTGOING))
                 .map(route -> {
                     List<CityBus> buses = cityBusRepository.findByRoutesContaining(route);
                     CityBus earliestBus = getEarliestBus(buses);
@@ -48,6 +51,10 @@ public class CityBusService {
     }
 
     public List<RouteListResponse> getRouteList(Campus campus) {
-        return null;
+        return routeRepository.findByCampus(campus, Sort.by(
+                        Order.desc("routeType"), Order.asc("origin")
+                )).stream()
+                .map(RouteListResponse::of)
+                .toList();
     }
 }
