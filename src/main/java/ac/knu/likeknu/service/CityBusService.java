@@ -1,6 +1,7 @@
 package ac.knu.likeknu.service;
 
 import ac.knu.likeknu.controller.dto.response.MainCityBusResponse;
+import ac.knu.likeknu.controller.dto.response.RouteListResponse;
 import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.RouteType;
@@ -44,5 +45,9 @@ public class CityBusService {
                 .filter(cityBus -> cityBus.getEarliestArrivalTime() != null)
                 .min(Comparator.comparing(CityBus::getEarliestArrivalTime))
                 .orElse(null);
+    }
+
+    public List<RouteListResponse> getRouteList(Campus campus) {
+        return null;
     }
 }
