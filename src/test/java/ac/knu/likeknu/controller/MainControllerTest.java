@@ -1,6 +1,7 @@
 package ac.knu.likeknu.controller;
 
 import ac.knu.likeknu.controller.dto.response.MainCityBusResponse;
+import ac.knu.likeknu.controller.dto.response.MainScheduleResponse;
 import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
 import ac.knu.likeknu.domain.value.Campus;
@@ -16,6 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -103,5 +105,30 @@ class MainControllerTest {
                 status().isBadRequest(),
                 content().string("Invalid campus")
         ).andDo(print());
+    }
+
+    @DisplayName("학사일정 정보 조회 API 요청에 성공한다.")
+    @Test
+    void getAcademicCalendar() throws Exception {
+        //given
+        MainScheduleResponse calendar1 = new MainScheduleResponse("Test1", "TestContents1", "10/01 ~ 10/05", true);
+        MainScheduleResponse calendar2 = new MainScheduleResponse("Test2", "TestContents2", "10/05", false);
+        MainScheduleResponse calendar3 = new MainScheduleResponse("Test3", "TestContents3", "10/14", false);
+
+        List<MainScheduleResponse> list = List.of(calendar1, calendar2, calendar3);
+
+        //when
+        when(mainService.getScheduleResponse()).thenReturn(list);
+
+        ResultActions resultActions = mockMvc.perform(get("/api/main/schedule"));
+
+        //then
+        resultActions.andExpectAll(
+                status().isOk(),
+                jsonPath("$.data.body.[0].scheduleId").value(calendar1.getScheduleId()),
+                jsonPath("$.data.body.[1].scheduleContents").value(calendar2.getScheduleContents()),
+                jsonPath("$.data.body.[2].scheduleDate").value(calendar3.getScheduleDate())
+        ).andDo(print());
+
     }
 }
