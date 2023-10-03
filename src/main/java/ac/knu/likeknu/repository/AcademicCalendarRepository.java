@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface AcademicCalendarRepository extends JpaRepository<AcademicCalendar, String> {
 
-    List<AcademicCalendar> findTop3ByStartDateBetweenOrderByStartDateAsc(LocalDate start, LocalDate end);
+    List<AcademicCalendar> findTop4ByStartDateBetweenOrderByStartDateAsc(LocalDate start, LocalDate end);
 }
