@@ -35,7 +35,7 @@ public class CityBusService {
     }
 
     public List<MainCityBusResponse> earliestOutgoingCityBuses(Campus campus) {
-        return routeRepository.findByCampus(campus, Sort.unsorted()).stream()
+        return routeRepository.findByCampus(campus, Sort.by(Order.asc("origin"))).stream()
                 .filter(route -> route.getRouteType().equals(RouteType.OUTGOING))
                 .map(route -> {
                     List<CityBus> buses = cityBusRepository.findByRoutesContaining(route);

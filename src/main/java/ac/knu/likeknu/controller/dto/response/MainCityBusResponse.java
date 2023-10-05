@@ -41,14 +41,14 @@ public class MainCityBusResponse {
 
     public static MainCityBusResponse of(Route route, CityBus cityBus) {
         LocalTime earliestArrivalTime = cityBus.getEarliestArrivalTime();
-        long remainingTime = Duration.between(LocalTime.now().minusMinutes(1), earliestArrivalTime).toMinutes();
+        long remainingTime = Duration.between(LocalTime.now(), earliestArrivalTime).toMinutes();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         return MainCityBusResponse.builder()
                 .routeId(route.getId())
                 .departureStop(route.getDepartureStop())
                 .arrivalStop(route.getArrivalStop())
                 .busNumber(cityBus.getBusNumber())
-                .remainingTime(remainingTime == 0 ? "곧 도착" : remainingTime + "분 뒤")
+                .remainingTime(remainingTime <= 1 ? "곧 도착" : remainingTime + "분 뒤")
                 .arrivalTime(earliestArrivalTime.format(dateTimeFormatter))
                 .busColor(cityBus.getBusColor())
                 .build();
