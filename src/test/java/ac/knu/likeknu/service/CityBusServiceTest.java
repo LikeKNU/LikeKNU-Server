@@ -4,7 +4,6 @@ import ac.knu.likeknu.controller.dto.response.MainCityBusResponse;
 import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
 import ac.knu.likeknu.domain.value.Campus;
-import ac.knu.likeknu.domain.value.RouteType;
 import ac.knu.likeknu.repository.CityBusRepository;
 import ac.knu.likeknu.repository.RouteRepository;
 import ac.knu.likeknu.utils.TestInstanceFactory;
@@ -15,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -53,7 +53,7 @@ class CityBusServiceTest {
         CityBus cityBus4 = TestInstanceFactory.createCityBus("130");
         CityBus cityBus5 = TestInstanceFactory.createCityBus("140");
 
-        when(routeRepository.findByCampusAndRouteType(Campus.CHEONAN, RouteType.OUTGOING))
+        when(routeRepository.findByCampus(Campus.CHEONAN, Sort.unsorted()))
                 .thenReturn(List.of(route1, route2, route3));
         when(cityBusRepository.findByRoutesContaining(eq(route1)))
                 .thenReturn(List.of(cityBus1, cityBus3));
