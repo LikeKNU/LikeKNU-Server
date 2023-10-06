@@ -10,10 +10,9 @@ public enum Tag {
     SCHOLARSHIP("장학금"),
     TUITION("등록금"),
     WORK("근로"),
-    MILEAGE("마일리지"),
-    FIELD_TRAINING("현장실습"),
     LIBRARY("도서관"),
-    TALENT_DEVELOPMENT("인재개발"),
+    MILEAGE("마일리지"),
+    INTERNSHIP("현장실습"),
     ETC("기타");
 
     private final String tagName;
