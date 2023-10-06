@@ -10,7 +10,9 @@ public enum MealType {
 
     BREAKFAST("조식", 9),
     LUNCH("중식", 14),
-    DINNER("석식", 19);
+    DINNER("석식", 19),
+    NIGHT("", 21),
+    DAWN("", 0);
 
     private final String mealTypeKr;
     private final int hour;
@@ -26,6 +28,6 @@ public enum MealType {
         return Stream.of(MealType.values())
                 .filter((MealType m) -> m.getHour() > hour)
                 .findAny()
-                .orElse(DINNER);
+                .orElse(DAWN);
     }
 }
