@@ -1,6 +1,7 @@
 package ac.knu.likeknu.domain;
 
 import ac.knu.likeknu.common.EntityGraphNames;
+import ac.knu.likeknu.common.LocalTimeComparator;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -78,7 +79,7 @@ public class CityBus {
         return this.arrivalTimes.stream()
                 .filter(arrivalTime -> arrivalTime.isAfter(LocalTime.now().minusMinutes(1)))
                 .filter(arrivalTime -> arrivalTime.isBefore(LocalTime.now().plusMinutes(60)))
-                .min(LocalTime::compareTo)
+                .min((time1, time2) -> new LocalTimeComparator().compare(time1, time2))
                 .orElse(null);
     }
 

@@ -3,6 +3,7 @@ package ac.knu.likeknu.utils;
 import ac.knu.likeknu.domain.Announcement;
 import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
+import ac.knu.likeknu.domain.value.RouteType;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -16,6 +17,7 @@ public class TestInstanceFactory {
                 .id(UUID.randomUUID().toString())
                 .departureStop(departureStop)
                 .arrivalStop(arrivalStop)
+                .routeType(RouteType.OUTGOING)
                 .build();
     }
 
