@@ -1,4 +1,4 @@
-package ac.knu.likeknu.controller.dto.response;
+package ac.knu.likeknu.controller.dto.base;
 
 public interface ResponseData<T> {
 

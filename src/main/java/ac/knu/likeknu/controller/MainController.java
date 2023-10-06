@@ -1,6 +1,10 @@
 package ac.knu.likeknu.controller;
 
-import ac.knu.likeknu.controller.dto.response.*;
+import ac.knu.likeknu.controller.dto.base.*;
+import ac.knu.likeknu.controller.dto.main.MainAnnouncementsResponse;
+import ac.knu.likeknu.controller.dto.main.MainCityBusResponse;
+import ac.knu.likeknu.controller.dto.main.MainMenuResponse;
+import ac.knu.likeknu.controller.dto.main.MainScheduleResponse;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.service.CityBusService;

@@ -2,7 +2,7 @@ package ac.knu.likeknu.controller;
 
 import ac.knu.likeknu.controller.dto.citybus.CityBusesArrivalTimeResponse;
 import ac.knu.likeknu.controller.dto.citybus.RouteListResponse;
-import ac.knu.likeknu.controller.dto.response.ResponseDto;
+import ac.knu.likeknu.controller.dto.base.ResponseDto;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.service.CityBusService;
 import org.springframework.web.bind.annotation.GetMapping;
