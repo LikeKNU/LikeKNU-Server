@@ -23,7 +23,7 @@ public class MainMenuResponse {
 
     public static MainMenuResponse of(Cafeteria cafeteria, String menu) {
         List<MenuListDto> menuList = new ArrayList<>();
-        if(menu != null) {
+        if (menu != null) {
             String[] menus = menu.split(" ");
             for (int i = 0; i < menus.length; i++) {
                 menuList.add(MenuListDto.of(i + 1, menus[i]));
