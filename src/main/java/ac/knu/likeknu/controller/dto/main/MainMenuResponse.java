@@ -1,4 +1,4 @@
-package ac.knu.likeknu.controller.dto.response;
+package ac.knu.likeknu.controller.dto.main;
 
 import ac.knu.likeknu.domain.Cafeteria;
 import lombok.Builder;
