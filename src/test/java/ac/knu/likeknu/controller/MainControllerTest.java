@@ -1,7 +1,8 @@
 package ac.knu.likeknu.controller;
 
-import ac.knu.likeknu.controller.dto.main.MainCityBusResponse;
-import ac.knu.likeknu.controller.dto.main.MainScheduleResponse;
+import ac.knu.likeknu.controller.dto.response.MainAnnouncementsResponse;
+import ac.knu.likeknu.controller.dto.response.MainCityBusResponse;
+import ac.knu.likeknu.controller.dto.response.MainScheduleResponse;
 import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
 import ac.knu.likeknu.domain.value.Campus;
@@ -104,6 +105,31 @@ class MainControllerTest {
                 status().isBadRequest(),
                 content().string("Invalid campus")
         ).andDo(print());
+    }
+
+    @DisplayName("공지사항 조회 API 요청에 성공한다.")
+    @Test
+    void getAnnouncements() throws Exception {
+        //given
+        MainAnnouncementsResponse announcementsResponse1 = new MainAnnouncementsResponse("Test1", "TestTitle1", "TestUrl1");
+        MainAnnouncementsResponse announcementsResponse2 = new MainAnnouncementsResponse("Test2", "TestTitle2", "TestUrl2");
+        MainAnnouncementsResponse announcementsResponse3 = new MainAnnouncementsResponse("Test3", "TestTitle3", "TestUrl3");
+
+        List<MainAnnouncementsResponse> announcements = List.of(announcementsResponse1, announcementsResponse2, announcementsResponse3);
+
+        //when, then
+        when(mainService.getAnnouncementsResponse(Campus.CHEONAN)).thenReturn(announcements);
+
+        mockMvc.perform(
+                get("/api/main/announcements")
+                        .param("campus", Campus.CHEONAN.name())
+        ).andExpectAll(
+                status().isOk(),
+                jsonPath("$.data.body.[0].announcementId").value(announcementsResponse1.getAnnouncementId()),
+                jsonPath("$.data.body.[1].announcementTitle").value(announcementsResponse2.getAnnouncementTitle()),
+                jsonPath("$.data.body.[2].announcementUrl").value(announcementsResponse3.getAnnouncementUrl())
+        ).andDo(print());
+
     }
 
     @DisplayName("학사일정 정보 조회 API 요청에 성공한다.")
