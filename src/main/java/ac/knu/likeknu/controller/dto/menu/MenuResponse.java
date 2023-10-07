@@ -31,7 +31,7 @@ public class MenuResponse {
     public static MenuResponse of(Cafeteria cafeteria, Menu menu) {
         List<MenuListDto> menuList = new ArrayList<>();
 
-        if (menu != null) {
+        if (menu.getMenus() != null){
             String[] menus = menu.getMenus().split(" ");
             for (int i = 0; i < menus.length; i++) {
                 menuList.add(MenuListDto.of(i + 1, menus[i]));
@@ -42,8 +42,17 @@ public class MenuResponse {
                 .cafeteriaId(cafeteria.getId())
                 .cafeteriaName(cafeteria.getCafeteriaName())
                 .cafeteriaMealType(menu.getMealType())
-                .cafeteriaTime(cafeteria.getTime())
+                .cafeteriaTime(cafeteria.getTime(menu.getMealType()))
                 .menus(menuList)
+                .build();
+    }
+
+    public static MenuResponse empty(Cafeteria cafeteria, MealType mealType) {
+        return MenuResponse.builder()
+                .cafeteriaId(cafeteria.getId())
+                .cafeteriaName(cafeteria.getCafeteriaName())
+                .cafeteriaMealType(mealType)
+                .cafeteriaTime(cafeteria.getTime(mealType))
                 .build();
     }
 }
