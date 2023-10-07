@@ -1,9 +1,7 @@
 package ac.knu.likeknu.controller.dto.menu;
 
 import ac.knu.likeknu.domain.Cafeteria;
-import ac.knu.likeknu.domain.Menu;
 import ac.knu.likeknu.domain.value.CafeteriaName;
-import ac.knu.likeknu.domain.value.MealType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -18,23 +16,17 @@ public class MenuResponse {
     private List<MealListDto> meal;
 
     @Builder
-    public MenuResponse(String cafeteriaId, CafeteriaName cafeteriaName) {
+    public MenuResponse(String cafeteriaId, CafeteriaName cafeteriaName, List<MealListDto> meal) {
         this.cafeteriaId = cafeteriaId;
         this.cafeteriaName = cafeteriaName;
+        this.meal = meal;
     }
 
-    public static MenuResponse of(Cafeteria cafeteria) {
-
+    public static MenuResponse of(Cafeteria cafeteria, List<MealListDto> mealList) {
         return MenuResponse.builder()
                 .cafeteriaId(cafeteria.getId())
                 .cafeteriaName(cafeteria.getCafeteriaName())
-                .build();
-    }
-
-    public static MenuResponse empty(Cafeteria cafeteria) {
-        return MenuResponse.builder()
-                .cafeteriaId(cafeteria.getId())
-                .cafeteriaName(cafeteria.getCafeteriaName())
+                .meal(mealList)
                 .build();
     }
 }

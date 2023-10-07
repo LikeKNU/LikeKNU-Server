@@ -1,5 +1,6 @@
 package ac.knu.likeknu.service;
 
+import ac.knu.likeknu.controller.dto.menu.MealListDto;
 import ac.knu.likeknu.controller.dto.menu.MenuResponse;
 import ac.knu.likeknu.domain.Cafeteria;
 import ac.knu.likeknu.domain.value.Campus;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -24,11 +26,13 @@ public class MenuService {
         List<Cafeteria> cafeterias = cafeteriaRepository.findByCampus(campus);
 
         return cafeterias.stream()
-                .map(cafeteria -> (MenuResponse) Arrays.stream(MealType.values())
-                        .map(mealType -> menuRepository.findByMenuDateAndCafeteriaAndMealType(LocalDate.now(), cafeteria, mealType)
-                                .map(menu -> MenuResponse.of(cafeteria, menu))
-                                .orElse(MenuResponse.empty(cafeteria, mealType))
-                        )
-                ).toList();
+                .map(cafeteria -> {
+                    List<MealListDto> mealLists = Arrays.stream(MealType.values())
+                            .map(mealType -> menuRepository.findByMenuDateAndCafeteriaAndMealType(LocalDate.now(), cafeteria, mealType)
+                                            .map(menu -> MealListDto.of(mealType, cafeteria, menu.getMenus()))
+                                            .orElse(MealListDto.empty(mealType))
+                            ).toList();
+                    return MenuResponse.of(cafeteria, mealLists);
+                }).toList();
     }
 }
