@@ -21,7 +21,7 @@ public class MenuController {
     private final MenuService menuService;
 
     @GetMapping
-    public ResponseDto<List<MenuResponse>> getMenuByCampus(@RequestParam(name = "campus") String campus) {
+    public ResponseDto<List<MenuResponse>> getMenuByCampus(@RequestParam(name = "campus") Campus campus) {
         if (campus.equals(Campus.ALL)) {
             throw new BusinessException("Invalid campus");
         }
