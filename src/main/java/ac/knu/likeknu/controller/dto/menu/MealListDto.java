@@ -41,7 +41,6 @@ public class MealListDto {
     public static MealListDto empty(MealType mealType) {
         return MealListDto.builder()
                 .mealType(mealType.getMealTypeKr())
-                .operatingTime(null)
                 .menus(new ArrayList<>())
                 .build();
     }
