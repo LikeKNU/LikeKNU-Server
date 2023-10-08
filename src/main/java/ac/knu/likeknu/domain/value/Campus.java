@@ -17,16 +17,4 @@ public enum Campus {
         this.campus = campus;
         this.dormitoryAnnouncementId = dormitoryAnnouncementId;
     }
-
-    public static Campus of(String campus) {
-        if(campus == null)
-            throw new IllegalArgumentException();
-
-        for(Campus c : Campus.values()) {
-            if(c.campus.equals(campus))
-                return c;
-        }
-
-        throw new IllegalArgumentException("일치하는 캠퍼스가 없습니다.");
-    }
 }

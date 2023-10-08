@@ -1,5 +1,6 @@
 package ac.knu.likeknu.service;
 
+import ac.knu.likeknu.controller.dto.citybus.RouteListResponse;
 import ac.knu.likeknu.controller.dto.main.MainCityBusResponse;
 import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
@@ -74,6 +75,33 @@ class CityBusServiceTest {
                 () -> assertThat(mainCityBusResponse.getArrivalTime()).isEqualTo(LocalTime.now().format(dateTimeFormatter)),
                 () -> assertThat(mainCityBusResponse.getRemainingTime()).isEqualTo("곧 도착"),
                 () -> assertThat(mainCityBusResponse.getBusNumber()).isEqualTo("110")
+        );
+    }
+
+    @DisplayName("캠퍼스별 시내버스 경로 목록을 조회할 수 있다.")
+    @Test
+    void getRouteListSuccess() throws Exception {
+        // given
+        Route route1 = TestInstanceFactory
+                .createRoute("Stop A", "Stop B", "A", "B");
+        Route route2 = TestInstanceFactory
+                .createRoute("Stop A", "Stop C", "A", "C");
+        Route route3 = TestInstanceFactory
+                .createRoute("Stop D", "Stop A", "A", "B");
+
+        // when
+        when(routeRepository.findByCampus(eq(Campus.CHEONAN), any(Sort.class)))
+                .thenReturn(List.of(route1, route2, route3));
+        List<RouteListResponse> routeList = cityBusService.getRouteList(Campus.CHEONAN);
+
+        // then
+        RouteListResponse routeListResponse = routeList.get(0);
+        assertAll(
+                () -> assertThatList(routeList).isNotEmpty(),
+                () -> assertThatList(routeList).hasSize(3),
+                () -> assertThat(routeListResponse.getRouteId()).isEqualTo(route1.getId()),
+                () -> assertThat(routeListResponse.getOrigin()).isEqualTo(route1.getOrigin()),
+                () -> assertThat(routeListResponse.getDestination()).isEqualTo(route1.getDestination())
         );
     }
 }
