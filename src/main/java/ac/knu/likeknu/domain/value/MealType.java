@@ -8,9 +8,9 @@ import java.util.stream.Stream;
 @Getter
 public enum MealType {
 
-    BREAKFAST("조식", 9),
-    LUNCH("중식", 14),
-    DINNER("석식", 19),
+    BREAKFAST("아침", 9),
+    LUNCH("점심", 14),
+    DINNER("저녁", 19),
     NIGHT("", 21),
     DAWN("", 0);
 
