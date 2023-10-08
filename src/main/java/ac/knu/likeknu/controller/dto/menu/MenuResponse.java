@@ -12,11 +12,11 @@ import java.util.List;
 public class MenuResponse {
 
     private String cafeteriaId;
-    private CafeteriaName cafeteriaName;
+    private String cafeteriaName;
     private List<MealListDto> meal;
 
     @Builder
-    public MenuResponse(String cafeteriaId, CafeteriaName cafeteriaName, List<MealListDto> meal) {
+    public MenuResponse(String cafeteriaId, String cafeteriaName, List<MealListDto> meal) {
         this.cafeteriaId = cafeteriaId;
         this.cafeteriaName = cafeteriaName;
         this.meal = meal;
@@ -25,7 +25,7 @@ public class MenuResponse {
     public static MenuResponse of(Cafeteria cafeteria, List<MealListDto> mealList) {
         return MenuResponse.builder()
                 .cafeteriaId(cafeteria.getId())
-                .cafeteriaName(cafeteria.getCafeteriaName())
+                .cafeteriaName(cafeteria.getCafeteriaName().getCafeteriaName())
                 .meal(mealList)
                 .build();
     }
