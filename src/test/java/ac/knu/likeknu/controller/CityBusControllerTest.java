@@ -1,6 +1,8 @@
 package ac.knu.likeknu.controller;
 
+import ac.knu.likeknu.controller.dto.citybus.CityBusesArrivalTimeResponse;
 import ac.knu.likeknu.controller.dto.citybus.RouteListResponse;
+import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.service.CityBusService;
@@ -13,6 +15,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.eq;
@@ -73,6 +77,48 @@ class CityBusControllerTest {
         // then
         resultActions.andExpectAll(
                 status().isBadRequest()
+        ).andDo(print());
+    }
+
+    @DisplayName("특정 경로의 시내버스 시간 조회 API 요청에 성공한다")
+    @Test
+    void fetchCityBusesArrivalTimeSuccess() throws Exception {
+        // given
+        Route route = TestInstanceFactory.createRoute("Stop A", "Stop B");
+
+        CityBus cityBus1 = TestInstanceFactory.createCityBus("100");
+        CityBus cityBus2 = TestInstanceFactory.createCityBus("110");
+        CityBus cityBus3 = TestInstanceFactory.createCityBus("120");
+        CityBus cityBus4 = TestInstanceFactory.createCityBus("130");
+
+        // when
+        LocalTime currentTime = LocalTime.now();
+        CityBusesArrivalTimeResponse arrivalTime1 = CityBusesArrivalTimeResponse.of(cityBus1, currentTime);
+        CityBusesArrivalTimeResponse arrivalTime2 = CityBusesArrivalTimeResponse.of(cityBus2, currentTime.plusMinutes(1));
+        CityBusesArrivalTimeResponse arrivalTime3 = CityBusesArrivalTimeResponse.of(cityBus3, currentTime.plusMinutes(2));
+        CityBusesArrivalTimeResponse arrivalTime4 = CityBusesArrivalTimeResponse.of(cityBus4, currentTime.plusMinutes(3));
+        arrivalTime1.updateArrivalId(1);
+        arrivalTime2.updateArrivalId(2);
+        arrivalTime3.updateArrivalId(3);
+        arrivalTime4.updateArrivalId(4);
+        arrivalTime1.updateRemainingTime(currentTime);
+        arrivalTime2.updateRemainingTime(currentTime);
+        arrivalTime3.updateRemainingTime(currentTime);
+        arrivalTime4.updateRemainingTime(currentTime);
+
+        when(cityBusService.getCityBusesArrivalTime(eq(route.getId())))
+                .thenReturn(List.of(arrivalTime1, arrivalTime2, arrivalTime3, arrivalTime4));
+        ResultActions resultActions = mockMvc.perform(get("/api/city-buses/{routeId}", route.getId()));
+
+        // then
+        resultActions.andExpectAll(
+                status().isOk(),
+                jsonPath("$.data.body.[0].arrivalId").value(1),
+                jsonPath("$.data.body.[0].busNumber").value("100"),
+                jsonPath("$.data.body.[0].remainingTime").value("곧 도착"),
+                jsonPath("$.data.body.[3].remainingTime").value("3분 뒤"),
+                jsonPath("$.data.body.[0].arrivalTime").value(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))),
+                jsonPath("$.data.body.[3].arrivalAt").doesNotHaveJsonPath()
         ).andDo(print());
     }
 }
