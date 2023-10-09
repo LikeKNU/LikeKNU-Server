@@ -1,5 +1,6 @@
 package ac.knu.likeknu.controller.dto.base;
 
+import ac.knu.likeknu.exception.BusinessException;
 import lombok.Getter;
 
 @Getter
@@ -25,7 +26,7 @@ public class PageDto {
 
     public static PageDto of(int currentPage) {
         if (currentPage < 1) {
-            //TODO Custom exception
+            throw new BusinessException("Invalid page!");
         }
         return new PageDto(currentPage, 1, 1);
     }
