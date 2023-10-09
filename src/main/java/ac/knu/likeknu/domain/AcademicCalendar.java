@@ -34,4 +34,7 @@ public class AcademicCalendar {
         this.endDate = endDate;
     }
 
+    protected AcademicCalendar() {
+
+    }
 }
