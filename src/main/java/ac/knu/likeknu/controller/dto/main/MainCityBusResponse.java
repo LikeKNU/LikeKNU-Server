@@ -31,7 +31,7 @@ public class MainCityBusResponse {
         this.busColor = busColor;
     }
 
-    public static MainCityBusResponse of(Route route) {
+    public static MainCityBusResponse empty(Route route) {
         return MainCityBusResponse.builder()
                 .routeId(route.getId())
                 .departureStop(route.getDepartureStop())

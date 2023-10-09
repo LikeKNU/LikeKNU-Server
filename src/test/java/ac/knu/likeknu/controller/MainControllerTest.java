@@ -55,11 +55,11 @@ class MainControllerTest {
         CityBus cityBus2 = TestInstanceFactory.createCityBus("110");
 
         List<MainCityBusResponse> cheonanCityBuses = List.of(
-                MainCityBusResponse.of(route1, cityBus1), MainCityBusResponse.of(route2, cityBus2), MainCityBusResponse.of(route3)
+                MainCityBusResponse.of(route1, cityBus1), MainCityBusResponse.of(route2, cityBus2), MainCityBusResponse.empty(route3)
         );
 
         List<MainCityBusResponse> singwanCityBuses = List.of(
-                MainCityBusResponse.of(route2), MainCityBusResponse.of(route3, cityBus2)
+                MainCityBusResponse.empty(route2), MainCityBusResponse.of(route3, cityBus2)
         );
 
         // when
