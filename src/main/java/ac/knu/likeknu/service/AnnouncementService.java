@@ -34,6 +34,7 @@ public class AnnouncementService {
         Page<Announcement> announcementsPage =
                 announcementRepository.findByCampusInAndCategory(Set.of(campus, Campus.ALL), category, pageRequest);
         pageDto.updateTotalPages(announcementsPage.getTotalPages());
+        pageDto.updateTotalElements(announcementsPage.getTotalElements());
         return announcementsPage.stream()
                 .map(AnnouncementListResponse::of)
                 .toList();
