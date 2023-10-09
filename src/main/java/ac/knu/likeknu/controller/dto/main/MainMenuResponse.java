@@ -2,6 +2,7 @@ package ac.knu.likeknu.controller.dto.main;
 
 import ac.knu.likeknu.controller.dto.menu.MenuListDto;
 import ac.knu.likeknu.domain.Cafeteria;
+import ac.knu.likeknu.domain.value.CafeteriaName;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class MainMenuResponse {
+public class MainMenuResponse implements Comparable<MainMenuResponse> {
 
     private final String cafeteriaId;
     private final String cafeteriaName;
@@ -43,5 +44,10 @@ public class MainMenuResponse {
                 .cafeteriaId(cafeteria.getId())
                 .cafeteriaName(cafeteria.getCafeteriaName().getCafeteriaName())
                 .build();
+    }
+
+    @Override
+    public int compareTo(MainMenuResponse o) {
+        return CafeteriaName.of(this.cafeteriaName).compareTo(CafeteriaName.of(o.cafeteriaName));
     }
 }

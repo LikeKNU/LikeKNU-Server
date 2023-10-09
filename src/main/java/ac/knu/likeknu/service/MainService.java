@@ -49,7 +49,7 @@ public class MainService {
                 .map(cafeteria -> menuRepository.findByMenuDateAndCafeteriaAndMealType(LocalDate.now(), cafeteria, MealType.now())
                         .map(menu -> MainMenuResponse.of(cafeteria, menu.getMenus()))
                         .orElse(MainMenuResponse.empty(cafeteria)))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public List<MainScheduleResponse> getScheduleResponse() {
