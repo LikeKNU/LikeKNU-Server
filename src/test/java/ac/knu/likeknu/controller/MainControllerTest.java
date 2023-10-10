@@ -2,7 +2,9 @@ package ac.knu.likeknu.controller;
 
 import ac.knu.likeknu.controller.dto.main.MainAnnouncementsResponse;
 import ac.knu.likeknu.controller.dto.main.MainCityBusResponse;
+import ac.knu.likeknu.controller.dto.main.MainMenuResponse;
 import ac.knu.likeknu.controller.dto.main.MainScheduleResponse;
+import ac.knu.likeknu.controller.dto.menu.MenuListDto;
 import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
 import ac.knu.likeknu.domain.value.Campus;
@@ -20,6 +22,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.eq;
@@ -130,6 +133,54 @@ class MainControllerTest {
                 jsonPath("$.data.body.[2].announcementUrl").value(announcementsResponse3.getAnnouncementUrl())
         ).andDo(print());
 
+    }
+
+    @DisplayName("식단 정보 조회 API 요청에 성공한다.")
+    @Test
+    void getMenuResponsesAndSuccess() throws Exception {
+        //given
+        MainMenuResponse menuResponse1 = new MainMenuResponse(
+                "cafeteriaId1",
+                "직원식당",
+                List.of(
+                        new MenuListDto(1, "testMenu1"),
+                        new MenuListDto(2, "testMenu2")
+                )
+        );
+        MainMenuResponse menuResponse2 = new MainMenuResponse(
+                "cafeteriaId2",
+                "생활관식당",
+                List.of(
+                        new MenuListDto(1, "testMenu1"),
+                        new MenuListDto(2, "testMenu2")
+                )
+        );
+        MainMenuResponse menuResponse3 = new MainMenuResponse(
+                "cafeteriaId3",
+                "학생식당",
+                List.of(
+                        new MenuListDto(1, "testMenu1"),
+                        new MenuListDto(2, "testMenu2")
+                )
+        );
+
+        List<MainMenuResponse> menuResponses = new ArrayList<>(List.of(menuResponse1, menuResponse2, menuResponse3));
+
+        //when
+        when(mainService.getMenuResponse(Campus.CHEONAN)).thenReturn(menuResponses);
+        ResultActions resultActions = mockMvc.perform(
+                get("/api/main/menu")
+                        .param("campus", Campus.CHEONAN.name())
+        );
+
+        //then
+        resultActions.andExpectAll(
+                status().isOk(),
+                jsonPath("$.data.body.[0].cafeteriaId").value(menuResponse3.getCafeteriaId()),
+                jsonPath("$.data.body.[1].cafeteriaName").value(menuResponse2.getCafeteriaName()),
+                jsonPath("$.data.body.[0].menus.[0].menuId").value(menuResponse3.getMenus().get(0).getMenuId()),
+                jsonPath("$.data.body.[2].menus.[1].menuName").value(menuResponse1.getMenus().get(1).getMenuName())
+        ).andDo(print());
     }
 
     @DisplayName("학사일정 정보 조회 API 요청에 성공한다.")
