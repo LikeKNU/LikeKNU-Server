@@ -1,6 +1,6 @@
 package ac.knu.likeknu.service;
 
-import ac.knu.likeknu.controller.dto.response.MainCityBusResponse;
+import ac.knu.likeknu.controller.dto.main.MainCityBusResponse;
 import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
 import ac.knu.likeknu.domain.value.Campus;

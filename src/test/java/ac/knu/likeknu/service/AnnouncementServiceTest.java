@@ -1,7 +1,7 @@
 package ac.knu.likeknu.service;
 
 import ac.knu.likeknu.controller.dto.announcement.AnnouncementListResponse;
-import ac.knu.likeknu.controller.dto.response.PageDto;
+import ac.knu.likeknu.controller.dto.base.PageDto;
 import ac.knu.likeknu.domain.Announcement;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.Category;

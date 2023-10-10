@@ -66,9 +66,7 @@ public class Cafeteria {
         this.campus = campus;
     }
 
-    public String getTime() {
-        MealType mealType = MealType.now();
-
+    public String getTime(MealType mealType) {
         if(mealType == null)
             return null;
 

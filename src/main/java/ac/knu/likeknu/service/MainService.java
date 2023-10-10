@@ -1,8 +1,8 @@
 package ac.knu.likeknu.service;
 
-import ac.knu.likeknu.controller.dto.response.MainAnnouncementsResponse;
-import ac.knu.likeknu.controller.dto.response.MainMenuResponse;
-import ac.knu.likeknu.controller.dto.response.MainScheduleResponse;
+import ac.knu.likeknu.controller.dto.main.MainAnnouncementsResponse;
+import ac.knu.likeknu.controller.dto.main.MainMenuResponse;
+import ac.knu.likeknu.controller.dto.main.MainScheduleResponse;
 import ac.knu.likeknu.domain.AcademicCalendar;
 import ac.knu.likeknu.domain.Announcement;
 import ac.knu.likeknu.domain.Cafeteria;
@@ -49,7 +49,7 @@ public class MainService {
                 .map(cafeteria -> menuRepository.findByMenuDateAndCafeteriaAndMealType(LocalDate.now(), cafeteria, MealType.now())
                         .map(menu -> MainMenuResponse.of(cafeteria, menu.getMenus()))
                         .orElse(MainMenuResponse.empty(cafeteria)))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public List<MainScheduleResponse> getScheduleResponse() {

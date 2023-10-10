@@ -1,8 +1,9 @@
 package ac.knu.likeknu.service;
 
+import ac.knu.likeknu.common.LocalTimeComparator;
 import ac.knu.likeknu.controller.dto.citybus.CityBusesArrivalTimeResponse;
 import ac.knu.likeknu.controller.dto.citybus.RouteListResponse;
-import ac.knu.likeknu.controller.dto.response.MainCityBusResponse;
+import ac.knu.likeknu.controller.dto.main.MainCityBusResponse;
 import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
 import ac.knu.likeknu.domain.value.Campus;
@@ -90,7 +91,7 @@ public class CityBusService {
                         .filter(maximumTime::isAfter)
                         .map(arrivalTime -> CityBusesArrivalTimeResponse.of(cityBus, arrivalTime))
                         .map(cityBusArrivalTime -> cityBusArrivalTime.updateRemainingTime(currentTime)))
-                .sorted(Comparator.comparing(CityBusesArrivalTimeResponse::getArrivalAt))
+                .sorted((arrival1, arrival2) -> new LocalTimeComparator().compare(arrival1.getArrivalAt(), arrival2.getArrivalAt()))
                 .toList();
     }
 }

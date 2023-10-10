@@ -1,7 +1,7 @@
 package ac.knu.likeknu.service;
 
 import ac.knu.likeknu.controller.dto.announcement.AnnouncementListResponse;
-import ac.knu.likeknu.controller.dto.response.PageDto;
+import ac.knu.likeknu.controller.dto.base.PageDto;
 import ac.knu.likeknu.domain.Announcement;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.Category;
@@ -34,6 +34,7 @@ public class AnnouncementService {
         Page<Announcement> announcementsPage =
                 announcementRepository.findByCampusInAndCategory(Set.of(campus, Campus.ALL), category, pageRequest);
         pageDto.updateTotalPages(announcementsPage.getTotalPages());
+        pageDto.updateTotalElements(announcementsPage.getTotalElements());
         return announcementsPage.stream()
                 .map(AnnouncementListResponse::of)
                 .toList();

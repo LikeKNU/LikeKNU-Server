@@ -1,6 +1,10 @@
 package ac.knu.likeknu.controller;
 
-import ac.knu.likeknu.controller.dto.response.*;
+import ac.knu.likeknu.controller.dto.base.*;
+import ac.knu.likeknu.controller.dto.main.MainAnnouncementsResponse;
+import ac.knu.likeknu.controller.dto.main.MainCityBusResponse;
+import ac.knu.likeknu.controller.dto.main.MainMenuResponse;
+import ac.knu.likeknu.controller.dto.main.MainScheduleResponse;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.service.CityBusService;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -42,11 +47,11 @@ public class MainController {
         }
 
         List<MainMenuResponse> responses = mainService.getMenuResponse(campus);
+        Collections.sort(responses);
         return ResponseDto.of(responses);
     }
 
     @GetMapping("/buses")
-
     public ResponseDto<List<MainCityBusResponse>> getMainPageCityBuses(
             @RequestParam(name = "campus") Campus campus
     ) {
