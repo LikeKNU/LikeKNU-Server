@@ -16,20 +16,12 @@ public enum CafeteriaName {
     DORMITORY("생활관식당", 4),
     EMPLOYEE_CAFETERIA("직원식당", 5);
 
-    private static final Map<String, String> CAFETERIA_NAME_MAP = Collections.unmodifiableMap(
-            Stream.of(values()).collect(Collectors.toMap(CafeteriaName::getCafeteriaName, CafeteriaName::name))
-    );
-
     private final String cafeteriaName;
     private final int sequence;
 
     CafeteriaName(String cafeteriaName, int sequence) {
         this.cafeteriaName = cafeteriaName;
         this.sequence = sequence;
-    }
-
-    public static CafeteriaName of(String cafeteriaName) {
-        return CafeteriaName.valueOf(CAFETERIA_NAME_MAP.get(cafeteriaName));
     }
 
 }

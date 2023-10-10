@@ -18,8 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Slf4j
 @Service
@@ -46,6 +48,7 @@ public class MainService {
     public List<MainMenuResponse> getMenuResponse(Campus campus) {
         List<Cafeteria> cafeterias = cafeteriaRepository.findByCampus(campus);
         return cafeterias.stream()
+                .sorted(Comparator.comparing(cafeteria -> cafeteria.getCafeteriaName().getSequence()))
                 .map(cafeteria -> menuRepository.findByMenuDateAndCafeteriaAndMealType(LocalDate.now(), cafeteria, MealType.now())
                         .map(menu -> MainMenuResponse.of(cafeteria, menu.getMenus()))
                         .orElse(MainMenuResponse.empty(cafeteria)))

@@ -28,8 +28,6 @@ public class MenuController {
         }
 
         List<MenuResponse> menuResponsesByCampus = menuService.getMenuResponsesByCampus(campus);
-        Collections.sort(menuResponsesByCampus);
-
         return ResponseDto.of(menuResponsesByCampus);
     }
 }

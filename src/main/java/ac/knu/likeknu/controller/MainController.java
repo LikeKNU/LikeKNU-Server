@@ -47,7 +47,6 @@ public class MainController {
         }
 
         List<MainMenuResponse> responses = mainService.getMenuResponse(campus);
-        Collections.sort(responses);
         return ResponseDto.of(responses);
     }
 
