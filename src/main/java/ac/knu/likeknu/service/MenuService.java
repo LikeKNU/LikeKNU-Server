@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -29,6 +30,7 @@ public class MenuService {
         List<Cafeteria> cafeterias = cafeteriaRepository.findByCampus(campus);
 
         return cafeterias.stream()
+                .sorted(Comparator.comparing(cafeteria -> cafeteria.getCafeteriaName().getSequence()))
                 .map(cafeteria -> {
                     List<MealListDto> mealLists = Arrays.stream(MealType.values())
                             .filter(mealType -> !isMealTypeDawnOrNight(mealType))

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class MenuResponse implements Comparable<MenuResponse> {
+public class MenuResponse {
 
     private String cafeteriaId;
     private String cafeteriaName;
@@ -30,8 +30,4 @@ public class MenuResponse implements Comparable<MenuResponse> {
                 .build();
     }
 
-    @Override
-    public int compareTo(MenuResponse o) {
-        return CafeteriaName.of(this.cafeteriaName).compareTo(CafeteriaName.of(o.cafeteriaName));
-    }
 }
