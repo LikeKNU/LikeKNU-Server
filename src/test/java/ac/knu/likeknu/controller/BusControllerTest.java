@@ -26,9 +26,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@DisplayName("시내버스 컨트롤러 테스트")
-@WebMvcTest(controllers = CityBusController.class)
-class CityBusControllerTest {
+@DisplayName("버스 컨트롤러 테스트")
+@WebMvcTest(controllers = BusController.class)
+class BusControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
