@@ -141,7 +141,7 @@ class MainControllerTest {
         //given
         MainMenuResponse menuResponse1 = new MainMenuResponse(
                 "cafeteriaId1",
-                "직원식당",
+                "학생식당",
                 List.of(
                         new MenuListDto(1, "testMenu1"),
                         new MenuListDto(2, "testMenu2")
@@ -157,7 +157,7 @@ class MainControllerTest {
         );
         MainMenuResponse menuResponse3 = new MainMenuResponse(
                 "cafeteriaId3",
-                "학생식당",
+                "직원식당",
                 List.of(
                         new MenuListDto(1, "testMenu1"),
                         new MenuListDto(2, "testMenu2")
@@ -176,10 +176,10 @@ class MainControllerTest {
         //then
         resultActions.andExpectAll(
                 status().isOk(),
-                jsonPath("$.data.body.[0].cafeteriaId").value(menuResponse3.getCafeteriaId()),
+                jsonPath("$.data.body.[0].cafeteriaId").value(menuResponse1.getCafeteriaId()),
                 jsonPath("$.data.body.[1].cafeteriaName").value(menuResponse2.getCafeteriaName()),
-                jsonPath("$.data.body.[0].menus.[0].menuId").value(menuResponse3.getMenus().get(0).getMenuId()),
-                jsonPath("$.data.body.[2].menus.[1].menuName").value(menuResponse1.getMenus().get(1).getMenuName())
+                jsonPath("$.data.body.[0].menus.[0].menuId").value(menuResponse1.getMenus().get(0).getMenuId()),
+                jsonPath("$.data.body.[2].menus.[1].menuName").value(menuResponse3.getMenus().get(1).getMenuName())
         ).andDo(print());
     }
 
