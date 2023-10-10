@@ -1,10 +1,12 @@
 package ac.knu.likeknu.service;
 
+import ac.knu.likeknu.controller.dto.citybus.CityBusesArrivalTimeResponse;
 import ac.knu.likeknu.controller.dto.citybus.RouteListResponse;
 import ac.knu.likeknu.controller.dto.main.MainCityBusResponse;
 import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
 import ac.knu.likeknu.domain.value.Campus;
+import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.repository.CityBusRepository;
 import ac.knu.likeknu.repository.RouteRepository;
 import ac.knu.likeknu.utils.TestInstanceFactory;
@@ -20,9 +22,11 @@ import org.springframework.data.domain.Sort;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatList;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -103,5 +107,45 @@ class CityBusServiceTest {
                 () -> assertThat(routeListResponse.getOrigin()).isEqualTo(route1.getOrigin()),
                 () -> assertThat(routeListResponse.getDestination()).isEqualTo(route1.getDestination())
         );
+    }
+
+    @DisplayName("특정 경로의 시내버스 도착 시간 정보를 조회할 수 있다.")
+    @Test
+    void getCityBusesArrivalTimeSuccess() throws Exception {
+        // given
+        Route route = TestInstanceFactory.createRoute("Stop A", "Stop B");
+
+        CityBus cityBus1 = TestInstanceFactory.createCityBus("100");
+        CityBus cityBus2 = TestInstanceFactory.createCityBus("110");
+        CityBus cityBus3 = TestInstanceFactory.createCityBus("120");
+
+        // when
+        when(routeRepository.findById(eq(route.getId()))).thenReturn(Optional.of(route));
+        when(cityBusRepository.findByRoutesContaining(eq(route))).thenReturn(List.of(cityBus1, cityBus2, cityBus3));
+        List<CityBusesArrivalTimeResponse> cityBusesArrivalTime =
+                cityBusService.getCityBusesArrivalTime(route.getId());
+
+        // then
+        CityBusesArrivalTimeResponse cityBusesArrivalTimeResponse = cityBusesArrivalTime.get(3);
+        assertAll(
+                () -> assertThatList(cityBusesArrivalTime).hasSize(6),
+                () -> assertThat(cityBusesArrivalTimeResponse.getArrivalTime())
+                        .isEqualTo(LocalTime.now().plusMinutes(10).format(DateTimeFormatter.ofPattern("HH:mm"))),
+                () -> assertThat(cityBusesArrivalTimeResponse.getRemainingTime()).isEqualTo("9분 뒤"),
+                () -> assertThat(cityBusesArrivalTimeResponse.getBusNumber()).isEqualTo("100")
+        );
+    }
+
+    @DisplayName("존재하지 않는 경로 ID인 경우 시내버스 도착 시간 정보 조회에 실패한다.")
+    @Test
+    void getCityBusesArrivalTimeFailRouteIdNotFound() throws Exception {
+        // given
+
+        // when
+        when(routeRepository.findById(any())).thenReturn(Optional.empty());
+
+        // then
+        assertThatThrownBy(() -> cityBusService.getCityBusesArrivalTime("invalid_id"))
+                .isInstanceOf(BusinessException.class);
     }
 }
