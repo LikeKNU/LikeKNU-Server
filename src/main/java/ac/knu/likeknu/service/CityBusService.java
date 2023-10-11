@@ -41,10 +41,8 @@ public class CityBusService {
                 .map(route -> {
                     List<CityBus> buses = cityBusRepository.findByRoutesContaining(route);
                     CityBus earliestBus = getEarliestBus(buses);
-                    if (earliestBus == null) {
-                        return MainCityBusResponse.of(route);
-                    }
-                    return MainCityBusResponse.of(route, earliestBus);
+                    return earliestBus == null ? MainCityBusResponse.empty(route)
+                            : MainCityBusResponse.of(route, earliestBus);
                 })
                 .toList();
     }
