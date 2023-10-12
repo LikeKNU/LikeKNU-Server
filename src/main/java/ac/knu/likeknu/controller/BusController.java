@@ -30,7 +30,7 @@ public class BusController {
         return ResponseDto.of(routeList);
     }
 
-    @GetMapping("/city-buses/{routeId}")
+    @GetMapping("/city-bus/{routeId}")
     public ResponseDto<List<CityBusesArrivalTimeResponse>> cityBusesArrivalTime(@PathVariable String routeId) {
         List<CityBusesArrivalTimeResponse> cityBusesArrivalTime = cityBusService.getCityBusesArrivalTime(routeId);
         return ResponseDto.of(cityBusesArrivalTime);
