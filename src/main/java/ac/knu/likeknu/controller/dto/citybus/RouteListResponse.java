@@ -7,22 +7,29 @@ import lombok.Getter;
 @Getter
 public class RouteListResponse {
 
+    private static final String ROUTE_NAME_DELIMITER = " → ";
+
     private final String routeId;
-    private final String origin;
-    private final String destination;
+    private final String routeName;
+    private final String departureStop;
+    private final String arrivalStop;
 
     @Builder
-    public RouteListResponse(String routeId, String origin, String destination) {
+    public RouteListResponse(String routeId, String routeName, String departureStop, String arrivalStop) {
         this.routeId = routeId;
-        this.origin = origin;
-        this.destination = destination;
+        this.routeName = routeName;
+        this.departureStop = departureStop;
+        this.arrivalStop = arrivalStop;
     }
 
     public static RouteListResponse of(Route route) {
+        String origin = route.getOrigin();
+        String destination = route.getDestination();
         return RouteListResponse.builder()
                 .routeId(route.getId())
-                .origin(route.getOrigin())
-                .destination(route.getDestination())
+                .routeName(String.join(ROUTE_NAME_DELIMITER, origin, destination))
+                .departureStop(route.getDepartureStop())
+                .arrivalStop(route.getArrivalStop())
                 .build();
     }
 }
