@@ -8,6 +8,7 @@ import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.RouteType;
+import ac.knu.likeknu.domain.value.ShuttleType;
 import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.repository.CityBusRepository;
 import ac.knu.likeknu.repository.RouteRepository;
@@ -35,6 +36,11 @@ public class CityBusService {
         this.cityBusRepository = cityBusRepository;
     }
 
+    /**
+     * 학교에서 외부로 가는 가장 금방 도착하는 시내버스 정보
+     * @param campus 캠퍼스
+     * @return 캠퍼스별 학교에서 나가는 가장 빠른 시내버스 목록
+     */
     public List<MainCityBusResponse> earliestOutgoingCityBuses(Campus campus) {
         return routeRepository.findByCampus(campus, Sort.by(Order.asc("origin"))).stream()
                 .filter(route -> route.getRouteType().equals(RouteType.OUTGOING))
@@ -54,6 +60,11 @@ public class CityBusService {
                 .orElse(null);
     }
 
+    /**
+     * 캠퍼스별 시내버스 경로 목록 조회
+     * @param campus 캠퍼스
+     * @return 캠퍼스별 시내버스 경로 목록
+     */
     public List<RouteListResponse> getRouteList(Campus campus) {
         return routeRepository.findByCampus(campus, Sort.by(
                         Order.desc("routeType"), Order.asc("origin")
@@ -62,6 +73,11 @@ public class CityBusService {
                 .toList();
     }
 
+    /**
+     * 특정 경로의 시내버스 도착 시간 조회
+     * @param routeId 경로 ID
+     * @return 특정 경로의 시내버스 도착 시간 목록
+     */
     public List<CityBusesArrivalTimeResponse> getCityBusesArrivalTime(String routeId) {
         List<CityBus> buses = getCityBusesOfRoute(routeId);
 
@@ -91,5 +107,15 @@ public class CityBusService {
                         .map(cityBusArrivalTime -> cityBusArrivalTime.updateRemainingTime(currentTime)))
                 .sorted((arrival1, arrival2) -> new LocalTimeComparator().compare(arrival1.getArrivalAt(), arrival2.getArrivalAt()))
                 .toList();
+    }
+
+    /**
+     * 셔틀버스 경로 목록 조회
+     * @param campus 캠퍼스
+     * @param shuttleType 셔틀버스 타입 (등교버스•순환버스)
+     * @return 캠퍼스별 셔틀버스 경로 목록
+     */
+    public List<RouteListResponse> getRouteList(Campus campus, ShuttleType shuttleType) {
+        return null;
     }
 }

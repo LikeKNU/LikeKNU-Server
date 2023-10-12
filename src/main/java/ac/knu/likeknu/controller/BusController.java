@@ -4,6 +4,7 @@ import ac.knu.likeknu.controller.dto.base.ResponseDto;
 import ac.knu.likeknu.controller.dto.citybus.CityBusesArrivalTimeResponse;
 import ac.knu.likeknu.controller.dto.citybus.RouteListResponse;
 import ac.knu.likeknu.domain.value.Campus;
+import ac.knu.likeknu.domain.value.ShuttleType;
 import ac.knu.likeknu.service.CityBusService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +24,7 @@ public class BusController {
         this.cityBusService = cityBusService;
     }
 
-    @GetMapping("/city-buses/routes")
+    @GetMapping("/city-bus/routes")
     public ResponseDto<List<RouteListResponse>> eachRouteCityBuses(@RequestParam("campus") Campus campus) {
         List<RouteListResponse> routeList = cityBusService.getRouteList(campus);
         return ResponseDto.of(routeList);
@@ -33,5 +34,13 @@ public class BusController {
     public ResponseDto<List<CityBusesArrivalTimeResponse>> cityBusesArrivalTime(@PathVariable String routeId) {
         List<CityBusesArrivalTimeResponse> cityBusesArrivalTime = cityBusService.getCityBusesArrivalTime(routeId);
         return ResponseDto.of(cityBusesArrivalTime);
+    }
+
+    @GetMapping("/{shuttleType}/routes")
+    public ResponseDto<List<RouteListResponse>> eachRouteShuttleBuses(
+            @PathVariable String shuttleType, @RequestParam("campus") Campus campus
+    ) {
+        List<RouteListResponse> routeList = cityBusService.getRouteList(campus, ShuttleType.of(shuttleType));
+        return ResponseDto.of(routeList);
     }
 }
