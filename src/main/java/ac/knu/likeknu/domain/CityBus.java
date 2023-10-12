@@ -1,6 +1,5 @@
 package ac.knu.likeknu.domain;
 
-import ac.knu.likeknu.common.EntityGraphNames;
 import ac.knu.likeknu.common.LocalTimeComparator;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -10,9 +9,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.NamedAttributeNode;
-import jakarta.persistence.NamedEntityGraph;
-import jakarta.persistence.NamedEntityGraphs;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,14 +19,6 @@ import java.util.List;
 import java.util.Objects;
 
 @Getter
-@NamedEntityGraphs(
-        value = {
-                @NamedEntityGraph(
-                        name = EntityGraphNames.BUS_ARRIVAL_TIMES,
-                        attributeNodes = @NamedAttributeNode(value = "arrivalTimes")
-                )
-        }
-)
 @Table(name = "city_bus")
 @Entity
 public class CityBus {

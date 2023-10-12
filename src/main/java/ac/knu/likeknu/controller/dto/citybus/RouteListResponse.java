@@ -1,6 +1,7 @@
 package ac.knu.likeknu.controller.dto.citybus;
 
 import ac.knu.likeknu.domain.Route;
+import ac.knu.likeknu.domain.Shuttle;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -30,6 +31,15 @@ public class RouteListResponse {
                 .routeName(String.join(ROUTE_NAME_DELIMITER, origin, destination))
                 .departureStop(route.getDepartureStop())
                 .arrivalStop(route.getArrivalStop())
+                .build();
+    }
+
+    public static RouteListResponse of(Shuttle shuttle) {
+        String origin = shuttle.getOrigin();
+        String destination = shuttle.getDestination();
+        return RouteListResponse.builder()
+                .routeId(shuttle.getId())
+                .routeName(String.join(ROUTE_NAME_DELIMITER, origin, destination))
                 .build();
     }
 }
