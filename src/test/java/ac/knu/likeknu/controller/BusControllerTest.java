@@ -60,8 +60,10 @@ class BusControllerTest {
         resultActions.andExpectAll(
                 status().isOk(),
                 jsonPath("$.data.body.[0].routeId").value(route1.getId()),
-                jsonPath("$.data.body.[0].origin").value(route1.getOrigin()),
-                jsonPath("$.data.body.[0].destination").value(route1.getDestination())
+                jsonPath("$.data.body.[0].routeName")
+                        .value(String.join(" → ", route1.getOrigin(), route1.getDestination())),
+                jsonPath("$.data.body.[0].departureStop").value(route1.getDepartureStop()),
+                jsonPath("$.data.body.[0].arrivalStop").value(route1.getArrivalStop())
         ).andDo(print());
     }
 
