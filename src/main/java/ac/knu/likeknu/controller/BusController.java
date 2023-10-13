@@ -4,6 +4,7 @@ import ac.knu.likeknu.controller.dto.base.ResponseDto;
 import ac.knu.likeknu.controller.dto.citybus.CityBusesArrivalTimeResponse;
 import ac.knu.likeknu.controller.dto.citybus.RouteListResponse;
 import ac.knu.likeknu.controller.dto.shuttlebus.ShuttleBusesArrivalTimeResponse;
+import ac.knu.likeknu.controller.dto.shuttlebus.ShuttleListResponse;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.ShuttleType;
 import ac.knu.likeknu.service.CityBusService;
@@ -41,10 +42,10 @@ public class BusController {
     }
 
     @GetMapping("/{shuttleType}/routes")
-    public ResponseDto<List<RouteListResponse>> eachRouteShuttleBuses(
+    public ResponseDto<List<ShuttleListResponse>> eachRouteShuttleBuses(
             @PathVariable String shuttleType, @RequestParam("campus") Campus campus
     ) {
-        List<RouteListResponse> routeList = shuttleBusService.getRouteList(campus, ShuttleType.of(shuttleType));
+        List<ShuttleListResponse> routeList = shuttleBusService.getRouteList(campus, ShuttleType.of(shuttleType));
         return ResponseDto.of(routeList);
     }
 
