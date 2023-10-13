@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -23,7 +24,7 @@ public class ShuttleBus {
     @Id
     private String id;
 
-    private String shuttleName;
+    private String busName;
 
     @JoinColumn(name = "shuttle_id")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,9 +37,16 @@ public class ShuttleBus {
     }
 
     @Builder
-    public ShuttleBus(String shuttleName, Shuttle shuttle) {
-        this.shuttleName = shuttleName;
+    public ShuttleBus(String busName, Shuttle shuttle) {
+        this.busName = busName;
         this.shuttle = shuttle;
+    }
+
+    public LocalTime getDepartureTime() {
+        return shuttleTimes.stream()
+                .map(ShuttleTime::getArrivalTime)
+                .min(LocalTime::compareTo)
+                .orElse(LocalTime.of(23, 59, 59));
     }
 
     @Override

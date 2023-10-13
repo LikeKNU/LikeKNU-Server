@@ -48,9 +48,9 @@ public class BusController {
         return ResponseDto.of(routeList);
     }
 
-    @GetMapping("/shuttle-bus/{routeId}")
-    public ResponseDto<List<ShuttleBusesArrivalTimeResponse>> shuttleBusesArrivalTime(@PathVariable String routeId) {
-        List<ShuttleBusesArrivalTimeResponse> shuttleBusesArrivalTime = shuttleBusService.getShuttleBusesArrivalTime(routeId);
+    @GetMapping("/shuttle-bus/{shuttleId}")
+    public ResponseDto<List<ShuttleBusesArrivalTimeResponse>> shuttleBusesArrivalTime(@PathVariable String shuttleId) {
+        List<ShuttleBusesArrivalTimeResponse> shuttleBusesArrivalTime = shuttleBusService.getShuttleBusesArrivalTime(shuttleId);
         return ResponseDto.of(shuttleBusesArrivalTime);
     }
 }
