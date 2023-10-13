@@ -8,11 +8,9 @@ import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.RouteType;
-import ac.knu.likeknu.domain.value.ShuttleType;
 import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.repository.CityBusRepository;
 import ac.knu.likeknu.repository.RouteRepository;
-import ac.knu.likeknu.repository.ShuttleRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
@@ -31,12 +29,10 @@ public class CityBusService {
 
     private final RouteRepository routeRepository;
     private final CityBusRepository cityBusRepository;
-    private final ShuttleRepository shuttleRepository;
 
-    public CityBusService(RouteRepository routeRepository, CityBusRepository cityBusRepository, ShuttleRepository shuttleRepository) {
+    public CityBusService(RouteRepository routeRepository, CityBusRepository cityBusRepository) {
         this.routeRepository = routeRepository;
         this.cityBusRepository = cityBusRepository;
-        this.shuttleRepository = shuttleRepository;
     }
 
     /**
@@ -112,20 +108,6 @@ public class CityBusService {
                         .map(arrivalTime -> CityBusesArrivalTimeResponse.of(cityBus, arrivalTime))
                         .map(cityBusArrivalTime -> cityBusArrivalTime.updateRemainingTime(currentTime)))
                 .sorted((arrival1, arrival2) -> new LocalTimeComparator().compare(arrival1.getArrivalAt(), arrival2.getArrivalAt()))
-                .toList();
-    }
-
-    /**
-     * 셔틀버스 경로 목록 조회
-     *
-     * @param campus      캠퍼스
-     * @param shuttleType 셔틀버스 타입 (등교버스•순환버스)
-     * @return 캠퍼스별 셔틀버스 경로 목록
-     */
-    public List<RouteListResponse> getRouteList(Campus campus, ShuttleType shuttleType) {
-        return shuttleRepository.findByShuttleType(shuttleType).stream()
-                .filter(shuttle -> shuttle.getCampuses().contains(campus))
-                .map(RouteListResponse::of)
                 .toList();
     }
 }
