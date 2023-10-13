@@ -1,12 +1,12 @@
 package ac.knu.likeknu.domain;
 
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,7 +30,8 @@ public class ShuttleBus {
     @ManyToOne(fetch = FetchType.LAZY)
     private Shuttle shuttle;
 
-    @OneToMany(mappedBy = "shuttleBus", cascade = CascadeType.ALL)
+    @CollectionTable(name = "shuttle_time", joinColumns = @JoinColumn(name = "bus_id"))
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<ShuttleTime> shuttleTimes = new ArrayList<>();
 
     protected ShuttleBus() {
