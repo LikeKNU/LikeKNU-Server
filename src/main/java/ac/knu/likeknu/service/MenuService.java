@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -34,16 +33,16 @@ public class MenuService {
                 .map(cafeteria -> {
                     List<MealListDto> mealLists = Arrays.stream(MealType.values())
                             .filter(mealType -> !isMealTypeDawnOrNight(mealType))
-                            .map(mealType -> menuRepository.findByMenuDateAndCafeteriaAndMealType(LocalDate.now(), cafeteria, mealType)
-                                    .map(menu -> MealListDto.of(mealType, cafeteria, menu.getMenus()))
-                                    .orElse(MealListDto.empty(mealType))
+                            .map(mealType ->
+                                    menuRepository.findByMenuDateAndCafeteriaAndMealType(LocalDate.now(), cafeteria, mealType)
+                                            .map(menu -> MealListDto.of(mealType, cafeteria, menu.getMenus()))
+                                            .orElse(MealListDto.empty(mealType))
                             ).collect(Collectors.toList());
                     return MenuResponse.of(cafeteria, mealLists);
                 }).collect(Collectors.toList());
     }
 
     private boolean isMealTypeDawnOrNight(MealType mealType) {
-        log.info(mealType.getMealTypeKr());
         return mealType.equals(MealType.DAWN) || mealType.equals(MealType.NIGHT);
     }
 }
