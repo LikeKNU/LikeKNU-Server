@@ -104,8 +104,8 @@ class CityBusServiceTest {
                 () -> assertThatList(routeList).isNotEmpty(),
                 () -> assertThatList(routeList).hasSize(3),
                 () -> assertThat(routeListResponse.getRouteId()).isEqualTo(route1.getId()),
-                () -> assertThat(routeListResponse.getOrigin()).isEqualTo(route1.getOrigin()),
-                () -> assertThat(routeListResponse.getDestination()).isEqualTo(route1.getDestination())
+                () -> assertThat(routeListResponse.getDepartureStop()).isEqualTo(route1.getDepartureStop()),
+                () -> assertThat(routeListResponse.getArrivalStop()).isEqualTo(route1.getArrivalStop())
         );
     }
 
