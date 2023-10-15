@@ -135,52 +135,54 @@ class MainControllerTest {
 
     }
 
-    @DisplayName("식단 정보 조회 API 요청에 성공한다.")
+    @DisplayName("캠퍼스별 식단 정보 조회 API 요청에 성공한다.")
     @Test
     void getMenuResponsesAndSuccess() throws Exception {
         //given
-        MainMenuResponse menuResponse1 = new MainMenuResponse(
-                "cafeteriaId1",
-                "학생식당",
-                List.of(
-                        new MenuListDto(1, "testMenu1"),
-                        new MenuListDto(2, "testMenu2")
-                )
-        );
-        MainMenuResponse menuResponse2 = new MainMenuResponse(
-                "cafeteriaId2",
-                "생활관식당",
-                List.of(
-                        new MenuListDto(1, "testMenu1"),
-                        new MenuListDto(2, "testMenu2")
-                )
-        );
-        MainMenuResponse menuResponse3 = new MainMenuResponse(
-                "cafeteriaId3",
-                "직원식당",
-                List.of(
-                        new MenuListDto(1, "testMenu1"),
-                        new MenuListDto(2, "testMenu2")
-                )
+        List<MenuListDto> menus = List.of(
+                new MenuListDto(1, "testMenu1"),
+                new MenuListDto(2, "testMenu2")
         );
 
-        List<MainMenuResponse> menuResponses = new ArrayList<>(List.of(menuResponse1, menuResponse2, menuResponse3));
+        MainMenuResponse menuResponse1 = new MainMenuResponse("cafeteriaId1", "학생식당", menus);
+        MainMenuResponse menuResponse2 = new MainMenuResponse("cafeteriaId2", "생활관식당", menus);
+        MainMenuResponse menuResponse3 = new MainMenuResponse("cafeteriaId2", "생활관식당", menus);
+        MainMenuResponse menuResponse4 = new MainMenuResponse("cafeteriaId3", "직원식당", menus);
+
+        List<MainMenuResponse> menuResponses1 = new ArrayList<>(List.of(menuResponse1, menuResponse2, menuResponse4));
+        List<MainMenuResponse> menuResponses2 = new ArrayList<>(List.of(menuResponse1, menuResponse3, menuResponse4));
 
         //when
-        when(mainService.getMenuResponse(Campus.CHEONAN)).thenReturn(menuResponses);
-        ResultActions resultActions = mockMvc.perform(
+        when(mainService.getMenuResponse(eq(Campus.CHEONAN))).thenReturn(menuResponses1);
+        when(mainService.getMenuResponse(eq(Campus.SINGWAN))).thenReturn(menuResponses2);
+
+        ResultActions resultActions1 = mockMvc.perform(
                 get("/api/main/menu")
                         .param("campus", Campus.CHEONAN.name())
         );
 
+        ResultActions resultActions2 = mockMvc.perform(
+                get("/api/main/menu")
+                        .param("campus", Campus.SINGWAN.name())
+        );
+
         //then
-        resultActions.andExpectAll(
+        resultActions1.andExpectAll(
                 status().isOk(),
                 jsonPath("$.data.body.[0].cafeteriaId").value(menuResponse1.getCafeteriaId()),
                 jsonPath("$.data.body.[1].cafeteriaName").value(menuResponse2.getCafeteriaName()),
                 jsonPath("$.data.body.[0].menus.[0].menuId").value(menuResponse1.getMenus().get(0).getMenuId()),
-                jsonPath("$.data.body.[2].menus.[1].menuName").value(menuResponse3.getMenus().get(1).getMenuName())
+                jsonPath("$.data.body.[2].menus.[1].menuName").value(menuResponse4.getMenus().get(1).getMenuName())
         ).andDo(print());
+
+        resultActions2.andExpectAll(
+                status().isOk(),
+                jsonPath("$.data.body.[0].cafeteriaId").value(menuResponse1.getCafeteriaId()),
+                jsonPath("$.data.body.[1].cafeteriaName").value(menuResponse3.getCafeteriaName()),
+                jsonPath("$.data.body.[0].menus.[0].menuId").value(menuResponse1.getMenus().get(0).getMenuId()),
+                jsonPath("$.data.body.[2].menus.[1].menuName").value(menuResponse4.getMenus().get(1).getMenuName())
+        ).andDo(print());
+
     }
 
     @DisplayName("학사일정 정보 조회 API 요청에 성공한다.")

@@ -42,10 +42,11 @@ public class Menu {
     }
 
     @Builder
-    public Menu(String menus, MealType mealType, LocalDate date, Campus campus, CafeteriaName cafeteria, LocalDate menuDate) {
+    public Menu(String menus, MealType mealType, LocalDate menuDate, Cafeteria cafeteria) {
         this.menus = menus;
         this.mealType = mealType;
         this.menuDate = menuDate;
+        this.cafeteria = cafeteria;
     }
 
     @Override
