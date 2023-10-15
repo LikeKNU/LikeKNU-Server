@@ -1,16 +1,17 @@
 package ac.knu.likeknu.domain;
 
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -23,22 +24,30 @@ public class ShuttleBus {
     @Id
     private String id;
 
-    private String shuttleName;
+    private String busName;
 
     @JoinColumn(name = "shuttle_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Shuttle shuttle;
 
-    @OneToMany(mappedBy = "shuttleBus", cascade = CascadeType.ALL)
+    @CollectionTable(name = "shuttle_time", joinColumns = @JoinColumn(name = "bus_id"))
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<ShuttleTime> shuttleTimes = new ArrayList<>();
 
     protected ShuttleBus() {
     }
 
     @Builder
-    public ShuttleBus(String shuttleName, Shuttle shuttle) {
-        this.shuttleName = shuttleName;
+    public ShuttleBus(String busName, Shuttle shuttle) {
+        this.busName = busName;
         this.shuttle = shuttle;
+    }
+
+    public LocalTime getDepartureTime() {
+        return shuttleTimes.stream()
+                .map(ShuttleTime::getArrivalTime)
+                .min(LocalTime::compareTo)
+                .orElse(LocalTime.of(23, 59, 59));
     }
 
     @Override
