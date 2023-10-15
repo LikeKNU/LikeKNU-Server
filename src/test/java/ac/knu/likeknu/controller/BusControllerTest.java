@@ -53,7 +53,7 @@ class BusControllerTest {
                 RouteListResponse.of(route2),
                 RouteListResponse.of(route3)
         ));
-        ResultActions resultActions = mockMvc.perform(get("/api/buses/city-buses/routes")
+        ResultActions resultActions = mockMvc.perform(get("/api/buses/city-bus/routes")
                 .queryParam("campus", "CHEONAN"));
 
         // then
@@ -73,7 +73,7 @@ class BusControllerTest {
         // given
 
         // when
-        ResultActions resultActions = mockMvc.perform(get("/api/buses/city-buses/routes")
+        ResultActions resultActions = mockMvc.perform(get("/api/buses/city-bus/routes")
                 .queryParam("campus", "invalid_campus"));
 
         // then
@@ -110,7 +110,7 @@ class BusControllerTest {
 
         when(cityBusService.getCityBusesArrivalTime(eq(route.getId())))
                 .thenReturn(List.of(arrivalTime1, arrivalTime2, arrivalTime3, arrivalTime4));
-        ResultActions resultActions = mockMvc.perform(get("/api/buses/city-buses/{routeId}", route.getId()));
+        ResultActions resultActions = mockMvc.perform(get("/api/buses/city-bus/{routeId}", route.getId()));
 
         // then
         resultActions.andExpectAll(

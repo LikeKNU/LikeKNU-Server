@@ -35,6 +35,12 @@ public class CityBusService {
         this.cityBusRepository = cityBusRepository;
     }
 
+    /**
+     * 학교에서 외부로 가는 가장 금방 도착하는 시내버스 정보
+     *
+     * @param campus 캠퍼스
+     * @return 캠퍼스별 학교에서 나가는 가장 빠른 시내버스 목록
+     */
     public List<MainCityBusResponse> earliestOutgoingCityBuses(Campus campus) {
         return routeRepository.findByCampus(campus, Sort.by(Order.asc("origin"))).stream()
                 .filter(route -> route.getRouteType().equals(RouteType.OUTGOING))
@@ -54,6 +60,12 @@ public class CityBusService {
                 .orElse(null);
     }
 
+    /**
+     * 캠퍼스별 시내버스 경로 목록 조회
+     *
+     * @param campus 캠퍼스
+     * @return 캠퍼스별 시내버스 경로 목록
+     */
     public List<RouteListResponse> getRouteList(Campus campus) {
         return routeRepository.findByCampus(campus, Sort.by(
                         Order.desc("routeType"), Order.asc("origin")
@@ -62,6 +74,12 @@ public class CityBusService {
                 .toList();
     }
 
+    /**
+     * 특정 경로의 시내버스 도착 시간 조회
+     *
+     * @param routeId 경로 ID
+     * @return 특정 경로의 시내버스 도착 시간 목록
+     */
     public List<CityBusesArrivalTimeResponse> getCityBusesArrivalTime(String routeId) {
         List<CityBus> buses = getCityBusesOfRoute(routeId);
 
