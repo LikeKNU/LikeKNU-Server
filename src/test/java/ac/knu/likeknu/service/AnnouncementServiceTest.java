@@ -5,6 +5,7 @@ import ac.knu.likeknu.controller.dto.base.PageDto;
 import ac.knu.likeknu.domain.Announcement;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.Category;
+import ac.knu.likeknu.domain.value.Tag;
 import ac.knu.likeknu.repository.AnnouncementRepository;
 import ac.knu.likeknu.utils.TestInstanceFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -43,9 +44,9 @@ class AnnouncementServiceTest {
     @Test
     void getStudentNewsSuccess() throws Exception {
         // given
-        Announcement announcement1 = TestInstanceFactory.createAnnouncement("Test A", "https://testa.com");
-        Announcement announcement2 = TestInstanceFactory.createAnnouncement("Test B", "https://testb.com");
-        Announcement announcement3 = TestInstanceFactory.createAnnouncement("Test C", "https://testc.com");
+        Announcement announcement1 = TestInstanceFactory.createAnnouncement("Test A", "https://testa.com", Tag.SCHOLARSHIP);
+        Announcement announcement2 = TestInstanceFactory.createAnnouncement("Test B", "https://testb.com", Tag.INTERNSHIP);
+        Announcement announcement3 = TestInstanceFactory.createAnnouncement("Test C", "https://testc.com", Tag.TUITION);
         PageDto pageDto = PageDto.of(1);
 
         // when
@@ -61,6 +62,7 @@ class AnnouncementServiceTest {
         assertAll(
                 () -> assertThatList(announcementList).size().isEqualTo(3),
                 () -> assertThat(announcementResponse.getAnnouncementId()).isEqualTo(announcement1.getId()),
+                () -> assertThat(announcementResponse.getAnnouncementTag()).isEqualTo(announcement1.getTag().getTagName()),
                 () -> assertThat(pageDto.getTotalPages()).isEqualTo(1)
         );
     }

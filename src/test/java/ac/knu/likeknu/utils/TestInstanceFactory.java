@@ -4,6 +4,7 @@ import ac.knu.likeknu.domain.Announcement;
 import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
 import ac.knu.likeknu.domain.value.RouteType;
+import ac.knu.likeknu.domain.value.Tag;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -40,11 +41,12 @@ public class TestInstanceFactory {
                 .build();
     }
 
-    public static Announcement createAnnouncement(String title, String url) {
+    public static Announcement createAnnouncement(String title, String url, Tag tag) {
         return Announcement.builder()
                 .announcementTitle(title)
                 .announcementDate(LocalDate.now())
                 .announcementUrl(url)
+                .tag(tag)
                 .build();
     }
 }
