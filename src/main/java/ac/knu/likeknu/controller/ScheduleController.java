@@ -1,6 +1,8 @@
 package ac.knu.likeknu.controller;
 
 import ac.knu.likeknu.controller.dto.base.ResponseDto;
+import ac.knu.likeknu.service.ScheduleService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.web.bind.WebDataBinder;
@@ -11,7 +13,11 @@ import java.time.LocalDate;
 @Slf4j
 @RestController
 @RequestMapping("/api/schedule")
+@RequiredArgsConstructor
 public class ScheduleController {
+
+    private final ScheduleService scheduleService;
+
     @GetMapping
     public ResponseDto getSchedule(
             @RequestParam(name = "year", defaultValue = "year") Integer year,
@@ -22,7 +28,6 @@ public class ScheduleController {
 
     @InitBinder
     private void InitBinder(WebDataBinder binder) throws Exception {
-
         CustomNumberEditor customNumberEditor = new CustomNumberEditor(Integer.class, true) {
 
             @Override
