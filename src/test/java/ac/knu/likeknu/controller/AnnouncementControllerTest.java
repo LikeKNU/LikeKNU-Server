@@ -5,6 +5,7 @@ import ac.knu.likeknu.controller.dto.base.PageDto;
 import ac.knu.likeknu.domain.Announcement;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.Category;
+import ac.knu.likeknu.domain.value.Tag;
 import ac.knu.likeknu.service.AnnouncementService;
 import ac.knu.likeknu.utils.TestInstanceFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -42,9 +43,9 @@ class AnnouncementControllerTest {
     @Test
     void fetchStudentNewsApiSuccess() throws Exception {
         // given
-        Announcement announcement1 = TestInstanceFactory.createAnnouncement("Test A", "https://testa.com");
-        Announcement announcement2 = TestInstanceFactory.createAnnouncement("Test B", "https://testb.com");
-        Announcement announcement3 = TestInstanceFactory.createAnnouncement("Test C", "https://testc.com");
+        Announcement announcement1 = TestInstanceFactory.createAnnouncement("Test A", "https://testa.com", Tag.DORMITORY);
+        Announcement announcement2 = TestInstanceFactory.createAnnouncement("Test B", "https://testb.com", Tag.ENROLMENT);
+        Announcement announcement3 = TestInstanceFactory.createAnnouncement("Test C", "https://testc.com", Tag.LIBRARY);
 
         // when
         when(announcementService.getAnnouncements(eq(Campus.CHEONAN), eq(Category.STUDENT_NEWS), any(PageDto.class)))
@@ -65,6 +66,7 @@ class AnnouncementControllerTest {
                 jsonPath("$.data.body.[0].announcementTitle").value(announcement1.getAnnouncementTitle()),
                 jsonPath("$.data.body.[0].announcementUrl").value(announcement1.getAnnouncementUrl()),
                 jsonPath("$.data.body.[0].announcementDate").value(announcement1.getAnnouncementDate().format(dateTimeFormatter)),
+                jsonPath("$.data.body.[0].announcementTag").value(announcement1.getTag().getTagName()),
                 jsonPath("$.data.page.currentPage").value(1)
         ).andDo(print());
     }
