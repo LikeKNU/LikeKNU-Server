@@ -18,8 +18,8 @@ public class ScheduleController {
 
     @GetMapping
     public ResponseDto getSchedule(
-            @RequestParam(name = "year", defaultValue = "year") Integer year,
-            @RequestParam(name = "month", defaultValue = "month") Integer month
+            @RequestParam(name = "year", required = false) Integer year,
+            @RequestParam(name = "month", required = false) Integer month
     ) {
         if(areYearAndMonthNull(year, month)) {
             year = LocalDate.now().getYear();
