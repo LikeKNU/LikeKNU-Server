@@ -28,7 +28,8 @@ public class ScheduleController {
             month = LocalDate.now().getMonthValue();
         }
 
-        return ResponseDto.of(null);
+        List<ScheduleResponse> responses = scheduleService.getScheduleResponsesByYearAndMonth(year, month);
+        return ResponseDto.of(responses);
     }
 
     private boolean areYearAndMonthNull(Integer year, Integer month) {

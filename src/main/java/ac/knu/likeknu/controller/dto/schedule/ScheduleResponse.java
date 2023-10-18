@@ -1,5 +1,6 @@
 package ac.knu.likeknu.controller.dto.schedule;
 
+import ac.knu.likeknu.domain.AcademicCalendar;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -19,5 +20,14 @@ public class ScheduleResponse {
         this.scheduleContents = scheduleContents;
         this.scheduleStartDate = scheduleStartDate;
         this.scheduleEndDate = scheduleEndDate;
+    }
+
+    public static ScheduleResponse of(AcademicCalendar academicCalendar) {
+        return ScheduleResponse.builder()
+                .scheduleId(academicCalendar.getId())
+                .scheduleContents(academicCalendar.getContents())
+                .scheduleStartDate(academicCalendar.getStartDate())
+                .scheduleEndDate(academicCalendar.getEndDate())
+                .build();
     }
 }
