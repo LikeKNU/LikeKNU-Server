@@ -43,6 +43,7 @@ public class MainMenuResponse {
         return MainMenuResponse.builder()
                 .cafeteriaId(cafeteria.getId())
                 .cafeteriaName(cafeteria.getCafeteriaName().getCafeteriaName())
+                .menus(new ArrayList<>())
                 .build();
     }
 
