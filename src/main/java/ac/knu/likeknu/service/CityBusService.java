@@ -99,7 +99,7 @@ public class CityBusService {
     private List<CityBusesArrivalTimeResponse> getCityBusesArrivalTime(List<CityBus> buses) {
         LocalTime currentTime = LocalTime.now();
         LocalTime minimumTime = currentTime.minusMinutes(1);
-        LocalTime maximumTime = currentTime.plusMinutes(60);
+        LocalTime maximumTime = currentTime.plusMinutes(30);
 
         return buses.stream()
                 .flatMap(cityBus -> cityBus.getArrivalTimes().stream()
