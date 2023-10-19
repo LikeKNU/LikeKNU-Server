@@ -68,9 +68,9 @@ public class CityBus {
         LocalTime minimumTime = LocalTime.now().minusMinutes(1);
         LocalTime maximumTime = LocalTime.now().plusMinutes(60);
         return this.arrivalTimes.stream()
-                .filter(minimumTime::isBefore)
-                .filter(maximumTime::isAfter)
-                .min((time1, time2) -> new LocalTimeComparator().compare(time1, time2))
+                .filter(arrivalTimes -> LocalTimeComparator.compare(arrivalTimes, minimumTime) >= 0)
+                .filter(arrivalTimes -> LocalTimeComparator.compare(arrivalTimes, maximumTime) <= 0)
+                .min(LocalTimeComparator::compare)
                 .orElse(null);
     }
 

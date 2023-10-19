@@ -103,11 +103,11 @@ public class CityBusService {
 
         return buses.stream()
                 .flatMap(cityBus -> cityBus.getArrivalTimes().stream()
-                        .filter(minimumTime::isBefore)
-                        .filter(maximumTime::isAfter)
+                        .filter(arrivalTime -> LocalTimeComparator.compare(arrivalTime, minimumTime) >= 0)
+                        .filter(arrivalTime -> LocalTimeComparator.compare(arrivalTime, maximumTime) <= 0)
                         .map(arrivalTime -> CityBusesArrivalTimeResponse.of(cityBus, arrivalTime))
                         .map(cityBusArrivalTime -> cityBusArrivalTime.updateRemainingTime(currentTime)))
-                .sorted((arrival1, arrival2) -> new LocalTimeComparator().compare(arrival1.getArrivalAt(), arrival2.getArrivalAt()))
+                .sorted((arrival1, arrival2) -> LocalTimeComparator.compare(arrival1.getArrivalAt(), arrival2.getArrivalAt()))
                 .toList();
     }
 }
