@@ -1,33 +1,33 @@
 package ac.knu.likeknu.controller.dto.schedule;
 
-import ac.knu.likeknu.domain.AcademicCalendar;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 public class ScheduleResponse {
 
-    private String scheduleId;
-    private String scheduleContents;
-    private LocalDate scheduleStartDate;
-    private LocalDate scheduleEndDate;
+    private String scheduleCriterion;
+    private List<ScheduleListDto> ScheduleWrapper;
 
     @Builder
-    public ScheduleResponse(String scheduleId, String scheduleContents, LocalDate scheduleStartDate, LocalDate scheduleEndDate) {
-        this.scheduleId = scheduleId;
-        this.scheduleContents = scheduleContents;
-        this.scheduleStartDate = scheduleStartDate;
-        this.scheduleEndDate = scheduleEndDate;
+    public ScheduleResponse(String scheduleCriterion, List<ScheduleListDto> scheduleWrapper) {
+        this.scheduleCriterion = scheduleCriterion;
+        ScheduleWrapper = scheduleWrapper;
     }
 
-    public static ScheduleResponse of(AcademicCalendar academicCalendar) {
+    public static ScheduleResponse of(LocalDate date, List<ScheduleListDto> scheduleWrapper) {
         return ScheduleResponse.builder()
-                .scheduleId(academicCalendar.getId())
-                .scheduleContents(academicCalendar.getContents())
-                .scheduleStartDate(academicCalendar.getStartDate())
-                .scheduleEndDate(academicCalendar.getEndDate())
+                .scheduleCriterion(generateCriterion(date))
+                .scheduleWrapper(scheduleWrapper)
                 .build();
+    }
+
+    private static String generateCriterion(LocalDate date) {
+        return date.getMonthValue() == 1 ?
+                date.getYear() + "년 " + date.getMonthValue() + "월" :
+                date.getMonthValue() + "월";
     }
 }

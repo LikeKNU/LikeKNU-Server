@@ -16,10 +16,6 @@ public class ScheduleService {
     private final AcademicCalendarRepository academicCalendarRepository;
 
     public List<ScheduleResponse> getScheduleResponsesByYearAndMonth(int year, int month) {
-        LocalDate start = LocalDate.of(year, month, 1);
-        LocalDate end = LocalDate.of(year, month, 31);
-        return academicCalendarRepository.findByStartDateBetweenOrEndDateBetween(start, end, start, end).stream()
-                .map(ScheduleResponse::of)
-                .collect(Collectors.toList());
+        return null;
     }
 }
