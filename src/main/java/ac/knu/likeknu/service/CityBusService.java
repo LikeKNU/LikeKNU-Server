@@ -1,6 +1,5 @@
 package ac.knu.likeknu.service;
 
-import ac.knu.likeknu.common.LocalTimeComparator;
 import ac.knu.likeknu.controller.dto.citybus.CityBusesArrivalTimeResponse;
 import ac.knu.likeknu.controller.dto.citybus.RouteListResponse;
 import ac.knu.likeknu.controller.dto.main.MainCityBusResponse;
@@ -21,6 +20,7 @@ import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @Slf4j
 @Transactional(readOnly = true)
@@ -45,15 +45,14 @@ public class CityBusService {
         return routeRepository.findByCampus(campus, Sort.by(Order.asc("origin"))).stream()
                 .filter(route -> route.getRouteType().equals(RouteType.OUTGOING))
                 .map(route -> {
-                    List<CityBus> buses = cityBusRepository.findByRoutesContaining(route);
-                    CityBus earliestBus = getEarliestBus(buses);
+                    CityBus earliestBus = getEarliestCityBus(cityBusRepository.findByRoutesContaining(route));
                     return earliestBus == null ? MainCityBusResponse.empty(route)
                             : MainCityBusResponse.of(route, earliestBus);
                 })
                 .toList();
     }
 
-    private CityBus getEarliestBus(List<CityBus> buses) {
+    private CityBus getEarliestCityBus(List<CityBus> buses) {
         return buses.stream()
                 .filter(cityBus -> cityBus.getEarliestArrivalTime() != null)
                 .min(Comparator.comparing(CityBus::getEarliestArrivalTime))
@@ -98,16 +97,16 @@ public class CityBusService {
 
     private List<CityBusesArrivalTimeResponse> getCityBusesArrivalTime(List<CityBus> buses) {
         LocalTime currentTime = LocalTime.now();
-        LocalTime minimumTime = currentTime.minusMinutes(1);
-        LocalTime maximumTime = currentTime.plusMinutes(30);
-
         return buses.stream()
-                .flatMap(cityBus -> cityBus.getArrivalTimes().stream()
-                        .filter(arrivalTime -> LocalTimeComparator.compare(arrivalTime, minimumTime) >= 0)
-                        .filter(arrivalTime -> LocalTimeComparator.compare(arrivalTime, maximumTime) <= 0)
-                        .map(arrivalTime -> CityBusesArrivalTimeResponse.of(cityBus, arrivalTime))
-                        .map(cityBusArrivalTime -> cityBusArrivalTime.updateRemainingTime(currentTime)))
-                .sorted((arrival1, arrival2) -> LocalTimeComparator.compare(arrival1.getArrivalAt(), arrival2.getArrivalAt()))
+                .flatMap(cityBus -> getCloseArrivalTimesStream(cityBus, currentTime)
+                        .map(arrivalTime -> CityBusesArrivalTimeResponse.of(cityBus, arrivalTime, currentTime)))
+                .sorted(Comparator.comparing(CityBusesArrivalTimeResponse::getArrivalAt))
                 .toList();
+    }
+
+    private Stream<LocalTime> getCloseArrivalTimesStream(CityBus cityBus, LocalTime currentTime) {
+        return cityBus.getArrivalTimes().stream()
+                .filter(currentTime.minusMinutes(1)::isBefore)
+                .filter(currentTime.plusMinutes(30)::isAfter);
     }
 }
