@@ -23,7 +23,7 @@ public class ScheduleController {
             @RequestParam(name = "year", required = false) Integer year,
             @RequestParam(name = "month", required = false) Integer month
     ) {
-        if(areYearAndMonthNull(year, month)) {
+        if(areYearOrMonthNull(year, month)) {
             year = LocalDate.now().getYear();
             month = LocalDate.now().getMonthValue();
         }
@@ -32,7 +32,7 @@ public class ScheduleController {
         return ResponseDto.of(responses);
     }
 
-    private boolean areYearAndMonthNull(Integer year, Integer month) {
+    private boolean areYearOrMonthNull(Integer year, Integer month) {
         return year == null || month == null;
     }
 
