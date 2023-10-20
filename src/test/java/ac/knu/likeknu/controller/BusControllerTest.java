@@ -6,6 +6,7 @@ import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.service.CityBusService;
+import ac.knu.likeknu.service.ShuttleBusService;
 import ac.knu.likeknu.utils.TestInstanceFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,8 @@ class BusControllerTest {
 
     @MockBean
     private CityBusService cityBusService;
+    @MockBean
+    private ShuttleBusService shuttleBusService;
 
     @DisplayName("캠퍼스별 시내버스 경로 목록 조회 API 요청에 성공한다.")
     @Test

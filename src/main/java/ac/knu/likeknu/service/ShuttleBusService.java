@@ -10,10 +10,12 @@ import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.repository.ShuttleBusRepository;
 import ac.knu.likeknu.repository.ShuttleRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
 
+@Transactional(readOnly = true)
 @Service
 public class ShuttleBusService {
 
