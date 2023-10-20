@@ -1,6 +1,5 @@
 package ac.knu.likeknu.domain;
 
-import ac.knu.likeknu.common.LocalTimeComparator;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -68,9 +67,9 @@ public class CityBus {
         LocalTime minimumTime = LocalTime.now().minusMinutes(1);
         LocalTime maximumTime = LocalTime.now().plusMinutes(60);
         return this.arrivalTimes.stream()
-                .filter(arrivalTimes -> LocalTimeComparator.compare(arrivalTimes, minimumTime) >= 0)
-                .filter(arrivalTimes -> LocalTimeComparator.compare(arrivalTimes, maximumTime) <= 0)
-                .min(LocalTimeComparator::compare)
+                .filter(minimumTime::isBefore)
+                .filter(maximumTime::isAfter)
+                .min(LocalTime::compareTo)
                 .orElse(null);
     }
 

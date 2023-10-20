@@ -14,7 +14,7 @@ public class CityBusesArrivalTimeResponse {
 
     private int arrivalId;
     private final String busNumber;
-    private String remainingTime;
+    private final String remainingTime;
     private final String arrivalTime;
     private final String busColor;
 
@@ -22,8 +22,9 @@ public class CityBusesArrivalTimeResponse {
     private final LocalTime arrivalAt;
 
     @Builder
-    public CityBusesArrivalTimeResponse(String busNumber, String arrivalTime, String busColor, LocalTime arrivalAt) {
+    public CityBusesArrivalTimeResponse(String busNumber, String remainingTime, String arrivalTime, String busColor, LocalTime arrivalAt) {
         this.busNumber = busNumber;
+        this.remainingTime = remainingTime;
         this.arrivalTime = arrivalTime;
         this.busColor = busColor;
         this.arrivalAt = arrivalAt;
@@ -33,22 +34,20 @@ public class CityBusesArrivalTimeResponse {
         this.arrivalId = sequence;
     }
 
-    public CityBusesArrivalTimeResponse updateRemainingTime(LocalTime currentTime) {
-        long remainingTime = Duration.between(currentTime, arrivalAt).toMinutes();
+    public static CityBusesArrivalTimeResponse of(CityBus cityBus, LocalTime arrivalTime, LocalTime currentTime) {
+        long remainingTime = Duration.between(currentTime, arrivalTime).toMinutes();
+        String remainingStatus;
         if (remainingTime <= 1) {
-            this.remainingTime = "곧 도착";
+            remainingStatus = "곧 도착";
         } else {
-            this.remainingTime = remainingTime + "분 뒤";
+            remainingStatus = remainingTime + "분 뒤";
         }
 
-        return this;
-    }
-
-    public static CityBusesArrivalTimeResponse of(CityBus cityBus, LocalTime arrivalTime) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         return CityBusesArrivalTimeResponse.builder()
                 .busNumber(cityBus.getBusNumber())
                 .arrivalTime(arrivalTime.format(dateTimeFormatter))
+                .remainingTime(remainingStatus)
                 .busColor(cityBus.getBusColor())
                 .arrivalAt(arrivalTime)
                 .build();
