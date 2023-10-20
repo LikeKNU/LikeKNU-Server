@@ -18,7 +18,7 @@ import java.util.Set;
 @Service
 public class AnnouncementService {
 
-    private static final int DEFAULT_ANNOUNCEMENT_PAGE_SIZE = 10;
+    private static final int DEFAULT_ANNOUNCEMENT_PAGE_SIZE = 15;
 
     private final AnnouncementRepository announcementRepository;
 
