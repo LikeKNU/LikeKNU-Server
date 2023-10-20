@@ -40,7 +40,7 @@ public class MainScheduleResponse {
 
     private static boolean isBetween(LocalDate startDate, LocalDate endDate) {
         LocalDate now = LocalDate.now();
-        return startDate.compareTo(now) >= 0 && endDate.compareTo(now) <=0;
+        return startDate.compareTo(now) >= 0 && endDate.compareTo(now) <= 0;
     }
 
     private static String dateParser(LocalDate startDate, LocalDate endDate) {
@@ -54,9 +54,6 @@ public class MainScheduleResponse {
     }
 
     private static String dateFormatter(LocalDate date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd");
-
-        return MonthDay.from(date).format(formatter) + "("
-                + date.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.KOREAN) + ")";
+        return date.format(DateTimeFormatter.ofPattern("MM/dd(E)"));
     }
 }
