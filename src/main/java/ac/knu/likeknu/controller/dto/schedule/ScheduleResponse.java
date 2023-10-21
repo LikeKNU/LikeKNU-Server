@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Getter
@@ -26,8 +27,8 @@ public class ScheduleResponse {
     }
 
     private static String generateCriterion(LocalDate date) {
-        return date.getMonthValue() == 1 ?
-                date.getYear() + "년 " + date.getMonthValue() + "월" :
-                date.getMonthValue() + "월";
+        return date.format(DateTimeFormatter.ofPattern(
+                date.getMonthValue() == 1 ? "yyyy년 MM월" : "MM월"
+        ));
     }
 }
