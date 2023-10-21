@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
@@ -19,21 +18,9 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @GetMapping
-    public ResponseDto<List<ScheduleResponse>> getSchedule(
-            @RequestParam(name = "year", required = false) Integer year,
-            @RequestParam(name = "month", required = false) Integer month
-    ) {
-        if(isYearOrMonthNull(year, month)) {
-            year = LocalDate.now().getYear();
-            month = LocalDate.now().getMonthValue();
-        }
-
-        List<ScheduleResponse> responses = scheduleService.getScheduleResponsesByYearAndMonth(year, month);
+    public ResponseDto<List<ScheduleResponse>> getSchedule() {
+        List<ScheduleResponse> responses = scheduleService.getScheduleResponsesOverAPeriodOfTime();
         return ResponseDto.of(responses);
-    }
-
-    private boolean isYearOrMonthNull(Integer year, Integer month) {
-        return year == null || month == null;
     }
 
 }
