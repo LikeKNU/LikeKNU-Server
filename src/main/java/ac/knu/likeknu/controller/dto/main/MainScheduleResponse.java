@@ -40,7 +40,7 @@ public class MainScheduleResponse {
 
     private static boolean isBetween(LocalDate startDate, LocalDate endDate) {
         LocalDate now = LocalDate.now();
-        return startDate.compareTo(now) >= 0 && endDate.compareTo(now) <= 0;
+        return !startDate.isBefore(now) && !endDate.isAfter(now);
     }
 
     private static String dateParser(LocalDate startDate, LocalDate endDate) {
