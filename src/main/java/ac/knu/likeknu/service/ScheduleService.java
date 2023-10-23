@@ -2,6 +2,7 @@ package ac.knu.likeknu.service;
 
 import ac.knu.likeknu.controller.dto.schedule.ScheduleListDto;
 import ac.knu.likeknu.controller.dto.schedule.ScheduleResponse;
+import ac.knu.likeknu.domain.AcademicCalendar;
 import ac.knu.likeknu.repository.AcademicCalendarRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,12 +24,11 @@ public class ScheduleService {
         return IntStream.rangeClosed(0, 7)
                 .mapToObj(index -> {
                     LocalDate plusDate = date.plusMonths(index);
-                    return ScheduleResponse.of(
-                            plusDate,
-                            academicCalendarRepository.findByStartDateBetween(plusDate, plusDate.withDayOfMonth(plusDate.getDayOfMonth())).stream()
-                                    .map(ScheduleListDto::of)
-                                    .collect(Collectors.toList())
-                    );
+                    List<AcademicCalendar> academicCalendars = academicCalendarRepository.findByStartDateBetween(plusDate, plusDate.withDayOfMonth(plusDate.getDayOfMonth()));
+                    List<ScheduleListDto> scheduleList = academicCalendars.stream()
+                            .map(ScheduleListDto::of)
+                            .collect(Collectors.toList());
+                    return ScheduleResponse.of(plusDate, scheduleList);
                 }).collect(Collectors.toList());
     }
 }
