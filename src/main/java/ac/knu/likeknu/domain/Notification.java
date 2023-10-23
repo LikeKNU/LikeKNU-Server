@@ -1,5 +1,6 @@
 package ac.knu.likeknu.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -16,22 +17,30 @@ public class Notification {
     @Id
     private String id;
 
+    @Column(nullable = false)
     private String notificationTitle;
 
+    @Column(nullable = false)
     private String notificationBody;
 
+    @Column(nullable = false)
     private LocalDate notificationDate;
 
-    private Boolean read;
+    @Column(nullable = false)
+    private String notificationUrl;
+
+    @Column(nullable = false)
+    private boolean read;
 
     protected Notification() {
     }
 
     @Builder
-    public Notification(String notificationTitle, String notificationBody, LocalDate notificationDate, Boolean read) {
+    public Notification(String notificationTitle, String notificationBody, LocalDate notificationDate, String notificationUrl, Boolean read) {
         this.notificationTitle = notificationTitle;
         this.notificationBody = notificationBody;
         this.notificationDate = notificationDate;
+        this.notificationUrl = notificationUrl;
         this.read = read;
     }
 }
