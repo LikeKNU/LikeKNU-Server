@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Table(name = "notification")
@@ -24,7 +24,7 @@ public class Notification {
     private String notificationBody;
 
     @Column(nullable = false)
-    private LocalDate notificationDate;
+    private LocalDateTime notificationDate;
 
     @Column(nullable = false)
     private String notificationUrl;
@@ -36,7 +36,7 @@ public class Notification {
     }
 
     @Builder
-    public Notification(String notificationTitle, String notificationBody, LocalDate notificationDate, String notificationUrl, Boolean read) {
+    public Notification(String notificationTitle, String notificationBody, LocalDateTime notificationDate, String notificationUrl, Boolean read) {
         this.notificationTitle = notificationTitle;
         this.notificationBody = notificationBody;
         this.notificationDate = notificationDate;
