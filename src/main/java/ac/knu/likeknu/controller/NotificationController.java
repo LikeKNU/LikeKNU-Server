@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.Duration;
+import java.time.Period;
 import java.util.List;
 
 @RequestMapping("/api/notifications")
@@ -29,7 +29,7 @@ public class NotificationController {
     ) {
         PageDto pageDto = PageDto.of(page);
         List<NotificationListResponse> notificationList =
-                notificationService.getNotificationList(deviceId, Duration.ofDays(30), pageDto);
+                notificationService.getNotificationList(deviceId, Period.ofDays(30), pageDto);
         return PageResponseDto.of(notificationList, pageDto);
     }
 }
