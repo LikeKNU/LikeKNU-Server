@@ -24,10 +24,13 @@ public class ScheduleService {
         return IntStream.rangeClosed(0, 7)
                 .mapToObj(index -> {
                     LocalDate plusDate = date.plusMonths(index);
-                    List<AcademicCalendar> academicCalendars = academicCalendarRepository.findByStartDateBetween(plusDate, plusDate.withDayOfMonth(plusDate.getDayOfMonth()));
+                    List<AcademicCalendar> academicCalendars = academicCalendarRepository.findByStartDateBetween(
+                            plusDate, plusDate.withDayOfMonth(plusDate.lengthOfMonth())
+                    );
                     List<ScheduleListDto> scheduleList = academicCalendars.stream()
                             .map(ScheduleListDto::of)
                             .collect(Collectors.toList());
+
                     return ScheduleResponse.of(plusDate, scheduleList);
                 }).collect(Collectors.toList());
     }
