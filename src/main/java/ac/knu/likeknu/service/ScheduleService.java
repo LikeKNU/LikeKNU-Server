@@ -19,7 +19,7 @@ public class ScheduleService {
     private final AcademicCalendarRepository academicCalendarRepository;
 
     public List<ScheduleResponse> getScheduleResponsesOverAPeriodOfTime() {
-        LocalDate date = LocalDate.now().minusMonths(1);
+        LocalDate date = LocalDate.now().withDayOfMonth(1).minusMonths(1);
 
         return IntStream.rangeClosed(0, 7)
                 .mapToObj(index -> {
