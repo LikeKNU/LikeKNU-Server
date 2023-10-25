@@ -6,6 +6,7 @@ import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.service.CityBusService;
+import ac.knu.likeknu.service.ShuttleBusService;
 import ac.knu.likeknu.utils.TestInstanceFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,8 @@ class BusControllerTest {
 
     @MockBean
     private CityBusService cityBusService;
+    @MockBean
+    private ShuttleBusService shuttleBusService;
 
     @DisplayName("캠퍼스별 시내버스 경로 목록 조회 API 요청에 성공한다.")
     @Test
@@ -95,18 +98,14 @@ class BusControllerTest {
 
         // when
         LocalTime currentTime = LocalTime.now();
-        CityBusesArrivalTimeResponse arrivalTime1 = CityBusesArrivalTimeResponse.of(cityBus1, currentTime);
-        CityBusesArrivalTimeResponse arrivalTime2 = CityBusesArrivalTimeResponse.of(cityBus2, currentTime.plusMinutes(1));
-        CityBusesArrivalTimeResponse arrivalTime3 = CityBusesArrivalTimeResponse.of(cityBus3, currentTime.plusMinutes(2));
-        CityBusesArrivalTimeResponse arrivalTime4 = CityBusesArrivalTimeResponse.of(cityBus4, currentTime.plusMinutes(3));
+        CityBusesArrivalTimeResponse arrivalTime1 = CityBusesArrivalTimeResponse.of(cityBus1, currentTime, currentTime);
+        CityBusesArrivalTimeResponse arrivalTime2 = CityBusesArrivalTimeResponse.of(cityBus2, currentTime.plusMinutes(1), currentTime);
+        CityBusesArrivalTimeResponse arrivalTime3 = CityBusesArrivalTimeResponse.of(cityBus3, currentTime.plusMinutes(2), currentTime);
+        CityBusesArrivalTimeResponse arrivalTime4 = CityBusesArrivalTimeResponse.of(cityBus4, currentTime.plusMinutes(3), currentTime);
         arrivalTime1.updateArrivalId(1);
         arrivalTime2.updateArrivalId(2);
         arrivalTime3.updateArrivalId(3);
         arrivalTime4.updateArrivalId(4);
-        arrivalTime1.updateRemainingTime(currentTime);
-        arrivalTime2.updateRemainingTime(currentTime);
-        arrivalTime3.updateRemainingTime(currentTime);
-        arrivalTime4.updateRemainingTime(currentTime);
 
         when(cityBusService.getCityBusesArrivalTime(eq(route.getId())))
                 .thenReturn(List.of(arrivalTime1, arrivalTime2, arrivalTime3, arrivalTime4));

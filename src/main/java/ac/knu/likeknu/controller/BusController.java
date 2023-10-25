@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalTime;
+import java.util.Collections;
 import java.util.List;
 
 @RequestMapping("/api/buses")
@@ -37,6 +39,9 @@ public class BusController {
 
     @GetMapping("/city-bus/{routeId}")
     public ResponseDto<List<CityBusesArrivalTimeResponse>> cityBusesArrivalTime(@PathVariable String routeId) {
+        if (LocalTime.now().isAfter(LocalTime.of(23, 30))) {
+            return ResponseDto.of(Collections.emptyList());
+        }
         List<CityBusesArrivalTimeResponse> cityBusesArrivalTime = cityBusService.getCityBusesArrivalTime(routeId);
         return ResponseDto.of(cityBusesArrivalTime);
     }
