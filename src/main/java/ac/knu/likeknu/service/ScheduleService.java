@@ -2,7 +2,6 @@ package ac.knu.likeknu.service;
 
 import ac.knu.likeknu.controller.dto.schedule.ScheduleListDto;
 import ac.knu.likeknu.controller.dto.schedule.ScheduleResponse;
-import ac.knu.likeknu.domain.AcademicCalendar;
 import ac.knu.likeknu.repository.AcademicCalendarRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -19,19 +17,15 @@ public class ScheduleService {
     private final AcademicCalendarRepository academicCalendarRepository;
 
     public List<ScheduleResponse> getScheduleResponsesOverAPeriodOfTime() {
-        LocalDate date = LocalDate.now().withDayOfMonth(1).minusMonths(1);
+        LocalDate startDate = LocalDate.now().withDayOfMonth(1).minusMonths(1);
+        LocalDate endDate = startDate.plusMonths(7);
 
-        return IntStream.rangeClosed(0, 7)
-                .mapToObj(index -> {
-                    LocalDate plusDate = date.plusMonths(index);
-                    List<AcademicCalendar> academicCalendars = academicCalendarRepository.findByStartDateBetween(
-                            plusDate, plusDate.withDayOfMonth(plusDate.lengthOfMonth())
-                    );
-                    List<ScheduleListDto> scheduleList = academicCalendars.stream()
-                            .map(ScheduleListDto::of)
-                            .collect(Collectors.toList());
-
-                    return ScheduleResponse.of(plusDate, scheduleList);
-                }).collect(Collectors.toList());
+        return academicCalendarRepository.findByStartDateBetween(startDate, endDate).stream()
+                .collect(Collectors.groupingBy(
+                        academicCalendar -> academicCalendar.getStartDate().withDayOfMonth(1),
+                        Collectors.mapping(ScheduleListDto::of, Collectors.toList())
+                )).entrySet().stream()
+                .map(entry -> ScheduleResponse.of(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
     }
 }
