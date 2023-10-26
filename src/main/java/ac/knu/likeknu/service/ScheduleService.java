@@ -19,6 +19,7 @@ public class ScheduleService {
     public List<ScheduleResponse> getScheduleResponsesOverAPeriodOfTime() {
         LocalDate startDate = LocalDate.now().withDayOfMonth(1).minusMonths(1);
         LocalDate endDate = startDate.plusMonths(7);
+        endDate = endDate.withDayOfMonth(endDate.lengthOfMonth());
 
         return academicCalendarRepository.findByStartDateBetween(startDate, endDate).stream()
                 .collect(Collectors.groupingBy(
