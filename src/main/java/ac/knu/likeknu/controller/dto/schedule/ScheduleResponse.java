@@ -33,7 +33,11 @@ public class ScheduleResponse {
     }
 
     private static String generateCriterion(LocalDate date) {
-        return date.format(DateTimeFormatter.ofPattern("MM월"));
+        return date.format(DateTimeFormatter.ofPattern(isNextYear(date) ? "yyyy년 MM월" : "MM월"));
+    }
+
+    private static boolean isNextYear(LocalDate date) {
+        return LocalDate.now().plusYears(1).getYear() == date.getYear();
     }
 
     public void setScheduleCriterionWithYear(LocalDate date) {
