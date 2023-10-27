@@ -33,8 +33,10 @@ public class ScheduleResponse {
     }
 
     private static String generateCriterion(LocalDate date) {
-        return date.format(DateTimeFormatter.ofPattern(
-                date.getMonthValue() == 1 ? "yyyy년 MM월" : "MM월"
-        ));
+        return date.format(DateTimeFormatter.ofPattern("MM월"));
+    }
+
+    public void setScheduleCriterionWithYear(LocalDate date) {
+        scheduleCriterion = date.format(DateTimeFormatter.ofPattern("yyyy년 MM월"));
     }
 }
