@@ -1,5 +1,6 @@
 package ac.knu.likeknu.controller.dto.schedule;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -13,16 +14,21 @@ public class ScheduleResponse {
     private String scheduleCriterion;
     private List<ScheduleListDto> ScheduleWrapper;
 
+    @JsonIgnore
+    private LocalDate localDate;
+
     @Builder
-    public ScheduleResponse(String scheduleCriterion, List<ScheduleListDto> scheduleWrapper) {
+    public ScheduleResponse(String scheduleCriterion, List<ScheduleListDto> scheduleWrapper, LocalDate localDate) {
         this.scheduleCriterion = scheduleCriterion;
-        ScheduleWrapper = scheduleWrapper;
+        this.ScheduleWrapper = scheduleWrapper;
+        this.localDate = localDate;
     }
 
     public static ScheduleResponse of(LocalDate date, List<ScheduleListDto> scheduleWrapper) {
         return ScheduleResponse.builder()
                 .scheduleCriterion(generateCriterion(date))
                 .scheduleWrapper(scheduleWrapper)
+                .localDate(date)
                 .build();
     }
 

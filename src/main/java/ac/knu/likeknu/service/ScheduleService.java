@@ -30,6 +30,7 @@ public class ScheduleService {
                         Collectors.mapping(ScheduleListDto::of, Collectors.toList())
                 )).entrySet().stream()
                 .map(entry -> ScheduleResponse.of(entry.getKey(), entry.getValue()))
+                .sorted(Comparator.comparing(ScheduleResponse::getLocalDate))
                 .collect(Collectors.toList());
     }
 }
