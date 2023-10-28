@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -19,11 +20,23 @@ public class ScheduleService {
 
     private final AcademicCalendarRepository academicCalendarRepository;
 
-    public List<ScheduleResponse> getScheduleResponsesOverAPeriodOfTime() {
+    public List<ScheduleResponse> getScheduleResponses() {
         LocalDate startDate = LocalDate.now().withDayOfMonth(1).minusMonths(1);
         LocalDate endDate = startDate.plusMonths(7);
         endDate = endDate.withDayOfMonth(endDate.lengthOfMonth());
 
+        List<ScheduleResponse> responses = new ArrayList<>();
+        if (startDate.getYear() == endDate.getYear()) {
+            responses.addAll(fetchScheduleResponses(startDate, endDate));
+        } else {
+            responses.addAll(fetchScheduleResponses(startDate, LocalDate.of(startDate.getYear(), 12, 31)));
+            responses.addAll(fetchScheduleResponses(LocalDate.of(endDate.getYear(), 1, 1), endDate));
+        }
+
+        return responses;
+    }
+
+    private List<ScheduleResponse> fetchScheduleResponses(LocalDate startDate, LocalDate endDate) {
         Map<LocalDate, List<ScheduleListDto>> list = academicCalendarRepository.findByStartDateBetween(startDate, endDate).stream()
                 .sorted(Comparator.comparing(AcademicCalendar::getStartDate))
                 .collect(Collectors.groupingBy(
@@ -39,4 +52,5 @@ public class ScheduleService {
 
         return response;
     }
+
 }

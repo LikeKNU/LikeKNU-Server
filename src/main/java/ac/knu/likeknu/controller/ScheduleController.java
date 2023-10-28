@@ -19,7 +19,7 @@ public class ScheduleController {
 
     @GetMapping
     public ResponseDto<List<ScheduleResponse>> getSchedule() {
-        List<ScheduleResponse> responses = scheduleService.getScheduleResponsesOverAPeriodOfTime();
+        List<ScheduleResponse> responses = scheduleService.getScheduleResponses();
         return ResponseDto.of(responses);
     }
 
