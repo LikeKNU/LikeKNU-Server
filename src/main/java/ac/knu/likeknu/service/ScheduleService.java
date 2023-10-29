@@ -48,7 +48,7 @@ public class ScheduleService {
                 .sorted(Comparator.comparing(ScheduleResponse::getLocalDate))
                 .collect(Collectors.toList());
 
-        response.stream().findFirst().ifPresent(sr -> sr.setScheduleCriterionWithYear(startDate));
+        response.stream().findFirst().ifPresent(sr -> sr.setScheduleCriterionWithYear(sr.getLocalDate()));
 
         return response;
     }
