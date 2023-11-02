@@ -18,7 +18,7 @@ public class DeviceController {
     private final DeviceService deviceService;
 
     @PostMapping
-    public ResponseDto<String> deviceRegistration(@RequestBody DeviceRegistrationRequest request) {
+    public ResponseDto<String> registerDevice(@RequestBody DeviceRegistrationRequest request) {
         ResponseEntity<String> responseEntity = deviceService.registerDeviceId(request);
         return ResponseDto.of(responseEntity.getBody());
     }
