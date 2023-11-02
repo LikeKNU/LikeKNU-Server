@@ -1,15 +1,8 @@
 package ac.knu.likeknu.domain;
 
+import ac.knu.likeknu.controller.dto.device.request.DeviceRegistrationRequest;
 import ac.knu.likeknu.domain.value.Campus;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -50,5 +43,13 @@ public class Device {
         this.fcmToken = fcmToken;
         this.campus = campus;
         this.registeredAt = registeredAt;
+    }
+
+    public static Device of(DeviceRegistrationRequest request) {
+        return Device.builder()
+                .id(request.getDeviceId())
+                .campus(Campus.SINGWAN)
+                .registeredAt(LocalDateTime.now())
+                .build();
     }
 }
