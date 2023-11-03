@@ -37,6 +37,9 @@ public class Device {
     private Campus campus;
 
     @Column(nullable = false)
+    private boolean notification;
+
+    @Column(nullable = false)
     private LocalDateTime registeredAt;
 
     @JoinTable(name = "device_notification",
@@ -55,10 +58,11 @@ public class Device {
     }
 
     @Builder
-    public Device(String id, String fcmToken, Campus campus, LocalDateTime registeredAt) {
+    public Device(String id, String fcmToken, Campus campus, boolean notification, LocalDateTime registeredAt) {
         this.id = id;
         this.fcmToken = fcmToken;
         this.campus = campus;
+        this.notification = notification;
         this.registeredAt = registeredAt;
     }
 }
