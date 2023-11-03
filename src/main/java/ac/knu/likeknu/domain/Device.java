@@ -65,4 +65,9 @@ public class Device {
         this.notification = notification;
         this.registeredAt = registeredAt;
     }
+
+    public void updateSubscribesTags(List<Tag> tags) {
+        subscribeTags.clear();
+        subscribeTags.addAll(tags);
+    }
 }

@@ -35,6 +35,7 @@ public class DevicesController {
     public ResponseDto<String> updateDeviceSubscribeTagList(
             @RequestBody SubscribeTagsUpdateRequest subscribeTagsUpdateRequest
     ) {
+        devicesService.updateSubscribeTagList(subscribeTagsUpdateRequest);
         return ResponseDto.of(null);
     }
 }
