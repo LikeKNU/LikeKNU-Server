@@ -45,6 +45,7 @@ public class Device {
     @ManyToMany
     private List<Notification> notifications = new ArrayList<>();
 
+    @Enumerated(value = EnumType.STRING)
     @CollectionTable(name = "subscribe", joinColumns = @JoinColumn(name = "device_id"))
     @Column(name = "tag")
     @ElementCollection(fetch = FetchType.LAZY)

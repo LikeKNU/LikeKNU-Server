@@ -1,7 +1,10 @@
 package ac.knu.likeknu.controller.dto.device;
 
-import lombok.Getter;
+import ac.knu.likeknu.domain.value.Tag;
 
-@Getter
 public record SubscribeTagListResponse(String tag) {
+
+    public static SubscribeTagListResponse of(Tag tag) {
+        return new SubscribeTagListResponse(tag.getTagName());
+    }
 }
