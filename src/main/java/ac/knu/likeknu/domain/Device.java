@@ -1,5 +1,6 @@
 package ac.knu.likeknu.domain;
 
+import ac.knu.likeknu.controller.dto.device.request.DeviceRegistrationRequest;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.Tag;
 import jakarta.persistence.CollectionTable;
@@ -64,6 +65,14 @@ public class Device {
         this.campus = campus;
         this.notification = notification;
         this.registeredAt = registeredAt;
+    }
+  
+    public static Device of(DeviceRegistrationRequest request) {
+        return Device.builder()
+                .id(request.getDeviceId())
+                .campus(Campus.SINGWAN)
+                .registeredAt(LocalDateTime.now())
+                .build();
     }
 
     public void updateSubscribesTags(List<Tag> tags) {
