@@ -5,8 +5,11 @@ import ac.knu.likeknu.controller.dto.device.request.CampusModificationRequest;
 import ac.knu.likeknu.controller.dto.device.request.DeviceRegistrationRequest;
 import ac.knu.likeknu.service.DeviceService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/devices")
@@ -17,8 +20,7 @@ public class DeviceController {
 
     @PostMapping
     public ResponseDto<String> registerDevice(@RequestBody DeviceRegistrationRequest request) {
-        ResponseEntity<String> responseEntity = deviceService.registerDeviceId(request);
-        return ResponseDto.of(responseEntity.getBody());
+        return ResponseDto.of(deviceService.registerDeviceId(request));
     }
 
     @PutMapping("/campus")
