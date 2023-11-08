@@ -25,7 +25,7 @@ public class DeviceController {
 
     @PutMapping("/campus")
     public ResponseDto<String> modifyCampus(@RequestBody CampusModificationRequest request) {
-        return ResponseDto.of("Campus has been changed successfully.");
+        return ResponseDto.of(deviceService.modifyCampusByDeviceId(request));
     }
 
 }

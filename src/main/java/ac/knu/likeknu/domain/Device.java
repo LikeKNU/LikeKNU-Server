@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class Device {
     @Column(unique = true)
     private String fcmToken;
 
+    @Setter
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private Campus campus;
