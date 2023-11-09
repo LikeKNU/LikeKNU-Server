@@ -13,19 +13,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class DeviceService {
 
     private final DeviceRepository deviceRepository;
 
-    @Transactional
     public void registerDeviceId(DeviceRegistrationRequest deviceRequest) {
         Device device = Device.of(deviceRequest);
         deviceRepository.save(device);
     }
 
-    @Transactional
     public void modifyCampusByDeviceId(CampusModificationRequest campusModificationRequest) {
         String deviceId = campusModificationRequest.getDeviceId();
         Device device = deviceRepository.findById(deviceId)
