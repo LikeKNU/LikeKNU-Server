@@ -20,12 +20,14 @@ public class DeviceController {
 
     @PostMapping
     public ResponseDto<String> registerDevice(@RequestBody DeviceRegistrationRequest request) {
-        return ResponseDto.of(deviceService.registerDeviceId(request));
+        deviceService.registerDeviceId(request);
+        return ResponseDto.of("The device was successfully registered.");
     }
 
     @PutMapping("/campus")
     public ResponseDto<String> modifyCampus(@RequestBody CampusModificationRequest request) {
-        return ResponseDto.of(deviceService.modifyCampusByDeviceId(request));
+        deviceService.modifyCampusByDeviceId(request);
+        return ResponseDto.of("Campus has been changed successfully.");
     }
 
 }

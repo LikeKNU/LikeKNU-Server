@@ -4,6 +4,7 @@ import ac.knu.likeknu.controller.dto.device.request.CampusModificationRequest;
 import ac.knu.likeknu.controller.dto.device.request.DeviceRegistrationRequest;
 import ac.knu.likeknu.domain.Device;
 import ac.knu.likeknu.domain.value.Campus;
+import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.repository.DeviceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,28 +20,18 @@ public class DeviceService {
     private final DeviceRepository deviceRepository;
 
     @Transactional
-    public String registerDeviceId(DeviceRegistrationRequest deviceRequest) {
-        if (!isDeviceIdExist(deviceRequest.getDeviceId())) {
-            deviceRepository.save(Device.of(deviceRequest));
-            return "You have successfully registered your device.";
-        }
-
-        return "The device is already registered.";
+    public void registerDeviceId(DeviceRegistrationRequest deviceRequest) {
+        Device device = Device.of(deviceRequest);
+        deviceRepository.save(device);
     }
 
-    public String modifyCampusByDeviceId(CampusModificationRequest campusModificationRequest) {
+    @Transactional
+    public void modifyCampusByDeviceId(CampusModificationRequest campusModificationRequest) {
         String deviceId = campusModificationRequest.getDeviceId();
-        if (isDeviceIdExist(deviceId)) {
-            Campus campus = Campus.valueOf(campusModificationRequest.getCampus());
-            deviceRepository.findById(deviceId).get().setCampus(campus);
+        Device device = deviceRepository.findById(deviceId)
+                .orElseThrow(() -> new BusinessException("deviceId does not exist."));
 
-            return "Campus has been changed successfully.";
-        }
-
-        return "deviceId does not exist.";
+        device.setCampus(Campus.valueOf(campusModificationRequest.getCampus()));
     }
 
-    private boolean isDeviceIdExist(String deviceId) {
-        return deviceRepository.findById(deviceId).isPresent();
-    }
 }
