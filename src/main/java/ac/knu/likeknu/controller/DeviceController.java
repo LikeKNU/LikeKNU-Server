@@ -3,6 +3,7 @@ package ac.knu.likeknu.controller;
 import ac.knu.likeknu.controller.dto.base.ResponseDto;
 import ac.knu.likeknu.controller.dto.device.request.CampusModificationRequest;
 import ac.knu.likeknu.controller.dto.device.request.DeviceRegistrationRequest;
+import ac.knu.likeknu.controller.dto.device.request.DeviceTokenRequest;
 import ac.knu.likeknu.service.DeviceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,4 +31,8 @@ public class DeviceController {
         return ResponseDto.of("Campus has been changed successfully.");
     }
 
+    @PostMapping("/token")
+    public ResponseDto<String> registerTokenByDevice(@RequestBody DeviceTokenRequest request) {
+        return ResponseDto.of("The token is well registered.");
+    }
 }
