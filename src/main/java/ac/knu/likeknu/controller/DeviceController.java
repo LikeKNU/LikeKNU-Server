@@ -33,6 +33,7 @@ public class DeviceController {
 
     @PostMapping("/token")
     public ResponseDto<String> registerTokenByDevice(@RequestBody DeviceTokenRequest request) {
+        deviceService.registerTokenByDevice(request);
         return ResponseDto.of("The token is well registered.");
     }
 }
