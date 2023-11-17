@@ -1,7 +1,7 @@
 package ac.knu.likeknu.service;
 
 import ac.knu.likeknu.controller.dto.citybus.CityBusesArrivalTimeResponse;
-import ac.knu.likeknu.controller.dto.citybus.RouteListResponse;
+import ac.knu.likeknu.controller.dto.citybus.CityBusesResponse;
 import ac.knu.likeknu.controller.dto.main.MainCityBusResponse;
 import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
@@ -96,16 +96,16 @@ class CityBusServiceTest {
         // when
         when(routeRepository.findByCampus(eq(Campus.CHEONAN), any(Sort.class)))
                 .thenReturn(List.of(route1, route2, route3));
-        List<RouteListResponse> routeList = cityBusService.getRouteList(Campus.CHEONAN);
+        List<CityBusesResponse> routeList = cityBusService.getRouteList(Campus.CHEONAN);
 
         // then
-        RouteListResponse routeListResponse = routeList.get(0);
+        CityBusesResponse cityBusesResponse = routeList.get(0);
         assertAll(
                 () -> assertThatList(routeList).isNotEmpty(),
                 () -> assertThatList(routeList).hasSize(3),
-                () -> assertThat(routeListResponse.getRouteId()).isEqualTo(route1.getId()),
-                () -> assertThat(routeListResponse.getDepartureStop()).isEqualTo(route1.getDepartureStop()),
-                () -> assertThat(routeListResponse.getArrivalStop()).isEqualTo(route1.getArrivalStop())
+                () -> assertThat(cityBusesResponse.getRouteId()).isEqualTo(route1.getId()),
+                () -> assertThat(cityBusesResponse.getDepartureStop()).isEqualTo(route1.getDepartureStop()),
+                () -> assertThat(cityBusesResponse.getArrivalStop()).isEqualTo(route1.getArrivalStop())
         );
     }
 

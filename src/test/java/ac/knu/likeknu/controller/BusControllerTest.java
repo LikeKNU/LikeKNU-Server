@@ -1,7 +1,7 @@
 package ac.knu.likeknu.controller;
 
 import ac.knu.likeknu.controller.dto.citybus.CityBusesArrivalTimeResponse;
-import ac.knu.likeknu.controller.dto.citybus.RouteListResponse;
+import ac.knu.likeknu.controller.dto.citybus.CityBusesResponse;
 import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
 import ac.knu.likeknu.domain.value.Campus;
@@ -52,9 +52,9 @@ class BusControllerTest {
 
         // when
         when(cityBusService.getRouteList(eq(Campus.CHEONAN))).thenReturn(List.of(
-                RouteListResponse.of(route1),
-                RouteListResponse.of(route2),
-                RouteListResponse.of(route3)
+                CityBusesResponse.of(route1),
+                CityBusesResponse.of(route2),
+                CityBusesResponse.of(route3)
         ));
         ResultActions resultActions = mockMvc.perform(get("/api/buses/city-bus/routes")
                 .queryParam("campus", "CHEONAN"));
