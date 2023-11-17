@@ -84,16 +84,16 @@ class BusControllerTest {
         // then
         incomingResultActions.andExpectAll(
                 status().isOk(),
-                jsonPath("$.data.body.[0].origin").value(route1.getId()),
-                jsonPath("$.data.body.[0].destination").value(route1.getId()),
+                jsonPath("$.data.body.[0].origin").value(route1.getOrigin()),
+                jsonPath("$.data.body.[0].destination").value(route1.getDestination()),
                 jsonPath("$.data.body.[0].departureStop").value(route1.getDepartureStop()),
                 jsonPath("$.data.body.[0].buses.[0].busNumber").value(cityBus1.getBusNumber())
         ).andDo(print());
 
-        incomingResultActions.andExpectAll(
+        outgoingResultActions.andExpectAll(
                 status().isOk(),
-                jsonPath("$.data.body.[0].origin").value(route3.getId()),
-                jsonPath("$.data.body.[0].destination").value(route3.getId()),
+                jsonPath("$.data.body.[0].origin").value(route3.getOrigin()),
+                jsonPath("$.data.body.[0].destination").value(route3.getDestination()),
                 jsonPath("$.data.body.[0].departureStop").value(route3.getDepartureStop()),
                 jsonPath("$.data.body.[0].buses.[0].busNumber").value(cityBus2.getBusNumber())
         ).andDo(print());
