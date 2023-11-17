@@ -25,6 +25,8 @@ import java.util.stream.Stream;
 @Service
 public class CityBusService {
 
+    private static final int MAX_BUSES_SIZE = 5;
+
     private final RouteRepository routeRepository;
     private final CityBusRepository cityBusRepository;
 
@@ -80,6 +82,7 @@ public class CityBusService {
                 .flatMap(cityBus -> getCloseArrivalTimesStream(cityBus, currentTime)
                         .map(arrivalTime -> CityBusesArrivalTimeResponse.of(cityBus, arrivalTime, currentTime)))
                 .sorted(Comparator.comparing(CityBusesArrivalTimeResponse::arrivalAt))
+                .limit(MAX_BUSES_SIZE)
                 .toList();
     }
 
