@@ -26,8 +26,8 @@ public record MainCityBusResponse(String routeId, String origin, String destinat
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         return MainCityBusResponse.builder()
                 .routeId(route.getId())
-                .origin(route.getDepartureStop())
-                .destination(route.getArrivalStop())
+                .origin(route.getOrigin())
+                .destination(route.getDestination())
                 .busNumber(cityBus.getBusNumber())
                 .remainingTime(remainingTime <= 1 ? "곧 도착" : remainingTime + "분 뒤")
                 .arrivalTime(earliestArrivalTime.format(dateTimeFormatter))
