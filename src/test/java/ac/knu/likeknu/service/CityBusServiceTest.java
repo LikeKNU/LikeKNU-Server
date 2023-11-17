@@ -74,9 +74,9 @@ class CityBusServiceTest {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         assertAll(
                 () -> assertThatList(earliestCityBuses).size().isEqualTo(3),
-                () -> assertThat(mainCityBusResponse.getArrivalTime()).isEqualTo(LocalTime.now().format(dateTimeFormatter)),
-                () -> assertThat(mainCityBusResponse.getRemainingTime()).isEqualTo("곧 도착"),
-                () -> assertThat(mainCityBusResponse.getBusNumber()).isEqualTo("110")
+                () -> assertThat(mainCityBusResponse.arrivalTime()).isEqualTo(LocalTime.now().format(dateTimeFormatter)),
+                () -> assertThat(mainCityBusResponse.remainingTime()).isEqualTo("곧 도착"),
+                () -> assertThat(mainCityBusResponse.busNumber()).isEqualTo("110")
         );
     }
 
