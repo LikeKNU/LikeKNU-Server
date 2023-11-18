@@ -69,7 +69,7 @@ public class Device {
 
     public static Device of(DeviceRegistrationRequest request) {
         return Device.builder()
-                .id(request.getDeviceId())
+                .id(request.deviceId())
                 .campus(Campus.SINGWAN)
                 .registeredAt(LocalDateTime.now())
                 .build();

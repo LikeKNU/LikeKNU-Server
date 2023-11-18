@@ -26,18 +26,18 @@ public class DeviceService {
     }
 
     public void modifyCampusByDeviceId(CampusModificationRequest campusModificationRequest) {
-        String deviceId = campusModificationRequest.getDeviceId();
+        String deviceId = campusModificationRequest.deviceId();
         Device device = deviceRepository.findById(deviceId)
                 .orElseThrow(() -> new BusinessException(String.format("deviceId: %s does not exist.", deviceId)));
 
-        device.setCampus(Campus.valueOf(campusModificationRequest.getCampus()));
+        device.setCampus(Campus.valueOf(campusModificationRequest.campus()));
     }
 
     public void registerTokenByDevice(DeviceTokenRequest tokenRequest) {
-        String deviceId = tokenRequest.getDeviceId();
+        String deviceId = tokenRequest.deviceId();
         Device device = deviceRepository.findById(deviceId)
                 .orElseThrow(() -> new BusinessException(String.format("deviceId: %s does not exist.", deviceId)));
-        device.setFcmToken(tokenRequest.getToken());
+        device.setFcmToken(tokenRequest.token());
     }
 
 }
