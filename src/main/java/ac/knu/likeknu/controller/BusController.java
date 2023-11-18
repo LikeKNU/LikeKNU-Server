@@ -5,6 +5,7 @@ import ac.knu.likeknu.controller.dto.citybus.CityBusesResponse;
 import ac.knu.likeknu.controller.dto.shuttlebus.ShuttleBusesArrivalTimeResponse;
 import ac.knu.likeknu.controller.dto.shuttlebus.ShuttleListResponse;
 import ac.knu.likeknu.domain.value.Campus;
+import ac.knu.likeknu.domain.value.RouteType;
 import ac.knu.likeknu.service.CityBusService;
 import ac.knu.likeknu.service.ShuttleBusService;
 import org.springframework.web.bind.annotation.GetMapping;
