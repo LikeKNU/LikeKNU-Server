@@ -1,23 +1,32 @@
 package ac.knu.likeknu.controller;
 
 import ac.knu.likeknu.controller.dto.base.ResponseDto;
+import ac.knu.likeknu.controller.dto.device.SubscribeTagListResponse;
+import ac.knu.likeknu.controller.dto.device.SubscribeTagsUpdateRequest;
 import ac.knu.likeknu.controller.dto.device.request.CampusModificationRequest;
 import ac.knu.likeknu.controller.dto.device.request.DeviceRegistrationRequest;
 import ac.knu.likeknu.controller.dto.device.request.DeviceTokenRequest;
+import ac.knu.likeknu.controller.dto.device.response.TurnOnNotificationResponse;
 import ac.knu.likeknu.service.DeviceService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+import java.util.List;
+
 @RequestMapping("/api/devices")
-@RequiredArgsConstructor
+@RestController
 public class DeviceController {
 
     private final DeviceService deviceService;
+
+    public DeviceController(DeviceService deviceService) {
+        this.deviceService = deviceService;
+    }
 
     @PostMapping
     public ResponseDto<String> registerDevice(@RequestBody DeviceRegistrationRequest request) {
@@ -35,5 +44,29 @@ public class DeviceController {
     public ResponseDto<String> registerTokenByDevice(@RequestBody DeviceTokenRequest request) {
         deviceService.registerTokenByDevice(request);
         return ResponseDto.of("The token is well registered.");
+    }
+
+    @GetMapping("/subscribes")
+    public ResponseDto<List<SubscribeTagListResponse>> deviceSubscribeTagList(
+            @RequestParam("deviceId") String deviceId
+    ) {
+        List<SubscribeTagListResponse> subscribeTagList = deviceService.getSubscribeTagList(deviceId);
+        return ResponseDto.of(subscribeTagList);
+    }
+
+    @PutMapping("/subscribes")
+    public ResponseDto<String> updateDeviceSubscribeTagList(
+            @RequestBody SubscribeTagsUpdateRequest subscribeTagsUpdateRequest
+    ) {
+        deviceService.updateSubscribeTagList(subscribeTagsUpdateRequest);
+        return ResponseDto.of(null);
+    }
+
+    @GetMapping("/notifications")
+    public ResponseDto<TurnOnNotificationResponse> whetherDeviceTurnOnNotifications(
+            @RequestParam("deviceId") String deviceId
+    ) {
+        boolean isTurnOn = deviceService.isTurnOnPushNotifications(deviceId);
+        return ResponseDto.of(new TurnOnNotificationResponse(isTurnOn));
     }
 }
