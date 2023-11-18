@@ -4,6 +4,7 @@ import ac.knu.likeknu.controller.dto.device.SubscribeTagListResponse;
 import ac.knu.likeknu.controller.dto.device.SubscribeTagsUpdateRequest;
 import ac.knu.likeknu.controller.dto.device.TagName;
 import ac.knu.likeknu.controller.dto.device.request.CampusModificationRequest;
+import ac.knu.likeknu.controller.dto.device.request.ChangeNotificationRequest;
 import ac.knu.likeknu.controller.dto.device.request.DeviceRegistrationRequest;
 import ac.knu.likeknu.controller.dto.device.request.DeviceTokenRequest;
 import ac.knu.likeknu.domain.Device;
@@ -87,5 +88,14 @@ public class DeviceService {
         Device device = deviceRepository.findById(deviceId)
                 .orElseThrow(() -> new BusinessException(String.format("Device not found! [%s]", deviceId)));
         return device.isTurnOnNotification();
+    }
+
+    @Transactional
+    public void changeDeviceNotifications(ChangeNotificationRequest request) {
+        String deviceId = request.deviceId();
+        Device device = deviceRepository.findById(deviceId)
+                .orElseThrow(() -> new BusinessException(String.format("Device not found! [%s]", deviceId)));
+
+        device.updateNotification(request.notification());
     }
 }

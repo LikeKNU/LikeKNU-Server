@@ -4,6 +4,7 @@ import ac.knu.likeknu.controller.dto.base.ResponseDto;
 import ac.knu.likeknu.controller.dto.device.SubscribeTagListResponse;
 import ac.knu.likeknu.controller.dto.device.SubscribeTagsUpdateRequest;
 import ac.knu.likeknu.controller.dto.device.request.CampusModificationRequest;
+import ac.knu.likeknu.controller.dto.device.request.ChangeNotificationRequest;
 import ac.knu.likeknu.controller.dto.device.request.DeviceRegistrationRequest;
 import ac.knu.likeknu.controller.dto.device.request.DeviceTokenRequest;
 import ac.knu.likeknu.controller.dto.device.response.TurnOnNotificationResponse;
@@ -68,5 +69,13 @@ public class DeviceController {
     ) {
         boolean isTurnOn = deviceService.isTurnOnPushNotifications(deviceId);
         return ResponseDto.of(new TurnOnNotificationResponse(isTurnOn));
+    }
+
+    @PutMapping("/notifications")
+    public ResponseDto<String> updateTurnOnDeviceNotifications(
+            @RequestBody ChangeNotificationRequest request
+    ) {
+        deviceService.changeDeviceNotifications(request);
+        return ResponseDto.of("Device push notification settings have been changed.");
     }
 }

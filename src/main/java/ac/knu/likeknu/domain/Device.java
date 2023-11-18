@@ -81,4 +81,8 @@ public class Device {
         subscribeTags.clear();
         subscribeTags.addAll(tags);
     }
+
+    public void updateNotification(boolean isTurnOnNotification) {
+        this.isTurnOnNotification = isTurnOnNotification;
+    }
 }
