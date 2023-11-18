@@ -1,7 +1,11 @@
 package ac.knu.likeknu.service;
 
+import ac.knu.likeknu.controller.dto.device.request.CampusModificationRequest;
 import ac.knu.likeknu.controller.dto.device.request.DeviceRegistrationRequest;
+import ac.knu.likeknu.controller.dto.device.request.DeviceTokenRequest;
 import ac.knu.likeknu.domain.Device;
+import ac.knu.likeknu.domain.value.Campus;
+import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.repository.DeviceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,23 +14,30 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class DeviceService {
 
     private final DeviceRepository deviceRepository;
 
-    @Transactional
-    public String registerDeviceId(DeviceRegistrationRequest deviceRequest) {
-        if (!IsDeviceIdExist(deviceRequest.getDeviceId())) {
-            deviceRepository.save(Device.of(deviceRequest));
-            return "You have successfully registered your device.";
-        }
-
-        return "The device is already registered.";
+    public void registerDeviceId(DeviceRegistrationRequest deviceRequest) {
+        Device device = Device.of(deviceRequest);
+        deviceRepository.save(device);
     }
 
-    private boolean IsDeviceIdExist(String deviceId) {
-        return deviceRepository.findById(deviceId).isPresent();
+    public void modifyCampusByDeviceId(CampusModificationRequest campusModificationRequest) {
+        String deviceId = campusModificationRequest.getDeviceId();
+        Device device = deviceRepository.findById(deviceId)
+                .orElseThrow(() -> new BusinessException(String.format("deviceId: %s does not exist.", deviceId)));
+
+        device.setCampus(Campus.valueOf(campusModificationRequest.getCampus()));
     }
+
+    public void registerTokenByDevice(DeviceTokenRequest tokenRequest) {
+        String deviceId = tokenRequest.getDeviceId();
+        Device device = deviceRepository.findById(deviceId)
+                .orElseThrow(() -> new BusinessException(String.format("deviceId: %s does not exist.", deviceId)));
+        device.setFcmToken(tokenRequest.getToken());
+    }
+
 }

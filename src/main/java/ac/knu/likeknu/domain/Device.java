@@ -17,6 +17,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,15 +31,14 @@ public class Device {
     @Id
     private String id;
 
+    @Setter
     @Column(unique = true)
     private String fcmToken;
 
+    @Setter
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private Campus campus;
-
-    @Column(nullable = false)
-    private boolean notification;
 
     @Column(nullable = false)
     private LocalDateTime registeredAt;
@@ -55,18 +55,18 @@ public class Device {
     @ElementCollection(fetch = FetchType.LAZY)
     private List<Tag> subscribeTags = new ArrayList<>();
 
+
     protected Device() {
     }
 
     @Builder
-    public Device(String id, String fcmToken, Campus campus, boolean notification, LocalDateTime registeredAt) {
+    public Device(String id, String fcmToken, Campus campus, LocalDateTime registeredAt) {
         this.id = id;
         this.fcmToken = fcmToken;
         this.campus = campus;
-        this.notification = notification;
         this.registeredAt = registeredAt;
     }
-  
+
     public static Device of(DeviceRegistrationRequest request) {
         return Device.builder()
                 .id(request.getDeviceId())
