@@ -2,6 +2,7 @@ package ac.knu.likeknu.service;
 
 import ac.knu.likeknu.controller.dto.device.request.CampusModificationRequest;
 import ac.knu.likeknu.controller.dto.device.request.DeviceRegistrationRequest;
+import ac.knu.likeknu.controller.dto.device.request.DeviceTokenRequest;
 import ac.knu.likeknu.domain.Device;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.exception.BusinessException;
@@ -27,9 +28,16 @@ public class DeviceService {
     public void modifyCampusByDeviceId(CampusModificationRequest campusModificationRequest) {
         String deviceId = campusModificationRequest.getDeviceId();
         Device device = deviceRepository.findById(deviceId)
-                .orElseThrow(() -> new BusinessException("deviceId does not exist."));
+                .orElseThrow(() -> new BusinessException(String.format("deviceId: %s does not exist.", deviceId)));
 
         device.setCampus(Campus.valueOf(campusModificationRequest.getCampus()));
+    }
+
+    public void registerTokenByDevice(DeviceTokenRequest tokenRequest) {
+        String deviceId = tokenRequest.getDeviceId();
+        Device device = deviceRepository.findById(deviceId)
+                .orElseThrow(() -> new BusinessException(String.format("deviceId: %s does not exist.", deviceId)));
+        device.setFcmToken(tokenRequest.getToken());
     }
 
 }

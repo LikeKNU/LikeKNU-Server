@@ -3,5 +3,5 @@ package ac.knu.likeknu.controller.dto.device.request;
 import lombok.Getter;
 
 @Getter
-public record CampusModificationRequest(String deviceId, String campus) {
+public record DeviceTokenRequest(String deviceId, String token) {
 }

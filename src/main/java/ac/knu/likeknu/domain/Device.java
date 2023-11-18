@@ -31,6 +31,7 @@ public class Device {
     @Id
     private String id;
 
+    @Setter
     @Column(unique = true)
     private String fcmToken;
 
