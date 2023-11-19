@@ -49,7 +49,8 @@ public class ShuttleBusService {
     public List<ShuttleBusesArrivalTimeResponse> getShuttleBusesArrivalTime(String shuttleId) {
         Shuttle shuttle = shuttleRepository.findById(shuttleId)
                 .orElseThrow(() -> new BusinessException(String.format("Shuttle not found [%s]", shuttleId)));
-        return shuttleBusRepository.findByShuttle(shuttle).stream()
+        return shuttleBusRepository.findByShuttle(shuttle)
+                .stream()
                 .sorted(Comparator.comparing(ShuttleBus::getDepartureTime))
                 .map(ShuttleBusesArrivalTimeResponse::of)
                 .toList();
