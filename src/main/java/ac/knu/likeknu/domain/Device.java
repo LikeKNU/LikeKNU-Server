@@ -40,6 +40,9 @@ public class Device {
     @Column(nullable = false)
     private Campus campus;
 
+    @Column(name = "notification", nullable = false)
+    private boolean isTurnOnNotification;
+
     @Column(nullable = false)
     private LocalDateTime registeredAt;
 
@@ -54,7 +57,6 @@ public class Device {
     @Column(name = "tag")
     @ElementCollection(fetch = FetchType.LAZY)
     private List<Tag> subscribeTags = new ArrayList<>();
-
 
     protected Device() {
     }
@@ -78,5 +80,9 @@ public class Device {
     public void updateSubscribesTags(List<Tag> tags) {
         subscribeTags.clear();
         subscribeTags.addAll(tags);
+    }
+
+    public void updateNotification(boolean isTurnOnNotification) {
+        this.isTurnOnNotification = isTurnOnNotification;
     }
 }
