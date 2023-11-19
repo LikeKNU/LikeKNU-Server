@@ -1,45 +1,47 @@
-name: CI
+name: Deploy to AWS CodeDeploy
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
-  # 위의 trigger가 없어도 수동으로 동작 할 수 있게끔 해주는 역할
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build" 
-  build:
+  deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: checkout release
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      # Runs a single command using the runners shell
-      - name: Clean temp directory
-        run: |
-          rm -rf *
-          cp -r $GITHUB_WORKSPACE . 
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
 
-      - name: archive drcloud
-        run: tar cvfz ./drcloud.tar.gz *
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
-      - name: AWS configure credentials
+      - name: Build Spring Boot application
+        run: ./gradlew clean build
+
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.SECRET_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
-      - name: upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./drcloud.tar.gz s3://github-action-codedeploy-s3/archive/
+      - name: Upload S3
+        run: aws deploy push
+          --application-name LikeKNU
+          --ignore-hidden-files
+          --s3-location s3://like-knu-bucket/archive/$GITHUB_SHA.zip
+          --source .
 
-      - name: deploy with AWS codeDeploy
+      - name: EC2에 배포
         run: aws deploy create-deployment
-          --application-name githubaction-test
-          --deployment-config-name CodeDeployDefault.OneAtATime
-          --deployment-group-name githubaction-test-group
-          --s3-location bucket=github-action-codedeploy-s3,bundleType=tgz,key=archive/drcloud.tar.gz
+          --application-name LikeKNU
+          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --deployment-group-name LikeKNU-Deployment-group
+          --s3-location bucket=like-knu-bucket,key=archive/$GITHUB_SHA.zip,bundleType=zip
