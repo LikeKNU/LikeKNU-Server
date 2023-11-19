@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ROOT_PATH="/home/ec2-user/deploy"
+ROOT_PATH="/home/ec2-user"
 JAR="$ROOT_PATH/application.jar"
 
 APP_LOG="$ROOT_PATH/application.log"
