@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 @Getter
 public class ScheduleListDto {
@@ -30,21 +31,21 @@ public class ScheduleListDto {
         LocalDate startDate = academicCalendar.getStartDate();
         LocalDate endDate = academicCalendar.getEndDate();
 
-        if(isSameDate(startDate, endDate))
+        if (isSameDate(startDate, endDate))
             return parseLocalDate(startDate);
 
-        if(isSameMonth(startDate, endDate))
+        if (isSameMonth(startDate, endDate))
             return parseLocalDate(startDate) + " ~ " + parseLocalDate(endDate);
 
         return parseLocalDate(startDate) + " ~ " + parseLocalDateWithMonth(endDate);
     }
 
     private static String parseLocalDate(LocalDate localDate) {
-        return localDate.format(DateTimeFormatter.ofPattern("dd일(E)"));
+        return localDate.format(DateTimeFormatter.ofPattern("dd일(E)", Locale.KOREA));
     }
 
     private static String parseLocalDateWithMonth(LocalDate localDate) {
-        return localDate.format(DateTimeFormatter.ofPattern("MM월 dd일(E)"));
+        return localDate.format(DateTimeFormatter.ofPattern("MM월 dd일(E)", Locale.KOREA));
     }
 
     private static boolean isSameDate(LocalDate date1, LocalDate date2) {
