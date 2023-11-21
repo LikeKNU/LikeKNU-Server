@@ -5,9 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.time.MonthDay;
 import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
 import java.util.Locale;
 
 @Getter
@@ -54,6 +52,6 @@ public class MainScheduleResponse {
     }
 
     private static String dateFormatter(LocalDate date) {
-        return date.format(DateTimeFormatter.ofPattern("MM/dd(E)"));
+        return date.format(DateTimeFormatter.ofPattern("MM/dd(EEEEE)", Locale.KOREA));
     }
 }
