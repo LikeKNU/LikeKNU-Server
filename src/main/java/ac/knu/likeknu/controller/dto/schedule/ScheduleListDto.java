@@ -41,11 +41,11 @@ public class ScheduleListDto {
     }
 
     private static String parseLocalDate(LocalDate localDate) {
-        return localDate.format(DateTimeFormatter.ofPattern("dd일(E)", Locale.KOREA));
+        return localDate.format(DateTimeFormatter.ofPattern("dd일(EEEEE)", Locale.KOREA));
     }
 
     private static String parseLocalDateWithMonth(LocalDate localDate) {
-        return localDate.format(DateTimeFormatter.ofPattern("MM월 dd일(E)", Locale.KOREA));
+        return localDate.format(DateTimeFormatter.ofPattern("MM월 dd일(EEEEE)", Locale.KOREA));
     }
 
     private static boolean isSameDate(LocalDate date1, LocalDate date2) {
