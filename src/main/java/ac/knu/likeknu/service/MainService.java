@@ -50,9 +50,7 @@ public class MainService {
         List<Cafeteria> cafeterias = cafeteriaRepository.findByCampus(campus);
         return cafeterias.stream()
                 .sorted(Comparator.comparing(cafeteria -> cafeteria.getCafeteriaName().getSequence()))
-                .map(cafeteria -> menuRepository.findByMenuDateAndCafeteriaAndMealType(LocalDate.now(), cafeteria, MealType.now())
-                        .map(menu -> MainMenuResponse.of(cafeteria, menu.getMenus()))
-                        .orElse(MainMenuResponse.empty(cafeteria)))
+                .map(this::findAndGenerateMenuResponse)
                 .collect(Collectors.toList());
     }
 
@@ -64,5 +62,11 @@ public class MainService {
         return calendarList.stream()
                 .map(MainScheduleResponse::of)
                 .collect(Collectors.toList());
+    }
+
+    private MainMenuResponse findAndGenerateMenuResponse(Cafeteria cafeteria) {
+        return menuRepository.findByMenuDateAndCafeteriaAndMealType(LocalDate.now(), cafeteria, MealType.now())
+                .map(menu -> MainMenuResponse.of(cafeteria, menu.getMenus()))
+                .orElse(MainMenuResponse.empty(cafeteria));
     }
 }
