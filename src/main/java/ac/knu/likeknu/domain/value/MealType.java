@@ -26,6 +26,6 @@ public enum MealType {
         return Stream.of(MealType.values())
                 .filter((MealType m) -> m.getHour() > hour)
                 .findFirst()
-                .orElse(BREAKFAST);
+                .orElse(DINNER);
     }
 }
