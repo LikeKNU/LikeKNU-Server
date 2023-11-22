@@ -1,12 +1,12 @@
 package ac.knu.likeknu.controller;
 
 import ac.knu.likeknu.controller.dto.base.ResponseDto;
-import ac.knu.likeknu.controller.dto.device.SubscribeTagListResponse;
-import ac.knu.likeknu.controller.dto.device.SubscribeTagsUpdateRequest;
 import ac.knu.likeknu.controller.dto.device.request.CampusModificationRequest;
 import ac.knu.likeknu.controller.dto.device.request.ChangeNotificationRequest;
 import ac.knu.likeknu.controller.dto.device.request.DeviceRegistrationRequest;
 import ac.knu.likeknu.controller.dto.device.request.DeviceTokenRequest;
+import ac.knu.likeknu.controller.dto.device.request.SubscribeTagsUpdateRequest;
+import ac.knu.likeknu.controller.dto.device.response.SubscribeTagListResponse;
 import ac.knu.likeknu.controller.dto.device.response.TurnOnNotificationResponse;
 import ac.knu.likeknu.service.DeviceService;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package ac.knu.likeknu.controller.dto.device;
+package ac.knu.likeknu.controller.dto.device.response;
 
 import ac.knu.likeknu.domain.value.Tag;
 

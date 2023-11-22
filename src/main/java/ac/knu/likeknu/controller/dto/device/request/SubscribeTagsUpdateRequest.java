@@ -1,4 +1,4 @@
-package ac.knu.likeknu.controller.dto.device;
+package ac.knu.likeknu.controller.dto.device.request;
 
 import java.util.List;
 
