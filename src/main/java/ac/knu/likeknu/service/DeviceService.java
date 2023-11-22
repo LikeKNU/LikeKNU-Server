@@ -1,12 +1,12 @@
 package ac.knu.likeknu.service;
 
-import ac.knu.likeknu.controller.dto.device.SubscribeTagListResponse;
-import ac.knu.likeknu.controller.dto.device.SubscribeTagsUpdateRequest;
-import ac.knu.likeknu.controller.dto.device.TagName;
 import ac.knu.likeknu.controller.dto.device.request.CampusModificationRequest;
 import ac.knu.likeknu.controller.dto.device.request.ChangeNotificationRequest;
 import ac.knu.likeknu.controller.dto.device.request.DeviceRegistrationRequest;
 import ac.knu.likeknu.controller.dto.device.request.DeviceTokenRequest;
+import ac.knu.likeknu.controller.dto.device.request.SubscribeTagsUpdateRequest;
+import ac.knu.likeknu.controller.dto.device.request.TagName;
+import ac.knu.likeknu.controller.dto.device.response.SubscribeTagListResponse;
 import ac.knu.likeknu.domain.Device;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.Tag;
