@@ -45,7 +45,6 @@ public class MenuService {
      */
     private List<MealListDto> filterMealtypeAndCreateList(Cafeteria cafeteria) {
         return Arrays.stream(MealType.values())
-                .filter(mealType -> !isMealTypeDawnOrNight(mealType))
                 .map(mealType -> findRepositoryAndMapDto(mealType, cafeteria))
                 .collect(Collectors.toList());
     }
@@ -64,7 +63,4 @@ public class MenuService {
                 .orElse(MealListDto.empty(mealType));
     }
 
-    private boolean isMealTypeDawnOrNight(MealType mealType) {
-        return mealType.equals(MealType.DAWN) || mealType.equals(MealType.NIGHT);
-    }
 }
