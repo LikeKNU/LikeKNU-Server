@@ -27,12 +27,12 @@ public class MenuService {
     private final MenuRepository menuRepository;
     private final CafeteriaRepository cafeteriaRepository;
 
-    public List<MenuResponse> getMenuResponsesByCampus(Campus campus) {
+    public List<MenuResponse> getMenuResponsesByCampus(Campus campus, LocalDate date) {
         List<Cafeteria> cafeterias = cafeteriaRepository.findByCampus(campus);
 
         return cafeterias.stream()
                 .sorted(Comparator.comparing(cafeteria -> cafeteria.getCafeteriaName().getSequence()))
-                .map(cafeteria -> MenuResponse.of(cafeteria, filterMealtypeAndCreateList(cafeteria)))
+                .map(cafeteria -> MenuResponse.of(cafeteria, filterMealtypeAndCreateList(cafeteria, date)))
                 .collect(Collectors.toList());
     }
 
@@ -40,12 +40,13 @@ public class MenuService {
      * MealType의 요소들을 이용해 밤이나 새벽이 아닐 경우 MealListDto 리스트를 만듭니다.
      *
      * @param cafeteria
+     * @param date
      *
      * @return
      */
-    private List<MealListDto> filterMealtypeAndCreateList(Cafeteria cafeteria) {
+    private List<MealListDto> filterMealtypeAndCreateList(Cafeteria cafeteria, LocalDate date) {
         return Arrays.stream(MealType.values())
-                .map(mealType -> findRepositoryAndMapDto(mealType, cafeteria))
+                .map(mealType -> findRepositoryAndMapDto(mealType, cafeteria, date))
                 .collect(Collectors.toList());
     }
 
@@ -54,11 +55,12 @@ public class MenuService {
      *
      * @param mealType
      * @param cafeteria
+     * @param date
      *
      * @return
      */
-    private MealListDto findRepositoryAndMapDto(MealType mealType, Cafeteria cafeteria) {
-        return menuRepository.findByMenuDateAndCafeteriaAndMealType(LocalDate.now(), cafeteria, mealType)
+    private MealListDto findRepositoryAndMapDto(MealType mealType, Cafeteria cafeteria, LocalDate date) {
+        return menuRepository.findByMenuDateAndCafeteriaAndMealType(date, cafeteria, mealType)
                 .map(menu -> MealListDto.of(mealType, cafeteria, menu.getMenus()))
                 .orElse(MealListDto.empty(mealType));
     }

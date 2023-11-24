@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.eq;
@@ -88,19 +89,24 @@ public class MenuControllerTest {
         List<MenuResponse> menuResponseList1 = List.of(menuResponse1, menuResponse2, menuResponse4);
         List<MenuResponse> menuResponseList2 = List.of(menuResponse1, menuResponse3, menuResponse4);
 
+        LocalDate localDate = LocalDate.of(2023, 12, 11);
+        LocalDate localDate2 = LocalDate.of(2023, 12, 12);
+
         //when
-        when(menuService.getMenuResponsesByCampus(eq(Campus.CHEONAN)))
+        when(menuService.getMenuResponsesByCampus(eq(Campus.CHEONAN), eq(localDate)))
                 .thenReturn(menuResponseList1);
-        when(menuService.getMenuResponsesByCampus(eq(Campus.SINGWAN)))
+        when(menuService.getMenuResponsesByCampus(eq(Campus.SINGWAN), eq(localDate2)))
                 .thenReturn(menuResponseList2);
 
         ResultActions resultActions1 = mockMvc.perform(
                 get("/api/menu")
                         .param("campus", Campus.CHEONAN.name())
+                        .param("date", localDate.toString())
         );
         ResultActions resultActions2 = mockMvc.perform(
                 get("/api/menu")
                         .param("campus", Campus.SINGWAN.name())
+                        .param("date", localDate2.toString())
         );
 
         //then
