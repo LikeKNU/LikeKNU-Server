@@ -24,7 +24,7 @@ public class MenuController {
     @GetMapping
     public MenuResponseDto<List<MenuResponse>> getMenuByCampus(
             @RequestParam(name = "campus") Campus campus,
-            @RequestParam(name = "date") LocalDate date
+            @RequestParam(name = "date", defaultValue = "#{T(java.time.LocalDate).now()}") LocalDate date
     ) {
         if (campus.equals(Campus.ALL)) {
             throw new BusinessException("Invalid campus");
