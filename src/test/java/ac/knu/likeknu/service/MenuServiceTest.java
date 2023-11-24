@@ -23,10 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 @Slf4j
 @DisplayName("식단 비즈니스 로직 테스트")
@@ -59,13 +59,13 @@ public class MenuServiceTest {
         when(cafeteriaRepository.findByCampus(eq(Campus.CHEONAN))).thenReturn(List.of(cafeteria1, cafeteria2));
         when(menuRepository.findByMenuDateAndCafeteriaAndMealType(eq(LocalDate.now()), eq(cafeteria1), eq(MealType.LUNCH))).thenReturn(Optional.of(menu1));
         when(menuRepository.findByMenuDateAndCafeteriaAndMealType(eq(LocalDate.now()), eq(cafeteria2), eq(MealType.LUNCH))).thenReturn(Optional.of(menu2));
-        List<MenuResponse> menuResponsesByCheonan = menuService.getMenuResponsesByCampus(Campus.CHEONAN);
+        List<MenuResponse> menuResponsesByCheonan = menuService.getMenuResponsesByCampus(Campus.CHEONAN, LocalDate.now());
 
         when(cafeteriaRepository.findByCampus(eq(Campus.SINGWAN))).thenReturn(List.of(cafeteria3, cafeteria4));
         when(menuRepository.findByMenuDateAndCafeteriaAndMealType(eq(LocalDate.now()), eq(cafeteria3), eq(MealType.DINNER))).thenReturn(Optional.of(menu3));
         when(menuRepository.findByMenuDateAndCafeteriaAndMealType(eq(LocalDate.now()), eq(cafeteria4), eq(MealType.DINNER))).thenReturn(Optional.of(menu4));
         when(menuRepository.findByMenuDateAndCafeteriaAndMealType(eq(LocalDate.now()), eq(cafeteria4), eq(MealType.LUNCH))).thenReturn(Optional.of(menu5));
-        List<MenuResponse> menuResponsesBySingwan = menuService.getMenuResponsesByCampus(Campus.SINGWAN);
+        List<MenuResponse> menuResponsesBySingwan = menuService.getMenuResponsesByCampus(Campus.SINGWAN, LocalDate.now());
 
         //then
         assertAll(
