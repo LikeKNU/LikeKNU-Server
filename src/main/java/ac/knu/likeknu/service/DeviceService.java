@@ -35,7 +35,7 @@ public class DeviceService {
 
         String userAgent = deviceRequest.userAgent();
 
-        if (Objects.equals(device.getPlatform(), userAgent)) {
+        if (!Objects.equals(device.getPlatform(), userAgent)) {
             device.updatePlatform(userAgent);
         }
 
