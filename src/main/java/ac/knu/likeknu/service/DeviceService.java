@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Transactional(readOnly = true)
 @Service
@@ -29,10 +30,16 @@ public class DeviceService {
 
     @Transactional
     public void registerDeviceId(DeviceRegistrationRequest deviceRequest) {
-        Device device = Device.of(deviceRequest);
-        if (deviceRepository.existsById(device.getId())) {
-            return;
+        Device device = deviceRepository.findById(deviceRequest.deviceId())
+                .orElseGet(() -> Device.of(deviceRequest));
+
+        String userAgent = deviceRequest.userAgent();
+
+        if (Objects.equals(device.getPlatform(), userAgent)) {
+            device.updatePlatform(userAgent);
         }
+
+        device.visitNow();
         deviceRepository.save(device);
     }
 
