@@ -46,6 +46,10 @@ public class Device {
     @Column(nullable = false)
     private LocalDateTime registeredAt;
 
+    private String platform;
+
+    private LocalDateTime lastVisitedAt;
+
     @JoinTable(name = "device_notification",
             joinColumns = @JoinColumn(name = "device_id"),
             inverseJoinColumns = @JoinColumn(name = "notification_id"))
@@ -84,5 +88,13 @@ public class Device {
 
     public void updateNotification(boolean isTurnOnNotification) {
         this.isTurnOnNotification = isTurnOnNotification;
+    }
+
+    public void updatePlatform(String platform) {
+        this.platform = platform;
+    }
+
+    public void visitNow() {
+        lastVisitedAt = LocalDateTime.now();
     }
 }

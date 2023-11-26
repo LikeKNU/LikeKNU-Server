@@ -1,4 +1,4 @@
 package ac.knu.likeknu.controller.dto.device.request;
 
-public record DeviceRegistrationRequest(String deviceId) {
+public record DeviceRegistrationRequest(String deviceId, String userAgent) {
 }
