@@ -34,11 +34,11 @@ public class MenuService {
 
         return cafeterias.stream()
                 .sorted(Comparator.comparing(cafeteria -> cafeteria.getCafeteriaName().getSequence()))
-                .map(cafeteria -> MenuResponse.of(cafeteria, filterMealtypeAndCreateList(cafeteria, date)))
+                .map(cafeteria -> MenuResponse.of(cafeteria, createMapContainingMealListDto(cafeteria, date)))
                 .collect(Collectors.toList());
     }
 
-    private Map<LocalDate, List<MealListDto>> filterMealtypeAndCreateList(Cafeteria cafeteria, LocalDate date) {
+    private Map<LocalDate, List<MealListDto>> createMapContainingMealListDto(Cafeteria cafeteria, LocalDate date) {
         return Arrays.stream(MealType.values())
                 .flatMap(mealType -> Stream.of(date, date.plusDays(1))
                         .map(day -> findRepositoryAndMapDto(mealType, cafeteria, day)))
@@ -48,14 +48,6 @@ public class MenuService {
                         ));
     }
 
-    /**
-     * 레포지토리에서 현재 시간과 cafeteria, mealType을 이용해 데이터를 가져온 후 MealListDto로 매핑합니다.
-     *
-     * @param mealType
-     * @param cafeteria
-     * @param date
-     * @return
-     */
     private MealListDto findRepositoryAndMapDto(MealType mealType, Cafeteria cafeteria, LocalDate date) {
         return menuRepository.findByMenuDateAndCafeteriaAndMealType(date, cafeteria, mealType)
                 .map(menu -> MealListDto.of(mealType, cafeteria, menu))
