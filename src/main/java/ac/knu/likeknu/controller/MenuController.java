@@ -1,6 +1,6 @@
 package ac.knu.likeknu.controller;
 
-import ac.knu.likeknu.controller.dto.base.MenuResponseDto;
+import ac.knu.likeknu.controller.dto.base.ResponseDto;
 import ac.knu.likeknu.controller.dto.menu.MenuResponse;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.exception.BusinessException;
@@ -22,7 +22,7 @@ public class MenuController {
     private final MenuService menuService;
 
     @GetMapping
-    public MenuResponseDto<List<MenuResponse>> getMenuByCampus(
+    public ResponseDto<List<MenuResponse>> getMenuByCampus(
             @RequestParam(name = "campus") Campus campus,
             @RequestParam(name = "date", defaultValue = "#{T(java.time.LocalDate).now()}") LocalDate date
     ) {
@@ -31,6 +31,6 @@ public class MenuController {
         }
 
         List<MenuResponse> menuResponsesByCampus = menuService.getMenuResponsesByCampus(campus, date);
-        return MenuResponseDto.of(menuResponsesByCampus, date);
+        return ResponseDto.of(menuResponsesByCampus);
     }
 }

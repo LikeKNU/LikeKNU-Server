@@ -70,14 +70,14 @@ public class MenuServiceTest {
         //then
         assertAll(
                 () -> assertThat(menuResponsesByCheonan.get(0).getCafeteriaName()).isEqualTo(menu1.getCafeteria().getCafeteriaName().getCafeteriaName()),
-                () -> assertThat(menuResponsesByCheonan.get(1).getMeal().get(0).getMenus()).isEqualTo(new ArrayList<>()),
+                () -> assertThat(menuResponsesByCheonan.get(1).getToday().get(0).getMenus()).isEqualTo(new ArrayList<>()),
                 () -> assertThat(menuResponsesByCheonan.get(1).getCafeteriaName()).isEqualTo(menu2.getCafeteria().getCafeteriaName().getCafeteriaName()),
-                () -> assertThat(menuResponsesByCheonan.get(1).getMeal().get(1).getMenus().get(0).getMenuName()).isEqualTo("menu4"),
+                () -> assertThat(menuResponsesByCheonan.get(1).getToday().get(1).getMenus().get(0).getMenuName()).isEqualTo("menu4"),
 
                 () -> assertThat(menuResponsesBySingwan.get(0).getCafeteriaName()).isEqualTo(menu3.getCafeteria().getCafeteriaName().getCafeteriaName()),
-                () -> assertThat(menuResponsesBySingwan.get(0).getMeal().get(0).getMenus()).isEqualTo(new ArrayList<>()),
+                () -> assertThat(menuResponsesBySingwan.get(0).getToday().get(0).getMenus()).isEqualTo(new ArrayList<>()),
                 () -> assertThat(menuResponsesBySingwan.get(1).getCafeteriaName()).isEqualTo(menu4.getCafeteria().getCafeteriaName().getCafeteriaName()),
-                () -> assertThat(menuResponsesBySingwan.get(1).getMeal().get(1).getMenus().get(0).getMenuName()).isEqualTo("menu15")
+                () -> assertThat(menuResponsesBySingwan.get(1).getToday().get(1).getMenus().get(0).getMenuName()).isEqualTo("menu15")
         );
 
 

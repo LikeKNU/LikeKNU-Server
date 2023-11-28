@@ -40,6 +40,10 @@ public class MenuControllerTest {
     @Test
     void getMenuResponsesAndSuccess() throws Exception {
         //given
+        LocalDate localDate = LocalDate.of(2023, 12, 11);
+        LocalDate localDate2 = LocalDate.of(2023, 12, 12);
+
+
         List<MenuListDto> menuListDtos = List.of(
                 new MenuListDto(1, "TestMenu1"),
                 new MenuListDto(2, "TestMenu2"),
@@ -50,9 +54,14 @@ public class MenuControllerTest {
                 "Test1",
                 "TestName1",
                 List.of(
-                        MealListDto.empty(MealType.BREAKFAST),
-                        new MealListDto("점심", "TestTime1", menuListDtos),
-                        new MealListDto("저녁", "TestTime2", menuListDtos)
+                        MealListDto.empty(MealType.BREAKFAST, localDate),
+                        new MealListDto("점심", "TestTime1", menuListDtos, localDate),
+                        new MealListDto("저녁", "TestTime2", menuListDtos, localDate)
+                ),
+                List.of(
+                        MealListDto.empty(MealType.BREAKFAST, localDate2),
+                        new MealListDto("점심", "TestTime1", menuListDtos, localDate2),
+                        new MealListDto("저녁", "TestTime2", menuListDtos, localDate2)
                 )
         );
 
@@ -60,9 +69,14 @@ public class MenuControllerTest {
                 "Test2",
                 "TestName2",
                 List.of(
-                        MealListDto.empty(MealType.BREAKFAST),
-                        MealListDto.empty(MealType.LUNCH),
-                        MealListDto.empty(MealType.DINNER)
+                        MealListDto.empty(MealType.BREAKFAST, localDate),
+                        MealListDto.empty(MealType.LUNCH, localDate),
+                        MealListDto.empty(MealType.DINNER, localDate)
+                ),
+                List.of(
+                        MealListDto.empty(MealType.BREAKFAST, localDate2),
+                        MealListDto.empty(MealType.LUNCH, localDate2),
+                        MealListDto.empty(MealType.DINNER, localDate2)
                 )
         );
 
@@ -70,9 +84,14 @@ public class MenuControllerTest {
                 "Test3",
                 "TestName3",
                 List.of(
-                        new MealListDto("아침", "TestTime3", menuListDtos),
-                        new MealListDto("점심", "TestTime4", menuListDtos),
-                        new MealListDto("저녁", "TestTime5", menuListDtos)
+                        new MealListDto("아침", "TestTime3", menuListDtos, localDate),
+                        new MealListDto("점심", "TestTime4", menuListDtos, localDate),
+                        new MealListDto("저녁", "TestTime5", menuListDtos, localDate)
+                ),
+                List.of(
+                        new MealListDto("아침", "TestTime3", menuListDtos, localDate2),
+                        new MealListDto("점심", "TestTime4", menuListDtos, localDate2),
+                        new MealListDto("저녁", "TestTime5", menuListDtos, localDate2)
                 )
         );
 
@@ -80,17 +99,19 @@ public class MenuControllerTest {
                 "Test3",
                 "TestName3",
                 List.of(
-                        new MealListDto("아침", "TestTime6", menuListDtos),
-                        new MealListDto("점심", "TestTime7", menuListDtos),
-                        new MealListDto("저녁", "TestTime8", menuListDtos)
+                        new MealListDto("아침", "TestTime6", menuListDtos, localDate),
+                        new MealListDto("점심", "TestTime7", menuListDtos, localDate),
+                        new MealListDto("저녁", "TestTime8", menuListDtos, localDate)
+                ),
+                List.of(
+                        new MealListDto("아침", "TestTime6", menuListDtos, localDate2),
+                        new MealListDto("점심", "TestTime7", menuListDtos, localDate2),
+                        new MealListDto("저녁", "TestTime8", menuListDtos, localDate2)
                 )
         );
 
         List<MenuResponse> menuResponseList1 = List.of(menuResponse1, menuResponse2, menuResponse4);
         List<MenuResponse> menuResponseList2 = List.of(menuResponse1, menuResponse3, menuResponse4);
-
-        LocalDate localDate = LocalDate.of(2023, 12, 11);
-        LocalDate localDate2 = LocalDate.of(2023, 12, 12);
 
         //when
         when(menuService.getMenuResponsesByCampus(eq(Campus.CHEONAN), eq(localDate)))
@@ -114,22 +135,22 @@ public class MenuControllerTest {
                 status().isOk(),
                 jsonPath("$.data.body.[0].cafeteriaId").value(menuResponse1.getCafeteriaId()),
                 jsonPath("$.data.body.[1].cafeteriaName").value(menuResponse2.getCafeteriaName()),
-                jsonPath("$.data.body.[2].meal.[0].mealType").value(menuResponse4.getMeal().get(0).getMealType()),
-                jsonPath("$.data.body.[2].meal.[1].operatingTime").value(menuResponse4.getMeal().get(1).getOperatingTime()),
-                jsonPath("$.data.body.[1].meal.[2].menus").value(menuResponse2.getMeal().get(2).getMenus()),
-                jsonPath("$.data.body.[2].meal.[2].menus.[1].menuId").value(menuResponse4.getMeal().get(2).getMenus().get(1).getMenuId()),
-                jsonPath("$.data.body.[2].meal.[2].menus.[2].menuName").value(menuResponse4.getMeal().get(2).getMenus().get(2).getMenuName())
+                jsonPath("$.data.body.[2].today.[0].mealType").value(menuResponse4.getToday().get(0).getMealType()),
+                jsonPath("$.data.body.[2].today.[1].operatingTime").value(menuResponse4.getToday().get(1).getOperatingTime()),
+                jsonPath("$.data.body.[1].today.[2].menus").value(menuResponse2.getToday().get(2).getMenus()),
+                jsonPath("$.data.body.[2].today.[2].menus.[1].menuId").value(menuResponse4.getToday().get(2).getMenus().get(1).getMenuId()),
+                jsonPath("$.data.body.[2].tomorrow.[2].menus.[2].menuName").value(menuResponse4.getTomorrow().get(2).getMenus().get(2).getMenuName())
         ).andDo(print());
 
         resultActions2.andExpectAll(
                 status().isOk(),
                 jsonPath("$.data.body.[0].cafeteriaId").value(menuResponse1.getCafeteriaId()),
                 jsonPath("$.data.body.[1].cafeteriaName").value(menuResponse3.getCafeteriaName()),
-                jsonPath("$.data.body.[2].meal.[0].mealType").value(menuResponse4.getMeal().get(0).getMealType()),
-                jsonPath("$.data.body.[2].meal.[1].operatingTime").value(menuResponse4.getMeal().get(1).getOperatingTime()),
-                jsonPath("$.data.body.[1].meal.[2].menus.[0].menuName").value(menuResponse3.getMeal().get(2).getMenus().get(0).getMenuName()),
-                jsonPath("$.data.body.[2].meal.[2].menus.[1].menuId").value(menuResponse4.getMeal().get(2).getMenus().get(1).getMenuId()),
-                jsonPath("$.data.body.[2].meal.[2].menus.[2].menuName").value(menuResponse4.getMeal().get(2).getMenus().get(2).getMenuName())
+                jsonPath("$.data.body.[2].today.[0].mealType").value(menuResponse4.getToday().get(0).getMealType()),
+                jsonPath("$.data.body.[2].tomorrow.[1].operatingTime").value(menuResponse4.getTomorrow().get(1).getOperatingTime()),
+                jsonPath("$.data.body.[1].today.[2].menus.[0].menuName").value(menuResponse3.getToday().get(2).getMenus().get(0).getMenuName()),
+                jsonPath("$.data.body.[2].tomorrow.[2].menus.[1].menuId").value(menuResponse4.getTomorrow().get(2).getMenus().get(1).getMenuId()),
+                jsonPath("$.data.body.[2].today.[2].menus.[2].menuName").value(menuResponse4.getToday().get(2).getMenus().get(2).getMenuName())
         ).andDo(print());
     }
 }
