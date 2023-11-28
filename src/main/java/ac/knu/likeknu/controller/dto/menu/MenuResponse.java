@@ -25,12 +25,13 @@ public class MenuResponse {
     }
 
     public static MenuResponse of(Cafeteria cafeteria, Map<LocalDate, List<MealListDto>> mealList) {
-        LocalDate now = LocalDate.now();
+        List<LocalDate> keys = mealList.keySet().stream().sorted().toList();
+
         return MenuResponse.builder()
                 .cafeteriaId(cafeteria.getId())
                 .cafeteriaName(cafeteria.getCafeteriaName().getCafeteriaName())
-                .today(mealList.get(now))
-                .tomorrow(mealList.get(now.plusDays(1)))
+                .today(mealList.get(keys.get(0)))
+                .tomorrow(mealList.get(keys.get(1)))
                 .build();
     }
 
