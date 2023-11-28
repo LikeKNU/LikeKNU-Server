@@ -16,7 +16,9 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Transactional(readOnly = true)
@@ -32,37 +34,24 @@ public class MenuService {
 
         return cafeterias.stream()
                 .sorted(Comparator.comparing(cafeteria -> cafeteria.getCafeteriaName().getSequence()))
-                .map(cafeteria -> MenuResponse.of(cafeteria, filterMealtypeAndCreateList(cafeteria, date)))
+                .map(cafeteria -> MenuResponse.of(cafeteria, createMapContainingMealListDto(cafeteria, date)))
                 .collect(Collectors.toList());
     }
 
-    /**
-     * MealType의 요소들을 이용해 밤이나 새벽이 아닐 경우 MealListDto 리스트를 만듭니다.
-     *
-     * @param cafeteria
-     * @param date
-     *
-     * @return
-     */
-    private List<MealListDto> filterMealtypeAndCreateList(Cafeteria cafeteria, LocalDate date) {
+    private Map<LocalDate, List<MealListDto>> createMapContainingMealListDto(Cafeteria cafeteria, LocalDate date) {
         return Arrays.stream(MealType.values())
-                .map(mealType -> findRepositoryAndMapDto(mealType, cafeteria, date))
-                .collect(Collectors.toList());
+                .flatMap(mealType -> Stream.of(date, date.plusDays(1))
+                        .map(day -> findRepositoryAndMapDto(mealType, cafeteria, day)))
+                .collect(
+                        Collectors.groupingBy(MealListDto::getDate,
+                                Collectors.mapping(mealListDto -> mealListDto, Collectors.toList())
+                        ));
     }
 
-    /**
-     * 레포지토리에서 현재 시간과 cafeteria, mealType을 이용해 데이터를 가져온 후 MealListDto로 매핑합니다.
-     *
-     * @param mealType
-     * @param cafeteria
-     * @param date
-     *
-     * @return
-     */
     private MealListDto findRepositoryAndMapDto(MealType mealType, Cafeteria cafeteria, LocalDate date) {
         return menuRepository.findByMenuDateAndCafeteriaAndMealType(date, cafeteria, mealType)
-                .map(menu -> MealListDto.of(mealType, cafeteria, menu.getMenus()))
-                .orElse(MealListDto.empty(mealType));
+                .map(menu -> MealListDto.of(mealType, cafeteria, menu))
+                .orElse(MealListDto.empty(mealType, date));
     }
 
 }

@@ -1,4 +1,4 @@
-name: Deploy to AWS CodeDeploy
+name: CI/CD
 
 on:
   push:
