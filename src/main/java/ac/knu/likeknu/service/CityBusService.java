@@ -85,11 +85,14 @@ public class CityBusService {
     public List<CityBusesResponse> getCityBusesArrivalTime(Campus campus, RouteType routeType) {
         List<Route> routes = routeRepository.findByCampusAndRouteType(campus, routeType);
         return routes.stream()
-                .map(route -> {
-                    List<CityBusesArrivalTimeResponse> cityBusesArrivalTime = getCityBusesArrivalTime(route);
-                    return CityBusesResponse.of(route, cityBusesArrivalTime);
-                })
+                .sorted(Comparator.comparing(Route::getSequence))
+                .map(this::generateCityBusesResponse)
                 .toList();
+    }
+
+    private CityBusesResponse generateCityBusesResponse(Route route) {
+        List<CityBusesArrivalTimeResponse> cityBusesArrivalTime = getCityBusesArrivalTime(route);
+        return CityBusesResponse.of(route, cityBusesArrivalTime);
     }
 
     private List<CityBusesArrivalTimeResponse> getCityBusesArrivalTime(Route route) {
