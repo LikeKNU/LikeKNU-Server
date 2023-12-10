@@ -64,9 +64,9 @@ class MainControllerTest {
         );
 
         // when
-        when(cityBusService.earliestOutgoingCityBuses(eq(Campus.CHEONAN)))
+        when(cityBusService.earliestArriveCityBuses(eq(Campus.CHEONAN)))
                 .thenReturn(cheonanCityBuses);
-        when(cityBusService.earliestOutgoingCityBuses(eq(Campus.SINGWAN)))
+        when(cityBusService.earliestArriveCityBuses(eq(Campus.SINGWAN)))
                 .thenReturn(singwanCityBuses);
 
         ResultActions cheonanResultActions = mockMvc.perform(get("/api/main/buses")

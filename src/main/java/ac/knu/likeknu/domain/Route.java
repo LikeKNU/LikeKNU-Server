@@ -45,6 +45,9 @@ public class Route {
     @Enumerated(value = EnumType.STRING)
     private Campus campus;
 
+    @Column(nullable = false)
+    private int sequence;
+
     @JoinTable(name = "bus_route",
             joinColumns = @JoinColumn(name = "route_id"),
             inverseJoinColumns = @JoinColumn(name = "bus_id"))

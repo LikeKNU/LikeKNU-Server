@@ -67,7 +67,7 @@ class CityBusServiceTest {
                 .thenReturn(List.of(cityBus1, cityBus4, cityBus5));
 
         // when
-        List<MainCityBusResponse> earliestCityBuses = cityBusService.earliestOutgoingCityBuses(Campus.CHEONAN);
+        List<MainCityBusResponse> earliestCityBuses = cityBusService.earliestArriveCityBuses(Campus.CHEONAN);
 
         // then
         MainCityBusResponse mainCityBusResponse = earliestCityBuses.get(1);

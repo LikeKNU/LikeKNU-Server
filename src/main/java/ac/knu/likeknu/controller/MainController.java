@@ -57,7 +57,7 @@ public class MainController {
             throw new BusinessException("Invalid campus");
         }
 
-        List<MainCityBusResponse> cityBuses = cityBusService.earliestOutgoingCityBuses(campus);
+        List<MainCityBusResponse> cityBuses = cityBusService.earliestArriveCityBuses(campus);
         return ResponseDto.of(cityBuses);
     }
 
