@@ -25,7 +25,9 @@ import java.util.stream.Stream;
 @Service
 public class CityBusService {
 
-    private static final int MAX_BUSES_SIZE = 5;
+    private static final int MAX_MAIN_ROUTES_SIZE = 3;
+    private static final int MAX_ARRIVAL_TIMES_SIZE = 5;
+    private static final LocalTime ROUTE_TYPE_CHANGE_TIME = LocalTime.of(12, 0);
 
     private final RouteRepository routeRepository;
     private final CityBusRepository cityBusRepository;
@@ -36,20 +38,34 @@ public class CityBusService {
     }
 
     /**
-     * 학교에서 외부로 가는 가장 금방 도착하는 시내버스 정보
+     * 학교에서 출발하거나 돌아오는 경로 중 가장 금방 도착하는 시내버스 정보
      *
      * @param campus 캠퍼스
-     * @return 캠퍼스별 학교에서 나가는 가장 빠른 시내버스 목록
+     * @return 캠퍼스별 학교에서 출발하거나 돌아오는 경로의 가장 빠른 시내버스 목록
      */
-    public List<MainCityBusResponse> earliestOutgoingCityBuses(Campus campus) {
+    public List<MainCityBusResponse> earliestArriveCityBuses(Campus campus) {
+        RouteType routeType = getRouteType(LocalTime.now());
         return routeRepository.findByCampus(campus, Sort.by(Order.asc("origin"))).stream()
-                .filter(route -> route.getRouteType().equals(RouteType.OUTGOING))
-                .map(route -> {
-                    CityBus earliestBus = getEarliestCityBus(cityBusRepository.findByRoutesContaining(route));
-                    return earliestBus == null ? MainCityBusResponse.empty(route)
-                            : MainCityBusResponse.of(route, earliestBus);
-                })
+                .filter(route -> route.getRouteType().equals(routeType))
+                .sorted(Comparator.comparing(Route::getSequence))
+                .map(this::generateMainCityBusResponse)
+                .limit(MAX_MAIN_ROUTES_SIZE)
                 .toList();
+    }
+
+    private RouteType getRouteType(LocalTime time) {
+        if (time.isBefore(ROUTE_TYPE_CHANGE_TIME)) {
+            return RouteType.INCOMING;
+        }
+        return RouteType.OUTGOING;
+    }
+
+    private MainCityBusResponse generateMainCityBusResponse(Route route) {
+        CityBus earliestBus = getEarliestCityBus(cityBusRepository.findByRoutesContaining(route));
+        if (earliestBus == null) {
+            return MainCityBusResponse.empty(route);
+        }
+        return MainCityBusResponse.of(route, earliestBus);
     }
 
     private CityBus getEarliestCityBus(List<CityBus> buses) {
@@ -62,17 +78,21 @@ public class CityBusService {
     /**
      * 특정 경로의 시내버스 도착 시간 조회
      *
-     * @param routeId 경로 ID
+     * @param campus    캠퍼스
+     * @param routeType 경로 종류(들어오는 거, 나가는 거)
      * @return 특정 경로의 시내버스 도착 시간 목록
      */
     public List<CityBusesResponse> getCityBusesArrivalTime(Campus campus, RouteType routeType) {
         List<Route> routes = routeRepository.findByCampusAndRouteType(campus, routeType);
         return routes.stream()
-                .map(route -> {
-                    List<CityBusesArrivalTimeResponse> cityBusesArrivalTime = getCityBusesArrivalTime(route);
-                    return CityBusesResponse.of(route, cityBusesArrivalTime);
-                })
+                .sorted(Comparator.comparing(Route::getSequence))
+                .map(this::generateCityBusesResponse)
                 .toList();
+    }
+
+    private CityBusesResponse generateCityBusesResponse(Route route) {
+        List<CityBusesArrivalTimeResponse> cityBusesArrivalTime = getCityBusesArrivalTime(route);
+        return CityBusesResponse.of(route, cityBusesArrivalTime);
     }
 
     private List<CityBusesArrivalTimeResponse> getCityBusesArrivalTime(Route route) {
@@ -82,7 +102,7 @@ public class CityBusService {
                 .flatMap(cityBus -> getCloseArrivalTimesStream(cityBus, currentTime)
                         .map(arrivalTime -> CityBusesArrivalTimeResponse.of(cityBus, arrivalTime, currentTime)))
                 .sorted(Comparator.comparing(CityBusesArrivalTimeResponse::arrivalAt))
-                .limit(MAX_BUSES_SIZE)
+                .limit(MAX_ARRIVAL_TIMES_SIZE)
                 .toList();
     }
 
