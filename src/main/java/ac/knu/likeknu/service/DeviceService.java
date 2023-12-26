@@ -12,6 +12,7 @@ import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.Tag;
 import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.repository.DeviceRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +41,10 @@ public class DeviceService {
         }
 
         device.visitNow();
-        deviceRepository.save(device);
+        try {
+            deviceRepository.save(device);
+        } catch (DataIntegrityViolationException ignore) {
+        }
     }
 
     @Transactional
