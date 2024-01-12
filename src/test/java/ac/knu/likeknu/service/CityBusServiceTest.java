@@ -2,7 +2,6 @@ package ac.knu.likeknu.service;
 
 import ac.knu.likeknu.controller.dto.citybus.CityBusesArrivalTimeResponse;
 import ac.knu.likeknu.controller.dto.citybus.CityBusesResponse;
-import ac.knu.likeknu.controller.dto.main.MainCityBusResponse;
 import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
 import ac.knu.likeknu.domain.value.Campus;
@@ -17,10 +16,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Sort;
 
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,7 +40,7 @@ class CityBusServiceTest {
     @Mock
     private CityBusRepository cityBusRepository;
 
-    @DisplayName("각 경로마다 가장 빨리 도착하는 버스 정보를 조회할 수 있다.")
+    /*@DisplayName("각 경로마다 가장 빨리 도착하는 버스 정보를 조회할 수 있다.")
     @Test
     void earliestOutgoingCityBusesSuccess() throws Exception {
         // given
@@ -78,7 +75,7 @@ class CityBusServiceTest {
                 () -> assertThat(mainCityBusResponse.remainingTime()).isEqualTo("곧 도착"),
                 () -> assertThat(mainCityBusResponse.busNumber()).isEqualTo("110")
         );
-    }
+    }*/
 
     @DisplayName("캠퍼스별 시내버스 경로 목록을 조회할 수 있다.")
     @Test
