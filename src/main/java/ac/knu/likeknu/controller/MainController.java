@@ -71,4 +71,9 @@ public class MainController {
 
         return ResponseDto.of(scheduleResponse);
     }
+
+    @GetMapping("/messages")
+    public ResponseDto<String> mainHeaderMessage() {
+        return ResponseDto.of("무슨 재미난 기능 없나..🤔");
+    }
 }
