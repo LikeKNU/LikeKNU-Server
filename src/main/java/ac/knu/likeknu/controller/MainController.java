@@ -5,8 +5,10 @@ import ac.knu.likeknu.controller.dto.main.MainAnnouncementsResponse;
 import ac.knu.likeknu.controller.dto.main.MainCityBusResponse;
 import ac.knu.likeknu.controller.dto.main.MainMenuResponse;
 import ac.knu.likeknu.controller.dto.main.MainScheduleResponse;
+import ac.knu.likeknu.domain.MainHeaderMessage;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.exception.BusinessException;
+import ac.knu.likeknu.repository.MainHeaderMessageRepository;
 import ac.knu.likeknu.service.CityBusService;
 import ac.knu.likeknu.service.MainService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,7 @@ public class MainController {
 
     private final MainService mainService;
     private final CityBusService cityBusService;
+    private final MainHeaderMessageRepository mainHeaderMessageRepository;
 
     @GetMapping("/announcements")
     public ResponseDto<List<MainAnnouncementsResponse>> getMainAnnouncements(@RequestParam(name = "campus") Campus campus) {
@@ -74,6 +77,7 @@ public class MainController {
 
     @GetMapping("/messages")
     public ResponseDto<String> mainHeaderMessage() {
-        return ResponseDto.of("무슨 재미난 기능 없나..🤔");
+        MainHeaderMessage lastRegisteredMessage = mainHeaderMessageRepository.findFirstByOrderByRegisteredAtDesc();
+        return ResponseDto.of(lastRegisteredMessage.getMessage());
     }
 }

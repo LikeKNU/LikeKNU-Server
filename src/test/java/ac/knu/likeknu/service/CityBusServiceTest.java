@@ -40,6 +40,10 @@ class CityBusServiceTest {
     @Mock
     private CityBusRepository cityBusRepository;
 
+    /** FIXME 테스트 케이스 성공하도록 수정하기
+     * <br>
+     * 학교에서 나가는 경로와 들어오는 경로가 시간에 의존..
+     */
     /*@DisplayName("각 경로마다 가장 빨리 도착하는 버스 정보를 조회할 수 있다.")
     @Test
     void earliestOutgoingCityBusesSuccess() throws Exception {
