@@ -8,6 +8,7 @@ import ac.knu.likeknu.controller.dto.menu.MenuListDto;
 import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
 import ac.knu.likeknu.domain.value.Campus;
+import ac.knu.likeknu.repository.MainHeaderMessageRepository;
 import ac.knu.likeknu.service.CityBusService;
 import ac.knu.likeknu.service.MainService;
 import ac.knu.likeknu.utils.TestInstanceFactory;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -29,9 +31,12 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Slf4j
+@WithMockUser
 @DisplayName("메인 컨트롤러 테스트")
 @WebMvcTest(controllers = MainController.class)
 class MainControllerTest {
@@ -43,6 +48,8 @@ class MainControllerTest {
     private CityBusService cityBusService;
     @MockBean
     private MainService mainService;
+    @MockBean
+    private MainHeaderMessageRepository messageRepository;
 
     @DisplayName("캠퍼스별 시내 버스 도착 정보 조회 API 요청에 성공한다.")
     @Test
