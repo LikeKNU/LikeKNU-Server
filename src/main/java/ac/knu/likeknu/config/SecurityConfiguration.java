@@ -13,6 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
 @EnableWebSecurity
@@ -24,12 +27,18 @@ public class SecurityConfiguration {
     private String password;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(registry -> registry.requestMatchers("/api/**").permitAll()
+    public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector handlerMappingIntrospector)
+            throws Exception {
+        RequestMatcher requestMatcher = new MvcRequestMatcher(handlerMappingIntrospector, "/api/**");
+        return http.authorizeHttpRequests(registry -> registry.requestMatchers(requestMatcher).permitAll()
                         .anyRequest().authenticated())
                 .formLogin(security -> security.loginPage("/admin/login")
                         .defaultSuccessUrl("/admin/messages")
-                        .permitAll()).csrf(AbstractHttpConfigurer::disable)
+                        .failureUrl("/admin/login?error=1")
+                        .permitAll())
+                .logout(security -> security.logoutUrl("/admin/logout")
+                        .logoutSuccessUrl("/admin/login"))
+                .csrf(AbstractHttpConfigurer::disable)
                 .build();
     }
 

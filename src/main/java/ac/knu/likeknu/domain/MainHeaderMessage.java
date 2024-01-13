@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Entity
@@ -29,5 +30,10 @@ public class MainHeaderMessage {
     public MainHeaderMessage(String message) {
         this();
         this.message = message;
+    }
+
+    public String formattedRegisteredDateTime() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return registeredAt.format(dateTimeFormatter);
     }
 }
