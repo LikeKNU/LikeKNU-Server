@@ -5,13 +5,13 @@ import lombok.Getter;
 @Getter
 public enum CafeteriaName {
 
-    STUDENT_CAFETERIA("학생식당", 1),
-    DORMITORY("생활관식당", 2),
+    STUDENT_CAFETERIA("학생식당", 10),
+    DORMITORY("생활관식당", 20),
     EMPLOYEE_CAFETERIA("직원식당", 3),
-    SODAM("소담", 4),
-    NEULSOM("늘솜", 5),
-    EUNHAENGSA_VISION("은행사/비전", 6),
-    DREAM("드림", 7);
+    SODAM("소담", 40),
+    NEULSOM("늘솜", 50),
+    EUNHAENGSA_VISION("은행사/비전", 1),
+    DREAM("드림", 2);
 
     private final String cafeteriaName;
     private final int sequence;
