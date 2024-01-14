@@ -29,8 +29,8 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector handlerMappingIntrospector)
             throws Exception {
-        RequestMatcher requestMatcher = new MvcRequestMatcher(handlerMappingIntrospector, "/api/**");
-        return http.authorizeHttpRequests(registry -> registry.requestMatchers(requestMatcher).permitAll()
+        RequestMatcher apiRequestMatcher = new MvcRequestMatcher(handlerMappingIntrospector, "/api/**");
+        return http.authorizeHttpRequests(registry -> registry.requestMatchers(apiRequestMatcher).permitAll()
                         .anyRequest().authenticated())
                 .formLogin(security -> security.loginPage("/admin/login")
                         .defaultSuccessUrl("/admin/messages")

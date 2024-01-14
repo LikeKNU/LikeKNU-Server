@@ -13,7 +13,7 @@ public enum RouteType {
         return Arrays.stream(values())
                 .filter(routeType -> isSame(type, routeType))
                 .findAny()
-                .orElseThrow(() -> new BusinessException(ErrorMessage.INVALID_ROUTE_TYPE));
+                .orElseThrow(() -> new BusinessException(ErrorMessage.INVALID_MAIN_MESSAGE_SIZE));
     }
 
     private static boolean isSame(String type, RouteType routeType) {
