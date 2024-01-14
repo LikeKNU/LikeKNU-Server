@@ -2,15 +2,19 @@ package ac.knu.likeknu.controller;
 
 import ac.knu.likeknu.domain.MainHeaderMessage;
 import ac.knu.likeknu.repository.MainHeaderMessageRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Comparator;
 import java.util.List;
 
+@Slf4j
 @RequestMapping("/admin")
 @Controller
 public class AdminController {
@@ -38,5 +42,13 @@ public class AdminController {
                 .toList();
         model.addAttribute("messages", messages);
         return "registerMessage";
+    }
+
+    @PostMapping("/messages")
+    public String registerMessage(@ModelAttribute(name = "message") String message) {
+        log.info("message = {}", message);
+        MainHeaderMessage mainHeaderMessage = new MainHeaderMessage(message.trim());
+        messageRepository.save(mainHeaderMessage);
+        return "redirect:/admin/messages";
     }
 }
