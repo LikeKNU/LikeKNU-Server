@@ -1,5 +1,6 @@
 package ac.knu.likeknu.domain;
 
+import ac.knu.likeknu.exception.BusinessException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +30,9 @@ public class MainHeaderMessage {
 
     public MainHeaderMessage(String message) {
         this();
+        if (message.length() > 16) {
+            throw new BusinessException("메시지는 16자 이하이어야 합니다!");
+        }
         this.message = message;
     }
 

@@ -31,7 +31,8 @@
 </div>
 
 <div class="container p-5">
-  <form class="col g-3 needs-validation" method="POST" action="/admin/messages">
+  <form class="col g-3 needs-validation" method="POST" action="/admin/messages"
+        onsubmit="return confirm('정말 변경하실 건가요?! 돌이킬 수 없습니다😏');">
     <div class="mb-3 fs-5">[현재 메시지]<br><span th:text="${messages.get(0).message}"></span></div>
     <div class="col">
       <input type="text" class="form-control" id="message" placeholder="변경할 메시지를 입력해주세요!" name="message" maxlength="16"
