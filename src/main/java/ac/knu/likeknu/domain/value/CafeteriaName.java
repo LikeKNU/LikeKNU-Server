@@ -10,8 +10,8 @@ public enum CafeteriaName {
     EMPLOYEE_CAFETERIA("직원식당", 3),
     SODAM("소담", 40),
     NEULSOM("늘솜", 50),
-    EUNHAENGSA_VISION("은행사/비전", 1),
-    DREAM("드림", 2);
+    EUNHAENGSA_VISION("은행사/비전", 2),
+    DREAM("드림", 1);
 
     private final String cafeteriaName;
     private final int sequence;
