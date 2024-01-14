@@ -51,4 +51,9 @@ public class AdminController {
         messageRepository.save(mainHeaderMessage);
         return "redirect:/admin/messages";
     }
+
+    @GetMapping("/analytics")
+    public String dailyAnalytics() {
+        return "dailyAnalytics";
+    }
 }
