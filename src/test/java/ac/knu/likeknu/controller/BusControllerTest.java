@@ -8,6 +8,7 @@ import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.RouteType;
 import ac.knu.likeknu.service.CityBusService;
 import ac.knu.likeknu.service.ShuttleBusService;
+import ac.knu.likeknu.service.SlackService;
 import ac.knu.likeknu.utils.TestInstanceFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,6 +41,8 @@ class BusControllerTest {
     private CityBusService cityBusService;
     @MockBean
     private ShuttleBusService shuttleBusService;
+    @MockBean
+    private SlackService slackService;
 
     @DisplayName("캠퍼스별 시내버스 도착시간 조회 API 요청에 성공한다.")
     @Test

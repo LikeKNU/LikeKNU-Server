@@ -11,6 +11,7 @@ import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.repository.MainHeaderMessageRepository;
 import ac.knu.likeknu.service.CityBusService;
 import ac.knu.likeknu.service.MainService;
+import ac.knu.likeknu.service.SlackService;
 import ac.knu.likeknu.utils.TestInstanceFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -50,6 +51,8 @@ class MainControllerTest {
     private MainService mainService;
     @MockBean
     private MainHeaderMessageRepository messageRepository;
+    @MockBean
+    private SlackService slackService;
 
     @DisplayName("캠퍼스별 시내 버스 도착 정보 조회 API 요청에 성공한다.")
     @Test
