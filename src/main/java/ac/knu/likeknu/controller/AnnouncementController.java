@@ -28,7 +28,7 @@ public class AnnouncementController {
     public PageResponseDto<List<AnnouncementListResponse>> recentAnnouncementList(
             @RequestParam("campus") Campus campus,
             @RequestParam(name = "page", defaultValue = "1") int page,
-            @RequestParam(name = "keyword", required = false) String keyword,
+            @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
             @PathVariable String category
     ) {
         PageDto pageDto = PageDto.of(page);

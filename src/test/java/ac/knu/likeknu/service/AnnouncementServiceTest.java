@@ -55,7 +55,7 @@ class AnnouncementServiceTest {
         )).thenReturn(new PageImpl<>(List.of(announcement1, announcement2, announcement3), PageRequest.of(0, 10), 1));
 
         List<AnnouncementListResponse> announcementList =
-                announcementService.getAnnouncements(Campus.CHEONAN, Category.STUDENT_NEWS, pageDto, keyword);
+                announcementService.getAnnouncements(Campus.CHEONAN, Category.STUDENT_NEWS, pageDto, "");
 
         // then
         AnnouncementListResponse announcementResponse = announcementList.get(0);
