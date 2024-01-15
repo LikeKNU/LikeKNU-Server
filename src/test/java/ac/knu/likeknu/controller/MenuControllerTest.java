@@ -6,6 +6,7 @@ import ac.knu.likeknu.controller.dto.menu.MenuResponse;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.MealType;
 import ac.knu.likeknu.service.MenuService;
+import ac.knu.likeknu.service.SlackService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,8 @@ public class MenuControllerTest {
 
     @MockBean
     private MenuService menuService;
+    @MockBean
+    private SlackService slackService;
 
     @DisplayName("캠퍼스별 메뉴 상세조회 API 요청에 성공한다.")
     @Test
