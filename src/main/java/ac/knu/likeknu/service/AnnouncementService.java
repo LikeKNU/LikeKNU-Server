@@ -28,13 +28,22 @@ public class AnnouncementService {
         this.announcementRepository = announcementRepository;
     }
 
-    public List<AnnouncementListResponse> getAnnouncements(Campus campus, Category category, PageDto pageDto) {
+    public List<AnnouncementListResponse> getAnnouncements(Campus campus, Category category, PageDto pageDto, String keyword) {
         int requestPage = pageDto.getCurrentPage() - 1;
         PageRequest pageRequest = PageRequest.of(requestPage, DEFAULT_ANNOUNCEMENT_PAGE_SIZE,
                 Sort.by(Direction.DESC, "announcementDate"));
 
-        Page<Announcement> announcementsPage =
-                announcementRepository.findByCampusInAndCategory(Set.of(campus, Campus.ALL), category, pageRequest);
+        Page<Announcement> announcementsPage;
+        if (keyword != null && !keyword.isEmpty()) {
+            announcementsPage = announcementRepository.findByCampusInAndCategoryAndAnnouncementTitleContains(
+                    Set.of(campus, Campus.ALL), category, keyword, pageRequest
+            );
+        } else {
+            announcementsPage = announcementRepository.findByCampusInAndCategory(
+                    Set.of(campus, Campus.ALL), category, pageRequest
+            );
+        }
+
         pageDto.updateTotalPages(announcementsPage.getTotalPages());
         pageDto.updateTotalElements(announcementsPage.getTotalElements());
         return announcementsPage.stream()

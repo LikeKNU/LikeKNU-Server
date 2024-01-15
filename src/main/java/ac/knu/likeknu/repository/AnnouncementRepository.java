@@ -23,4 +23,6 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Stri
     List<Announcement> findTop4ByCampusInAndCategoryOrderByAnnouncementDateDesc(List<Campus> campus, Category category);
 
     Page<Announcement> findByCampusInAndCategory(Set<Campus> campuses, Category category, Pageable pageable);
+
+    Page<Announcement> findByCampusInAndCategoryAndAnnouncementTitleContains(Set<Campus> campuses, Category category, String keyword, Pageable pageable);
 }

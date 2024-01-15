@@ -28,11 +28,12 @@ public class AnnouncementController {
     public PageResponseDto<List<AnnouncementListResponse>> recentAnnouncementList(
             @RequestParam("campus") Campus campus,
             @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "keyword", required = false) String keyword,
             @PathVariable String category
     ) {
         PageDto pageDto = PageDto.of(page);
         List<AnnouncementListResponse> studentNewsList =
-                announcementService.getAnnouncements(campus, Category.of(category), pageDto);
+                announcementService.getAnnouncements(campus, Category.of(category), pageDto, keyword.trim());
         return PageResponseDto.of(studentNewsList, pageDto);
     }
 }
