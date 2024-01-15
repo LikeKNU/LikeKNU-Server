@@ -53,7 +53,7 @@ class AnnouncementControllerTest {
         Announcement announcement3 = TestInstanceFactory.createAnnouncement("Test C", "https://testc.com", Tag.LIBRARY);
 
         // when
-        when(announcementService.getAnnouncements(eq(Campus.CHEONAN), eq(Category.STUDENT_NEWS), any(PageDto.class), keyword))
+        when(announcementService.getAnnouncements(eq(Campus.CHEONAN), eq(Category.STUDENT_NEWS), any(PageDto.class), any()))
                 .thenReturn(List.of(
                         AnnouncementListResponse.of(announcement1),
                         AnnouncementListResponse.of(announcement2),
