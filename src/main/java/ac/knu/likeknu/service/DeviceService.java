@@ -12,26 +12,30 @@ import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.Tag;
 import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.repository.DeviceRepository;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
-@Transactional(readOnly = true)
+@Transactional
 @Service
 public class DeviceService {
 
     private final DeviceRepository deviceRepository;
+    private final Set<String> registeredDevices;
 
     public DeviceService(DeviceRepository deviceRepository) {
         this.deviceRepository = deviceRepository;
+        this.registeredDevices = Collections.synchronizedSet(new HashSet<>());
     }
 
-    @Transactional
     public void registerDeviceId(DeviceRegistrationRequest deviceRequest) {
-        Device device = deviceRepository.findById(deviceRequest.deviceId())
+        String deviceId = deviceRequest.deviceId();
+        Device device = deviceRepository.findById(deviceId)
                 .orElseGet(() -> Device.of(deviceRequest));
 
         String userAgent = deviceRequest.userAgent();
@@ -41,13 +45,11 @@ public class DeviceService {
         }
 
         device.visitNow();
-        try {
+        if (registeredDevices.add(deviceId)) {
             deviceRepository.save(device);
-        } catch (DataIntegrityViolationException ignore) {
         }
     }
 
-    @Transactional
     public void modifyCampusByDeviceId(CampusModificationRequest campusModificationRequest) {
         String deviceId = campusModificationRequest.deviceId();
         Device device = deviceRepository.findById(deviceId)
@@ -61,7 +63,6 @@ public class DeviceService {
         }
     }
 
-    @Transactional
     public void registerTokenByDevice(DeviceTokenRequest tokenRequest) {
         String deviceId = tokenRequest.deviceId();
         Device device = deviceRepository.findById(deviceId)
@@ -77,7 +78,6 @@ public class DeviceService {
                 .toList();
     }
 
-    @Transactional
     public void updateSubscribeTagList(SubscribeTagsUpdateRequest subscribeTagsUpdateRequest) {
         String deviceId = subscribeTagsUpdateRequest.deviceId();
         List<TagName> tagNames = subscribeTagsUpdateRequest.tags();
@@ -95,13 +95,13 @@ public class DeviceService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public boolean isTurnOnPushNotifications(String deviceId) {
         Device device = deviceRepository.findById(deviceId)
                 .orElseThrow(() -> new BusinessException(String.format("Device not found! [%s]", deviceId)));
         return device.isTurnOnNotification();
     }
 
-    @Transactional
     public void changeDeviceNotifications(ChangeNotificationRequest request) {
         String deviceId = request.deviceId();
         Device device = deviceRepository.findById(deviceId)
