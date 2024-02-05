@@ -4,7 +4,7 @@
 
 공지사항, 시내버스와 셔틀버스 시간, 식단메뉴, 학사일정을 하나의 앱에서 확인하세요!
 
-**❗️ 아이폰은 '사파리', 안드로이드는 '크롬'으로 접속해야 앱 설치가 가능합니다! ❗️**   
+**❗️ 아이폰은 '사파리'로 접속해야 앱 설치가 가능합니다! ❗️**   
 <img src="https://github.com/FREEWAYseoul/.github/assets/69714701/39e1ddf2-9947-4dc2-884a-c80bdf6e4b85" width="20px" alt="#"/>
 iOS
 &nbsp;&nbsp; <img src="https://github.com/FREEWAYseoul/.github/assets/69714701/0dfec54f-81d6-4f9b-97ee-8c17e142189e" width="20px" alt="#"/>
