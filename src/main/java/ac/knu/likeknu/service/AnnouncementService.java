@@ -9,7 +9,7 @@ import ac.knu.likeknu.repository.AnnouncementRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +31,7 @@ public class AnnouncementService {
     public List<AnnouncementListResponse> getAnnouncements(Campus campus, Category category, PageDto pageDto, String keyword) {
         int requestPage = pageDto.getCurrentPage() - 1;
         PageRequest pageRequest = PageRequest.of(requestPage, DEFAULT_ANNOUNCEMENT_PAGE_SIZE,
-                Sort.by(Direction.DESC, "announcementDate"));
+                Sort.by(Order.desc("announcementDate"), Order.desc("collectedAt")));
 
         Page<Announcement> announcementsPage;
         if (keyword != null && !keyword.isEmpty()) {

@@ -5,6 +5,7 @@ import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +21,7 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Stri
      * @param campus
      * @return
      */
-    List<Announcement> findTop4ByCampusInAndCategoryOrderByAnnouncementDateDesc(List<Campus> campus, Category category);
+    List<Announcement> findTop4ByCampusInAndCategory(List<Campus> campus, Category category, Sort sort);
 
     Page<Announcement> findByCampusInAndCategory(Set<Campus> campuses, Category category, Pageable pageable);
 

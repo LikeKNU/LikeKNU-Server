@@ -15,6 +15,8 @@ import ac.knu.likeknu.repository.CafeteriaRepository;
 import ac.knu.likeknu.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,9 +39,9 @@ public class MainService {
     public List<MainAnnouncementsResponse> getAnnouncementsResponse(Campus campus) {
         List<Campus> campusList = List.of(Campus.ALL, campus);
 
+        Sort sort = Sort.by(Order.desc("announcementDate"), Order.desc("collectedAt"));
         List<Announcement> getAnnouncements =
-                announcementRepository
-                        .findTop4ByCampusInAndCategoryOrderByAnnouncementDateDesc(campusList, Category.STUDENT_NEWS);
+                announcementRepository.findTop4ByCampusInAndCategory(campusList, Category.STUDENT_NEWS, sort);
 
         return getAnnouncements.stream()
                 .map(MainAnnouncementsResponse::of)

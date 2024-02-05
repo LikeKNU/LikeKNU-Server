@@ -12,6 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
@@ -38,6 +39,9 @@ public class Announcement {
 
     @Enumerated(EnumType.STRING)
     private Tag tag;
+
+    @Column
+    private LocalDateTime collectedAt;
 
     protected Announcement() {
     }
