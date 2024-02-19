@@ -13,9 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -27,16 +25,16 @@ public class SecurityConfiguration {
     private String password;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector handlerMappingIntrospector)
+    public SecurityFilterChain filterChain(HttpSecurity http)
             throws Exception {
-        RequestMatcher apiRequestMatcher = new MvcRequestMatcher(handlerMappingIntrospector, "/api/**");
-        return http.authorizeHttpRequests(registry -> registry.requestMatchers(apiRequestMatcher).permitAll()
+        return http.authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll()
                         .anyRequest().authenticated())
-                .formLogin(security -> security.loginPage("/admin/login")
+                .formLogin(formLogin -> formLogin.loginPage("/admin/login")
                         .defaultSuccessUrl("/admin/messages")
                         .failureUrl("/admin/login?error=1")
                         .permitAll())
-                .logout(security -> security.logoutUrl("/admin/logout")
+                .logout(logout -> logout.logoutUrl("/admin/logout")
                         .logoutSuccessUrl("/admin/login"))
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();

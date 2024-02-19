@@ -33,7 +33,7 @@ public class MainController {
     private final MainHeaderMessageRepository mainHeaderMessageRepository;
 
     @GetMapping("/announcements")
-    public ResponseDto<List<MainAnnouncementsResponse>> getMainAnnouncements(@RequestParam(name = "campus") Campus campus) {
+    public ResponseDto<List<MainAnnouncementsResponse>> getMainAnnouncements(@RequestParam(name = "campus", defaultValue = "CHEONAN") Campus campus) {
         if (campus.equals(Campus.ALL)) {
             throw new BusinessException("Invalid campus");
         }
@@ -43,7 +43,7 @@ public class MainController {
     }
 
     @GetMapping("/menu")
-    public ResponseDto<List<MainMenuResponse>> getMainMenu(@RequestParam(name = "campus") Campus campus) {
+    public ResponseDto<List<MainMenuResponse>> getMainMenu(@RequestParam(name = "campus", defaultValue = "CHEONAN") Campus campus) {
         if (campus.equals(Campus.ALL)) {
             throw new BusinessException("Invalid campus");
         }
@@ -54,7 +54,7 @@ public class MainController {
 
     @GetMapping("/buses")
     public ResponseDto<List<MainCityBusResponse>> getMainPageCityBuses(
-            @RequestParam(name = "campus") Campus campus
+            @RequestParam(name = "campus", defaultValue = "CHEONAN") Campus campus
     ) {
         if (campus.equals(Campus.ALL)) {
             throw new BusinessException("Invalid campus");
