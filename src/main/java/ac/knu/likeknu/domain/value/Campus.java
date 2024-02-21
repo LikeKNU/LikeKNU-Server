@@ -2,6 +2,8 @@ package ac.knu.likeknu.domain.value;
 
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @Getter
 public enum Campus {
 
@@ -16,5 +18,12 @@ public enum Campus {
     Campus(String campus, String dormitoryAnnouncementId) {
         this.campus = campus;
         this.dormitoryAnnouncementId = dormitoryAnnouncementId;
+    }
+
+    public static Campus of(String campusName) {
+        return Arrays.stream(values())
+                .filter(campus -> campus.getCampus().equals(campusName))
+                .findAny()
+                .orElseThrow();
     }
 }

@@ -38,7 +38,8 @@ public class DeviceService {
                 .orElseGet(() -> Device.of(deviceRequest));
 
         device.updatePlatform(deviceRequest.userAgent());
-        device.updateCampus(deviceRequest.campus());
+        String campus = deviceRequest.campus();
+        device.updateCampus(Campus.of(campus));
         device.visitNow();
         if (registeredDevices.add(deviceId)) {
             deviceRepository.save(device);
