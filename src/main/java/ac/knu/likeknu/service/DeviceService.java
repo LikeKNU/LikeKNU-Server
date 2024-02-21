@@ -33,11 +33,16 @@ public class DeviceService {
     }
 
     public void registerDeviceId(DeviceRegistrationRequest deviceRequest) {
+        String userAgent = deviceRequest.userAgent();
+        if (userAgent.contains("Googlebot")) {
+            return;
+        }
+
         String deviceId = deviceRequest.deviceId();
         Device device = deviceRepository.findById(deviceId)
                 .orElseGet(() -> Device.of(deviceRequest));
 
-        device.updatePlatform(deviceRequest.userAgent());
+        device.updatePlatform(userAgent);
         String campus = deviceRequest.campus();
         device.updateCampus(Campus.of(campus));
         device.visitNow();
