@@ -97,4 +97,8 @@ public class Device {
     public void visitNow() {
         lastVisitedAt = LocalDateTime.now();
     }
+
+    public void updateCampus(Campus campus) {
+        this.campus = campus;
+    }
 }

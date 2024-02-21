@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 @Transactional
@@ -38,12 +37,8 @@ public class DeviceService {
         Device device = deviceRepository.findById(deviceId)
                 .orElseGet(() -> Device.of(deviceRequest));
 
-        String userAgent = deviceRequest.userAgent();
-
-        if (!Objects.equals(device.getPlatform(), userAgent)) {
-            device.updatePlatform(userAgent);
-        }
-
+        device.updatePlatform(deviceRequest.userAgent());
+        device.updateCampus(deviceRequest.campus());
         device.visitNow();
         if (registeredDevices.add(deviceId)) {
             deviceRepository.save(device);
