@@ -34,7 +34,7 @@ public class DeviceService {
 
     public void registerDeviceId(DeviceRegistrationRequest deviceRequest) {
         String userAgent = deviceRequest.userAgent();
-        if (userAgent.contains("Googlebot")) {
+        if (userAgent.contains("Googlebot") || userAgent.contains("AdsBot")) {
             return;
         }
 
