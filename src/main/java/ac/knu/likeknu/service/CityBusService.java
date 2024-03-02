@@ -10,8 +10,6 @@ import ac.knu.likeknu.domain.value.RouteType;
 import ac.knu.likeknu.repository.CityBusRepository;
 import ac.knu.likeknu.repository.RouteRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +43,8 @@ public class CityBusService {
      */
     public List<MainCityBusResponse> earliestArriveCityBuses(Campus campus) {
         RouteType routeType = getRouteType(LocalTime.now());
-        return routeRepository.findByCampus(campus, Sort.by(Order.asc("origin"))).stream()
+        return routeRepository.findByCampus(campus)
+                .stream()
                 .filter(route -> route.getRouteType().equals(routeType))
                 .sorted(Comparator.comparing(Route::getSequence))
                 .map(this::generateMainCityBusResponse)
@@ -107,7 +106,8 @@ public class CityBusService {
     }
 
     private Stream<LocalTime> getCloseArrivalTimesStream(CityBus cityBus, LocalTime currentTime) {
-        return cityBus.getArrivalTimes().stream()
+        return cityBus.getArrivalTimes()
+                .stream()
                 .filter(currentTime.minusMinutes(1)::isBefore)
                 .filter(currentTime.plusMinutes(30)::isAfter);
     }
