@@ -30,7 +30,7 @@ public class BusController {
 
     @GetMapping("/city-bus/{type}")
     private ResponseDto<List<CityBusesResponse>> cityBusesArrivalTime(
-            @RequestParam("campus") Campus campus, @PathVariable String type
+            @RequestParam("campus") Campus campus, @PathVariable("type") String type
     ) {
         RouteType routeType = RouteType.of(type);
         List<CityBusesResponse> cityBusesArrivalTime = cityBusService.getCityBusesArrivalTime(campus, routeType);
@@ -44,7 +44,7 @@ public class BusController {
     }
 
     @GetMapping("/shuttle-bus/{shuttleId}")
-    public ResponseDto<List<ShuttleBusesArrivalTimeResponse>> shuttleBusesArrivalTime(@PathVariable String shuttleId) {
+    public ResponseDto<List<ShuttleBusesArrivalTimeResponse>> shuttleBusesArrivalTime(@PathVariable("shuttleId") String shuttleId) {
         List<ShuttleBusesArrivalTimeResponse> shuttleBusesArrivalTime = shuttleBusService.getShuttleBusesArrivalTime(shuttleId);
         return ResponseDto.of(shuttleBusesArrivalTime);
     }

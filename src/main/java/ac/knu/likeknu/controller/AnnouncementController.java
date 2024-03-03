@@ -29,7 +29,7 @@ public class AnnouncementController {
             @RequestParam("campus") Campus campus,
             @RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
-            @PathVariable String category
+            @PathVariable("category") String category
     ) {
         PageDto pageDto = PageDto.of(page);
         List<AnnouncementListResponse> studentNewsList =
