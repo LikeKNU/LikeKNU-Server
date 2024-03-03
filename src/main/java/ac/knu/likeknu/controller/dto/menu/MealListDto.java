@@ -9,7 +9,6 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -50,7 +49,7 @@ public class MealListDto {
     public static MealListDto empty(MealType mealType, LocalDate date) {
         return MealListDto.builder()
                 .mealType(mealType.getMealTypeKr())
-                .menus(Collections.emptyList())
+                .menus(new ArrayList<>())
                 .date(date)
                 .build();
     }
