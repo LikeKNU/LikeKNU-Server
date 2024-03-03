@@ -53,5 +53,4 @@ public class MenuService {
                 .map(menu -> MealListDto.of(mealType, cafeteria, menu))
                 .orElse(MealListDto.empty(mealType, date));
     }
-
 }

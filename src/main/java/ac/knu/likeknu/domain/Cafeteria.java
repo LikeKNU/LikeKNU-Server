@@ -12,7 +12,7 @@ import jakarta.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -66,32 +66,31 @@ public class Cafeteria {
         this.campus = campus;
     }
 
-    public String getTime(MealType mealType) {
-        if(mealType == null)
+    public String getTime(MealType mealType, LocalDate date) {
+        if (mealType == null)
             return null;
 
-        if(isWeekend()) {
+        if (isWeekend(date)) {
             //주말일 때
-            if(isBreakfast(mealType))
+            if (isBreakfast(mealType))
                 return weekendBreakfast;
-            else if(isLunch(mealType))
+            else if (isLunch(mealType))
                 return weekendLunch;
             else
                 return weekendDinner;
-        }
-        else {
+        } else {
             //평일일 때
-            if(isBreakfast(mealType))
+            if (isBreakfast(mealType))
                 return weekdayBreakfast;
-            else if(isLunch(mealType))
+            else if (isLunch(mealType))
                 return weekdayLunch;
             else
                 return weekdayDinner;
         }
     }
 
-    private boolean isWeekend() {
-        return LocalDateTime.now().getDayOfWeek().getValue() >= 6;
+    private boolean isWeekend(LocalDate date) {
+        return date.getDayOfWeek().getValue() >= 6;
     }
 
     private boolean isBreakfast(MealType mealType) {
