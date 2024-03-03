@@ -34,5 +34,4 @@ public class MenuResponse {
                 .tomorrow(mealList.get(keys.get(1)))
                 .build();
     }
-
 }
