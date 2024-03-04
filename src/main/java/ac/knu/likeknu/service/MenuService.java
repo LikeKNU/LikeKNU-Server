@@ -51,6 +51,6 @@ public class MenuService {
     private MealListDto findRepositoryAndMapDto(MealType mealType, Cafeteria cafeteria, LocalDate date) {
         return menuRepository.findByMenuDateAndCafeteriaAndMealType(date, cafeteria, mealType)
                 .map(menu -> MealListDto.of(mealType, cafeteria, menu))
-                .orElse(MealListDto.empty(mealType, date));
+                .orElse(MealListDto.empty(mealType, cafeteria, date));
     }
 }

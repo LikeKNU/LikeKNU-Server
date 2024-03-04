@@ -4,7 +4,6 @@ import ac.knu.likeknu.controller.dto.menu.MealListDto;
 import ac.knu.likeknu.controller.dto.menu.MenuListDto;
 import ac.knu.likeknu.controller.dto.menu.MenuResponse;
 import ac.knu.likeknu.domain.value.Campus;
-import ac.knu.likeknu.domain.value.MealType;
 import ac.knu.likeknu.service.MenuService;
 import ac.knu.likeknu.service.SlackService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.eq;
@@ -59,14 +59,14 @@ public class MenuControllerTest {
                 "Test1",
                 "TestName1",
                 List.of(
-                        MealListDto.empty(MealType.BREAKFAST, localDate),
-                        new MealListDto("점심", "TestTime1", menuListDtos, localDate),
-                        new MealListDto("저녁", "TestTime2", menuListDtos, localDate)
+                        new MealListDto("아침", "TestTime1", new ArrayList<>(), localDate),
+                        new MealListDto("점심", "TestTime2", menuListDtos, localDate),
+                        new MealListDto("저녁", "TestTime3", menuListDtos, localDate)
                 ),
                 List.of(
-                        MealListDto.empty(MealType.BREAKFAST, localDate2),
-                        new MealListDto("점심", "TestTime1", menuListDtos, localDate2),
-                        new MealListDto("저녁", "TestTime2", menuListDtos, localDate2)
+                        new MealListDto("아침", "TestTime1", new ArrayList<>(), localDate),
+                        new MealListDto("점심", "TestTime2", menuListDtos, localDate2),
+                        new MealListDto("저녁", "TestTime3", menuListDtos, localDate2)
                 )
         );
 
@@ -74,14 +74,14 @@ public class MenuControllerTest {
                 "Test2",
                 "TestName2",
                 List.of(
-                        MealListDto.empty(MealType.BREAKFAST, localDate),
-                        MealListDto.empty(MealType.LUNCH, localDate),
-                        MealListDto.empty(MealType.DINNER, localDate)
+                        new MealListDto("아침", "TestTime1", new ArrayList<>(), localDate),
+                        new MealListDto("점심", "TestTime2", new ArrayList<>(), localDate),
+                        new MealListDto("저녁", "TestTime3", new ArrayList<>(), localDate)
                 ),
                 List.of(
-                        MealListDto.empty(MealType.BREAKFAST, localDate2),
-                        MealListDto.empty(MealType.LUNCH, localDate2),
-                        MealListDto.empty(MealType.DINNER, localDate2)
+                        new MealListDto("아침", "TestTime1", new ArrayList<>(), localDate),
+                        new MealListDto("점심", "TestTime2", new ArrayList<>(), localDate),
+                        new MealListDto("저녁", "TestTime3", new ArrayList<>(), localDate)
                 )
         );
 
