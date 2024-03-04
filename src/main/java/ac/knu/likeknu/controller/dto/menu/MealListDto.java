@@ -38,17 +38,19 @@ public class MealListDto {
             }
         }
 
+        LocalDate menuDate = menu.getMenuDate();
         return MealListDto.builder()
                 .mealType(mealType.getMealTypeKr())
-                .operatingTime(cafeteria.getTime(mealType, menu.getMenuDate()))
+                .operatingTime(cafeteria.getTime(mealType, menuDate))
                 .menus(menuList)
-                .date(menu.getMenuDate())
+                .date(menuDate)
                 .build();
     }
 
-    public static MealListDto empty(MealType mealType, LocalDate date) {
+    public static MealListDto empty(MealType mealType, Cafeteria cafeteria, LocalDate date) {
         return MealListDto.builder()
                 .mealType(mealType.getMealTypeKr())
+                .operatingTime(cafeteria.getTime(mealType, date))
                 .menus(new ArrayList<>())
                 .date(date)
                 .build();
