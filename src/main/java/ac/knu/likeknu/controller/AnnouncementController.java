@@ -5,7 +5,11 @@ import ac.knu.likeknu.controller.dto.base.PageDto;
 import ac.knu.likeknu.controller.dto.base.PageResponseDto;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.Category;
+import ac.knu.likeknu.logging.domain.value.LogType;
+import ac.knu.likeknu.logging.service.LoggingService;
 import ac.knu.likeknu.service.AnnouncementService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,14 +18,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Slf4j
 @RequestMapping("/api/announcements")
 @RestController
 public class AnnouncementController {
 
     private final AnnouncementService announcementService;
+    private final LoggingService loggingService;
 
-    public AnnouncementController(AnnouncementService announcementService) {
+    public AnnouncementController(AnnouncementService announcementService, LoggingService loggingService) {
         this.announcementService = announcementService;
+        this.loggingService = loggingService;
     }
 
     @GetMapping("/{category}")
@@ -31,6 +38,11 @@ public class AnnouncementController {
             @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
             @PathVariable("category") String category
     ) {
+        if (StringUtils.hasText(keyword)) {
+            loggingService.addLog(LogType.SEARCH_ANNOUNCEMENT, category, keyword);
+        }
+
+        log.info("AnnouncementController.recentAnnouncementList");
         PageDto pageDto = PageDto.of(page);
         List<AnnouncementListResponse> studentNewsList =
                 announcementService.getAnnouncements(campus, Category.of(category), pageDto, keyword.trim());
