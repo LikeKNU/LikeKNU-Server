@@ -22,8 +22,9 @@ public class LoggingService {
     }
 
     @Async
-    public void addLog(LogType logType, String... values) {
+    public void addLog(LogType logType, String deviceId, String... values) {
         UserLog userLog = UserLog.builder()
+                .device(deviceId)
                 .logType(logType)
                 .value(String.join(".", values))
                 .timestamp(new Timestamp(System.currentTimeMillis()))

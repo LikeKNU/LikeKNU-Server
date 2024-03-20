@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,10 +37,11 @@ public class AnnouncementController {
             @RequestParam("campus") Campus campus,
             @RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
-            @PathVariable("category") String category
+            @PathVariable("category") String category,
+            @RequestHeader(name = "Device-Id", required = false) String deviceId
     ) {
         if (StringUtils.hasText(keyword)) {
-            loggingService.addLog(LogType.SEARCH_ANNOUNCEMENT, category, keyword);
+            loggingService.addLog(LogType.SEARCH_ANNOUNCEMENT, deviceId, category, keyword);
         }
 
         log.info("AnnouncementController.recentAnnouncementList");

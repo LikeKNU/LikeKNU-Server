@@ -23,6 +23,9 @@ public class UserLog {
     @Id
     private Long id;
 
+    @Column
+    private String device;
+
     @Enumerated(EnumType.STRING)
     @Column
     private LogType logType;
@@ -37,7 +40,8 @@ public class UserLog {
     }
 
     @Builder
-    public UserLog(LogType logType, String value, Timestamp timestamp) {
+    public UserLog(String device, LogType logType, String value, Timestamp timestamp) {
+        this.device = device;
         this.logType = logType;
         this.value = value;
         this.timestamp = timestamp;

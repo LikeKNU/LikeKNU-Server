@@ -12,6 +12,7 @@ import ac.knu.likeknu.service.CityBusService;
 import ac.knu.likeknu.service.ShuttleBusService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,8 +49,10 @@ public class BusController {
     }
 
     @GetMapping("/shuttle-bus/{shuttleId}")
-    public ResponseDto<List<ShuttleBusesArrivalTimeResponse>> shuttleBusesArrivalTime(@PathVariable("shuttleId") String shuttleId) {
-        loggingService.addLog(LogType.SELECT_SHUTTLE, shuttleId);
+    public ResponseDto<List<ShuttleBusesArrivalTimeResponse>> shuttleBusesArrivalTime(
+            @PathVariable("shuttleId") String shuttleId, @RequestHeader(name = "Device-Id", required = false) String deviceId
+    ) {
+        loggingService.addLog(LogType.SELECT_SHUTTLE, deviceId, shuttleId);
         List<ShuttleBusesArrivalTimeResponse> shuttleBusesArrivalTime = shuttleBusService.getShuttleBusesArrivalTime(shuttleId);
         return ResponseDto.of(shuttleBusesArrivalTime);
     }
