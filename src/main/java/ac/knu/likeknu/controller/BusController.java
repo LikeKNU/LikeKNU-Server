@@ -35,8 +35,13 @@ public class BusController {
 
     @GetMapping("/city-bus/{type}")
     private ResponseDto<List<CityBusesResponse>> cityBusesArrivalTime(
-            @RequestParam("campus") Campus campus, @PathVariable("type") String type
+            @RequestParam("campus") Campus campus, @PathVariable("type") String type,
+            @RequestParam("isRefresh") boolean isRefresh, @RequestHeader(name = "Device-Id", required = false) String deviceId
     ) {
+        if (isRefresh) {
+            loggingService.addLog(LogType.REFRESH_CITY_BUS, deviceId);
+        }
+
         RouteType routeType = RouteType.of(type);
         List<CityBusesResponse> cityBusesArrivalTime = cityBusService.getCityBusesArrivalTime(campus, routeType);
         return ResponseDto.of(cityBusesArrivalTime);
