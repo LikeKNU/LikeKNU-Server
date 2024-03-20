@@ -36,6 +36,8 @@ public class Shuttle {
 
     private String note;
 
+    private int sequence;
+
     @OneToMany(mappedBy = "shuttle")
     private List<ShuttleBus> shuttleBuses = new ArrayList<>();
 

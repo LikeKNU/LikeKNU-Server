@@ -36,6 +36,7 @@ public class ShuttleBusService {
     public List<ShuttleListResponse> getRouteList(Campus campus) {
         return shuttleRepository.findByCampusesContains(campus)
                 .stream()
+                .sorted(Comparator.comparing(Shuttle::getSequence))
                 .map(ShuttleListResponse::of)
                 .toList();
     }
