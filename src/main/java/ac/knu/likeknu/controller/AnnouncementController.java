@@ -44,7 +44,6 @@ public class AnnouncementController {
             loggingService.addLog(LogType.SEARCH_ANNOUNCEMENT, deviceId, category, keyword);
         }
 
-        log.info("AnnouncementController.recentAnnouncementList");
         PageDto pageDto = PageDto.of(page);
         List<AnnouncementListResponse> studentNewsList =
                 announcementService.getAnnouncements(campus, Category.of(category), pageDto, keyword.trim());
