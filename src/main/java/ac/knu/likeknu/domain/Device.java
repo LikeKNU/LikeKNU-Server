@@ -48,6 +48,10 @@ public class Device {
 
     private String platform;
 
+    private String themeColor;
+
+    private String favoriteCafeteria;
+
     private LocalDateTime lastVisitedAt;
 
     @JoinTable(name = "device_notification",
@@ -66,11 +70,13 @@ public class Device {
     }
 
     @Builder
-    public Device(String id, String fcmToken, Campus campus, LocalDateTime registeredAt) {
+    public Device(String id, String fcmToken, Campus campus, LocalDateTime registeredAt, String themeColor, String favoriteCafeteria) {
         this.id = id;
         this.fcmToken = fcmToken;
         this.campus = campus;
         this.registeredAt = registeredAt;
+        this.themeColor = themeColor;
+        this.favoriteCafeteria = favoriteCafeteria;
     }
 
     public static Device of(DeviceRegistrationRequest request) {
@@ -78,6 +84,8 @@ public class Device {
                 .id(request.deviceId())
                 .campus(Campus.CHEONAN)
                 .registeredAt(LocalDateTime.now())
+                .themeColor(request.themeColor())
+                .favoriteCafeteria(request.favoriteCafeteria())
                 .build();
     }
 
@@ -90,15 +98,11 @@ public class Device {
         this.isTurnOnNotification = isTurnOnNotification;
     }
 
-    public void updatePlatform(String platform) {
-        this.platform = platform;
-    }
-
-    public void visitNow() {
+    public void update(DeviceRegistrationRequest deviceRequest) {
+        this.platform = deviceRequest.userAgent();
+        this.campus = Campus.of(deviceRequest.campus());
+        this.themeColor = deviceRequest.themeColor();
+        this.favoriteCafeteria = deviceRequest.favoriteCafeteria();
         lastVisitedAt = LocalDateTime.now();
-    }
-
-    public void updateCampus(Campus campus) {
-        this.campus = campus;
     }
 }

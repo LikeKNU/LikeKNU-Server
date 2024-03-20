@@ -32,9 +32,9 @@ public class DeviceService {
         this.registeredDevices = Collections.synchronizedSet(new HashSet<>());
     }
 
-    public void registerDeviceId(DeviceRegistrationRequest deviceRequest) {
+    public void registerDevice(DeviceRegistrationRequest deviceRequest) {
         String userAgent = deviceRequest.userAgent();
-        if (userAgent.contains("Googlebot") || userAgent.contains("AdsBot")) {
+        if (userAgent.contains("Googlebot") || userAgent.contains("AdsBot") || userAgent.contains("Vercel")) {
             return;
         }
 
@@ -42,10 +42,7 @@ public class DeviceService {
         Device device = deviceRepository.findById(deviceId)
                 .orElseGet(() -> Device.of(deviceRequest));
 
-        device.updatePlatform(userAgent);
-        String campus = deviceRequest.campus();
-        device.updateCampus(Campus.of(campus));
-        device.visitNow();
+        device.update(deviceRequest);
         if (registeredDevices.add(deviceId)) {
             deviceRepository.save(device);
         }

@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 @Getter
 public class ResponseDto<T> {
+
     private final LocalDateTime timeStamp;
     private final String message;
     private final ResponseData<T> data;

@@ -6,6 +6,8 @@ import ac.knu.likeknu.controller.dto.shuttlebus.ShuttleBusesArrivalTimeResponse;
 import ac.knu.likeknu.controller.dto.shuttlebus.ShuttleListResponse;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.RouteType;
+import ac.knu.likeknu.logging.domain.value.LogType;
+import ac.knu.likeknu.logging.service.LoggingService;
 import ac.knu.likeknu.service.CityBusService;
 import ac.knu.likeknu.service.ShuttleBusService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,10 +24,12 @@ public class BusController {
 
     private final CityBusService cityBusService;
     private final ShuttleBusService shuttleBusService;
+    private final LoggingService loggingService;
 
-    public BusController(CityBusService cityBusService, ShuttleBusService shuttleBusService) {
+    public BusController(CityBusService cityBusService, ShuttleBusService shuttleBusService, LoggingService loggingService) {
         this.cityBusService = cityBusService;
         this.shuttleBusService = shuttleBusService;
+        this.loggingService = loggingService;
     }
 
     @GetMapping("/city-bus/{type}")
@@ -45,6 +49,7 @@ public class BusController {
 
     @GetMapping("/shuttle-bus/{shuttleId}")
     public ResponseDto<List<ShuttleBusesArrivalTimeResponse>> shuttleBusesArrivalTime(@PathVariable("shuttleId") String shuttleId) {
+        loggingService.addLog(LogType.SELECT_SHUTTLE, shuttleId);
         List<ShuttleBusesArrivalTimeResponse> shuttleBusesArrivalTime = shuttleBusService.getShuttleBusesArrivalTime(shuttleId);
         return ResponseDto.of(shuttleBusesArrivalTime);
     }
