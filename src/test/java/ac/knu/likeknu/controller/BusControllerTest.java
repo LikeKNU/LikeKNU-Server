@@ -6,6 +6,7 @@ import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.RouteType;
+import ac.knu.likeknu.logging.service.LoggingService;
 import ac.knu.likeknu.service.CityBusService;
 import ac.knu.likeknu.service.ShuttleBusService;
 import ac.knu.likeknu.service.SlackService;
@@ -43,6 +44,8 @@ class BusControllerTest {
     private ShuttleBusService shuttleBusService;
     @MockBean
     private SlackService slackService;
+    @MockBean
+    private LoggingService loggingService;
 
     @DisplayName("캠퍼스별 시내버스 도착시간 조회 API 요청에 성공한다.")
     @Test

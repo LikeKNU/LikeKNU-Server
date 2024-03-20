@@ -6,6 +6,7 @@ import ac.knu.likeknu.domain.Announcement;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.Category;
 import ac.knu.likeknu.domain.value.Tag;
+import ac.knu.likeknu.logging.service.LoggingService;
 import ac.knu.likeknu.service.AnnouncementService;
 import ac.knu.likeknu.service.SlackService;
 import ac.knu.likeknu.utils.TestInstanceFactory;
@@ -43,6 +44,8 @@ class AnnouncementControllerTest {
     private AnnouncementService announcementService;
     @MockBean
     private SlackService slackService;
+    @MockBean
+    private LoggingService loggingService;
 
     @DisplayName("학생소식 조회 API 요청에 성공한다.")
     @Test
