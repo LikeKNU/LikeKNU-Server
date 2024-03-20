@@ -31,7 +31,7 @@ public class DeviceController {
 
     @PostMapping
     public ResponseDto<String> registerDevice(@RequestBody DeviceRegistrationRequest request) {
-        deviceService.registerDeviceId(request);
+        deviceService.registerDevice(request);
         return ResponseDto.of("The device was successfully registered.");
     }
 
