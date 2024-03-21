@@ -25,7 +25,10 @@ public class MenuResponse {
     }
 
     public static MenuResponse of(Cafeteria cafeteria, Map<LocalDate, List<MealListDto>> mealList) {
-        List<LocalDate> keys = mealList.keySet().stream().sorted().toList();
+        List<LocalDate> keys = mealList.keySet()
+                .stream()
+                .sorted()
+                .toList();
 
         return MenuResponse.builder()
                 .cafeteriaId(cafeteria.getId())
