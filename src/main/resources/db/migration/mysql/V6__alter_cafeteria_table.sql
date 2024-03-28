@@ -33,4 +33,4 @@ SET cafeteria_name = '드림'
 WHERE cafeteria_name = 'DREAM';
 
 ALTER TABLE cafeteria
-    MODIFY COLUMN cafeteria_name VARCHAR(20);
+    MODIFY COLUMN cafeteria_name VARCHAR(8);
