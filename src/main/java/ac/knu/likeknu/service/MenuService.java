@@ -33,7 +33,7 @@ public class MenuService {
         List<Cafeteria> cafeterias = cafeteriaRepository.findByCampus(campus);
 
         return cafeterias.stream()
-                .sorted(Comparator.comparing(cafeteria -> cafeteria.getCafeteriaName().getSequence()))
+                .sorted(Comparator.comparing(Cafeteria::getSequence))
                 .map(cafeteria -> MenuResponse.of(cafeteria, createMapContainingMealListDto(cafeteria, date)))
                 .collect(Collectors.toList());
     }

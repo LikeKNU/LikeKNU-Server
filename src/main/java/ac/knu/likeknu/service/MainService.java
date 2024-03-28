@@ -51,7 +51,7 @@ public class MainService {
     public List<MainMenuResponse> getMenuResponse(Campus campus) {
         List<Cafeteria> cafeterias = cafeteriaRepository.findByCampus(campus);
         return cafeterias.stream()
-                .sorted(Comparator.comparing(cafeteria -> cafeteria.getCafeteriaName().getSequence()))
+                .sorted(Comparator.comparing(Cafeteria::getSequence))
                 .map(this::findAndGenerateMenuResponse)
                 .collect(Collectors.toList());
     }

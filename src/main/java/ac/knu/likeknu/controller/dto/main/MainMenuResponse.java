@@ -36,7 +36,7 @@ public class MainMenuResponse {
 
         return MainMenuResponse.builder()
                 .cafeteriaId(cafeteria.getId())
-                .cafeteriaName(cafeteria.getCafeteriaName().getCafeteriaName())
+                .cafeteriaName(cafeteria.getCafeteriaName())
                 .mealType(MealType.now().getMealTypeKr())
                 .menus(menuList)
                 .build();
@@ -45,7 +45,7 @@ public class MainMenuResponse {
     public static MainMenuResponse empty(Cafeteria cafeteria) {
         return MainMenuResponse.builder()
                 .cafeteriaId(cafeteria.getId())
-                .cafeteriaName(cafeteria.getCafeteriaName().getCafeteriaName())
+                .cafeteriaName(cafeteria.getCafeteriaName())
                 .mealType(MealType.now().getMealTypeKr())
                 .menus(new ArrayList<>())
                 .build();
