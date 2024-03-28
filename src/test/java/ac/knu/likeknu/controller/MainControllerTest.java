@@ -136,9 +136,9 @@ class MainControllerTest {
                         .param("campus", Campus.CHEONAN.name())
         ).andExpectAll(
                 status().isOk(),
-                jsonPath("$.data.body.[0].announcementId").value(announcementsResponse1.getAnnouncementId()),
-                jsonPath("$.data.body.[1].announcementTitle").value(announcementsResponse2.getAnnouncementTitle()),
-                jsonPath("$.data.body.[2].announcementUrl").value(announcementsResponse3.getAnnouncementUrl())
+                jsonPath("$.data.body.[0].announcementId").value(announcementsResponse1.announcementId()),
+                jsonPath("$.data.body.[1].announcementTitle").value(announcementsResponse2.announcementTitle()),
+                jsonPath("$.data.body.[2].announcementUrl").value(announcementsResponse3.announcementUrl())
         ).andDo(print());
 
     }
@@ -177,18 +177,18 @@ class MainControllerTest {
         //then
         resultActions1.andExpectAll(
                 status().isOk(),
-                jsonPath("$.data.body.[0].cafeteriaId").value(menuResponse1.getCafeteriaId()),
-                jsonPath("$.data.body.[1].cafeteriaName").value(menuResponse2.getCafeteriaName()),
-                jsonPath("$.data.body.[0].menus.[0].menuId").value(menuResponse1.getMenus().get(0).getMenuId()),
-                jsonPath("$.data.body.[2].menus.[1].menuName").value(menuResponse4.getMenus().get(1).getMenuName())
+                jsonPath("$.data.body.[0].cafeteriaId").value(menuResponse1.cafeteriaId()),
+                jsonPath("$.data.body.[1].cafeteriaName").value(menuResponse2.cafeteriaName()),
+                jsonPath("$.data.body.[0].menus.[0].menuId").value(menuResponse1.menus().get(0).getMenuId()),
+                jsonPath("$.data.body.[2].menus.[1].menuName").value(menuResponse4.menus().get(1).getMenuName())
         ).andDo(print());
 
         resultActions2.andExpectAll(
                 status().isOk(),
-                jsonPath("$.data.body.[0].cafeteriaId").value(menuResponse1.getCafeteriaId()),
-                jsonPath("$.data.body.[1].cafeteriaName").value(menuResponse3.getCafeteriaName()),
-                jsonPath("$.data.body.[0].menus.[0].menuId").value(menuResponse1.getMenus().get(0).getMenuId()),
-                jsonPath("$.data.body.[2].menus.[1].menuName").value(menuResponse4.getMenus().get(1).getMenuName())
+                jsonPath("$.data.body.[0].cafeteriaId").value(menuResponse1.cafeteriaId()),
+                jsonPath("$.data.body.[1].cafeteriaName").value(menuResponse3.cafeteriaName()),
+                jsonPath("$.data.body.[0].menus.[0].menuId").value(menuResponse1.menus().get(0).getMenuId()),
+                jsonPath("$.data.body.[2].menus.[1].menuName").value(menuResponse4.menus().get(1).getMenuName())
         ).andDo(print());
 
     }
@@ -211,9 +211,9 @@ class MainControllerTest {
         //then
         resultActions.andExpectAll(
                 status().isOk(),
-                jsonPath("$.data.body.[0].scheduleId").value(calendar1.getScheduleId()),
-                jsonPath("$.data.body.[1].scheduleContents").value(calendar2.getScheduleContents()),
-                jsonPath("$.data.body.[2].scheduleDate").value(calendar3.getScheduleDate())
+                jsonPath("$.data.body.[0].scheduleId").value(calendar1.scheduleId()),
+                jsonPath("$.data.body.[1].scheduleContents").value(calendar2.scheduleContents()),
+                jsonPath("$.data.body.[2].scheduleDate").value(calendar3.scheduleDate())
         ).andDo(print());
 
     }

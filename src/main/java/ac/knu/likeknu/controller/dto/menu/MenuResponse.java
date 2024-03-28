@@ -32,7 +32,7 @@ public class MenuResponse {
 
         return MenuResponse.builder()
                 .cafeteriaId(cafeteria.getId())
-                .cafeteriaName(cafeteria.getCafeteriaName().getCafeteriaName())
+                .cafeteriaName(cafeteria.getCafeteriaName())
                 .today(mealList.get(keys.get(0)))
                 .tomorrow(mealList.get(keys.get(1)))
                 .build();

@@ -2,27 +2,13 @@ package ac.knu.likeknu.controller.dto.main;
 
 import ac.knu.likeknu.domain.AcademicCalendar;
 import lombok.Builder;
-import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-@Getter
-public class MainScheduleResponse {
-
-    private String scheduleId;
-    private String scheduleContents;
-    private String scheduleDate;
-    private boolean today;
-
-    @Builder
-    public MainScheduleResponse(String scheduleId, String scheduleContents, String scheduleDate, boolean today) {
-        this.scheduleId = scheduleId;
-        this.scheduleContents = scheduleContents;
-        this.scheduleDate = scheduleDate;
-        this.today = today;
-    }
+@Builder
+public record MainScheduleResponse(String scheduleId, String scheduleContents, String scheduleDate, boolean today) {
 
     public static MainScheduleResponse of(AcademicCalendar calendar) {
         LocalDate start = calendar.getStartDate();
@@ -44,7 +30,7 @@ public class MainScheduleResponse {
     private static String dateParser(LocalDate startDate, LocalDate endDate) {
         String date = dateFormatter(startDate);
 
-        if(!startDate.isEqual(endDate)) {
+        if (!startDate.isEqual(endDate)) {
             date += " ~ " + dateFormatter(endDate);
         }
 

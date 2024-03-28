@@ -1,7 +1,5 @@
 package ac.knu.likeknu.domain;
 
-import ac.knu.likeknu.domain.value.CafeteriaName;
-import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.MealType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
