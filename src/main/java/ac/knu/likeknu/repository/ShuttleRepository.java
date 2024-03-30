@@ -1,7 +1,7 @@
 package ac.knu.likeknu.repository;
 
 import ac.knu.likeknu.domain.Shuttle;
-import ac.knu.likeknu.domain.value.Campus;
+import ac.knu.likeknu.domain.constants.Campus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

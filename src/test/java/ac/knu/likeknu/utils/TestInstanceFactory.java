@@ -3,8 +3,8 @@ package ac.knu.likeknu.utils;
 import ac.knu.likeknu.domain.Announcement;
 import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
-import ac.knu.likeknu.domain.value.RouteType;
-import ac.knu.likeknu.domain.value.Tag;
+import ac.knu.likeknu.domain.constants.RouteType;
+import ac.knu.likeknu.domain.constants.Tag;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

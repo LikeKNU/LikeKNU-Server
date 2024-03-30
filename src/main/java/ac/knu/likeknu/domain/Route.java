@@ -1,7 +1,7 @@
 package ac.knu.likeknu.domain;
 
-import ac.knu.likeknu.domain.value.Campus;
-import ac.knu.likeknu.domain.value.RouteType;
+import ac.knu.likeknu.domain.constants.Campus;
+import ac.knu.likeknu.domain.constants.RouteType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

@@ -6,7 +6,7 @@ import ac.knu.likeknu.controller.dto.citybus.MainCityBusResponse;
 import ac.knu.likeknu.controller.dto.menu.MainMenuResponse;
 import ac.knu.likeknu.controller.dto.schedule.MainScheduleResponse;
 import ac.knu.likeknu.domain.MainHeaderMessage;
-import ac.knu.likeknu.domain.value.Campus;
+import ac.knu.likeknu.domain.constants.Campus;
 import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.repository.MainHeaderMessageRepository;
 import ac.knu.likeknu.service.CityBusService;

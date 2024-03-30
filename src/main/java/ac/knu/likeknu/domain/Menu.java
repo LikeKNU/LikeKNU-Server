@@ -1,6 +1,6 @@
 package ac.knu.likeknu.domain;
 
-import ac.knu.likeknu.domain.value.MealType;
+import ac.knu.likeknu.domain.constants.MealType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

@@ -2,7 +2,7 @@ package ac.knu.likeknu.controller;
 
 import ac.knu.likeknu.controller.dto.base.ResponseDto;
 import ac.knu.likeknu.controller.dto.menu.CafeteriaMealListResponse;
-import ac.knu.likeknu.domain.value.Campus;
+import ac.knu.likeknu.domain.constants.Campus;
 import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.service.MenuService;
 import lombok.RequiredArgsConstructor;

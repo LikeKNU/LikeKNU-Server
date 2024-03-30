@@ -1,7 +1,7 @@
 package ac.knu.likeknu.controller.dto.menu;
 
 import ac.knu.likeknu.domain.Cafeteria;
-import ac.knu.likeknu.domain.value.MealType;
+import ac.knu.likeknu.domain.constants.MealType;
 import lombok.Builder;
 
 @Builder

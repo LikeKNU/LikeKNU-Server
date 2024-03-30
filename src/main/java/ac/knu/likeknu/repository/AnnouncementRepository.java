@@ -1,8 +1,8 @@
 package ac.knu.likeknu.repository;
 
 import ac.knu.likeknu.domain.Announcement;
-import ac.knu.likeknu.domain.value.Campus;
-import ac.knu.likeknu.domain.value.Category;
+import ac.knu.likeknu.domain.constants.Campus;
+import ac.knu.likeknu.domain.constants.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
