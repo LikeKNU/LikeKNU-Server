@@ -3,6 +3,7 @@ package ac.knu.likeknu.service;
 import ac.knu.likeknu.controller.dto.menu.CafeteriaMealListResponse;
 import ac.knu.likeknu.controller.dto.menu.MealListResponse;
 import ac.knu.likeknu.domain.Cafeteria;
+import ac.knu.likeknu.domain.Menu;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.MealType;
 import ac.knu.likeknu.exception.BusinessException;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Slf4j
@@ -50,19 +52,19 @@ public class MenuService {
     }
 
     private CafeteriaMealListResponse getOneDayCafeteriaMealList(Cafeteria cafeteria, LocalDate date) {
+        List<Menu> menus = menuRepository.findByCafeteriaAndMenuDate(cafeteria, date);
         List<MealListResponse> mealList = Arrays.stream(MealType.values())
                 .filter(mealType -> cafeteria.isOperate(mealType, date))
-                .map(mealType -> getOneDayCafeteriaMeal(cafeteria, date, mealType))
+                .map(mealType -> mealFiltering(menus, mealType)
+                        .map(menu -> MealListResponse.of(menu, cafeteria))
+                        .orElse(MealListResponse.empty(mealType, cafeteria.getOperatingTime(mealType, date))))
                 .toList();
         return CafeteriaMealListResponse.of(cafeteria, date, mealList);
     }
 
-    private MealListResponse getOneDayCafeteriaMeal(Cafeteria cafeteria, LocalDate date, MealType mealType) {
-        return menuRepository.findByCafeteriaAndMenuDate(cafeteria, date)
-                .stream()
+    private Optional<Menu> mealFiltering(List<Menu> menus, MealType mealType) {
+        return menus.stream()
                 .filter(menu -> menu.getMealType().equals(mealType))
-                .findAny()
-                .map(menu -> MealListResponse.of(menu, cafeteria))
-                .orElse(MealListResponse.empty(mealType, cafeteria.getOperatingTime(mealType, date)));
+                .findAny();
     }
 }
