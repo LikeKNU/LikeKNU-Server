@@ -42,14 +42,25 @@ public class MenuThumbs {
     }
 
     @Builder
-    public MenuThumbs(ThumbsType thumbsType, Timestamp thumbsAt, Device device, Menu menu) {
+    public MenuThumbs(ThumbsType thumbsType, Device device, Menu menu) {
         this.thumbsType = thumbsType;
-        this.thumbsAt = thumbsAt;
+        this.thumbsAt = new Timestamp(System.currentTimeMillis());
         this.device = device;
         this.menu = menu;
     }
 
     public String getType() {
         return thumbsType.name();
+    }
+
+    public boolean isTypeOf(ThumbsType thumbsType) {
+        return this.thumbsType.equals(thumbsType);
+    }
+
+    public void changeType(ThumbsType thumbsType) {
+        if (thumbsType != null) {
+            this.thumbsType = thumbsType;
+        }
+        thumbsAt = new Timestamp(System.currentTimeMillis());
     }
 }
