@@ -1,10 +1,11 @@
 package ac.knu.likeknu.service;
 
-import ac.knu.likeknu.controller.dto.menu.MealListDto;
-import ac.knu.likeknu.controller.dto.menu.MenuResponse;
+import ac.knu.likeknu.controller.dto.menu.CafeteriaMealListResponse;
+import ac.knu.likeknu.controller.dto.menu.MealListResponse;
 import ac.knu.likeknu.domain.Cafeteria;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.domain.value.MealType;
+import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.repository.CafeteriaRepository;
 import ac.knu.likeknu.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Slf4j
@@ -29,28 +27,42 @@ public class MenuService {
     private final MenuRepository menuRepository;
     private final CafeteriaRepository cafeteriaRepository;
 
-    public List<MenuResponse> getMenuResponsesByCampus(Campus campus, LocalDate date) {
-        List<Cafeteria> cafeterias = cafeteriaRepository.findByCampus(campus);
+    public List<CafeteriaMealListResponse> getCafeteriaMeals(Campus campus, String cafeteriaName) {
+        Cafeteria specifiedCafeteria = cafeteriaRepository.findByCampus(campus)
+                .stream()
+                .filter(cafeteria -> cafeteria.getCafeteriaName().equals(cafeteriaName))
+                .findAny()
+                .orElseThrow(() -> new BusinessException(
+                        String.format("cafeteria name does not exist [%s], on campus [%s]", cafeteriaName, campus.getName()))
+                );
 
-        return cafeterias.stream()
-                .sorted(Comparator.comparing(Cafeteria::getSequence))
-                .map(cafeteria -> MenuResponse.of(cafeteria, createMapContainingMealListDto(cafeteria, date)))
-                .collect(Collectors.toList());
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = LocalDate.now()
+                .plusDays(1);
+        return getPeriodCafeteriaMealList(specifiedCafeteria, startDate, endDate);
     }
 
-    private Map<LocalDate, List<MealListDto>> createMapContainingMealListDto(Cafeteria cafeteria, LocalDate date) {
-        return Arrays.stream(MealType.values())
-                .flatMap(mealType -> Stream.of(date, date.plusDays(1))
-                        .map(day -> findRepositoryAndMapDto(mealType, cafeteria, day)))
-                .collect(
-                        Collectors.groupingBy(MealListDto::getDate,
-                                Collectors.mapping(mealListDto -> mealListDto, Collectors.toList())
-                        ));
+    private List<CafeteriaMealListResponse> getPeriodCafeteriaMealList(Cafeteria specifiedCafeteria, LocalDate startDate, LocalDate endDate) {
+        return Stream.iterate(startDate, date -> date.isBefore(endDate.plusDays(1)),
+                        date -> date.plusDays(1))
+                .map(date -> getOneDayCafeteriaMealList(specifiedCafeteria, date))
+                .toList();
     }
 
-    private MealListDto findRepositoryAndMapDto(MealType mealType, Cafeteria cafeteria, LocalDate date) {
-        return menuRepository.findByMenuDateAndCafeteriaAndMealType(date, cafeteria, mealType)
-                .map(menu -> MealListDto.of(mealType, cafeteria, menu))
-                .orElse(MealListDto.empty(mealType, cafeteria, date));
+    private CafeteriaMealListResponse getOneDayCafeteriaMealList(Cafeteria cafeteria, LocalDate date) {
+        List<MealListResponse> mealList = Arrays.stream(MealType.values())
+                .filter(mealType -> cafeteria.isOperate(mealType, date))
+                .map(mealType -> getOneDayCafeteriaMeal(cafeteria, date, mealType))
+                .toList();
+        return CafeteriaMealListResponse.of(cafeteria, date, mealList);
+    }
+
+    private MealListResponse getOneDayCafeteriaMeal(Cafeteria cafeteria, LocalDate date, MealType mealType) {
+        return menuRepository.findByCafeteriaAndMenuDate(cafeteria, date)
+                .stream()
+                .filter(menu -> menu.getMealType().equals(mealType))
+                .findAny()
+                .map(menu -> MealListResponse.of(menu, cafeteria))
+                .orElse(MealListResponse.empty(mealType, cafeteria.getOperatingTime(mealType, date)));
     }
 }

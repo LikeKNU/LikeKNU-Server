@@ -1,7 +1,7 @@
 package ac.knu.likeknu.controller;
 
 import ac.knu.likeknu.controller.dto.base.ResponseDto;
-import ac.knu.likeknu.controller.dto.menu.MenuResponse;
+import ac.knu.likeknu.controller.dto.menu.CafeteriaMealListResponse;
 import ac.knu.likeknu.domain.value.Campus;
 import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.service.MenuService;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -22,15 +21,15 @@ public class MenuController {
     private final MenuService menuService;
 
     @GetMapping
-    public ResponseDto<List<MenuResponse>> getMenuByCampus(
+    public ResponseDto<List<CafeteriaMealListResponse>> getMenuByCampus(
             @RequestParam(name = "campus") Campus campus,
-            @RequestParam(name = "date", defaultValue = "#{T(java.time.LocalDate).now()}") LocalDate date
+            @RequestParam(name = "cafeteriaName") String cafeteriaName
     ) {
         if (campus.equals(Campus.ALL)) {
             throw new BusinessException("Invalid campus");
         }
 
-        List<MenuResponse> menuResponsesByCampus = menuService.getMenuResponsesByCampus(campus, date);
-        return ResponseDto.of(menuResponsesByCampus);
+        List<CafeteriaMealListResponse> cafeteriaMeals = menuService.getCafeteriaMeals(campus, cafeteriaName);
+        return ResponseDto.of(cafeteriaMeals);
     }
 }

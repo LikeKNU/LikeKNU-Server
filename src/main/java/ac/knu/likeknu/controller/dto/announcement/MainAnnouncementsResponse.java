@@ -1,4 +1,4 @@
-package ac.knu.likeknu.controller.dto.main;
+package ac.knu.likeknu.controller.dto.announcement;
 
 import ac.knu.likeknu.domain.Announcement;
 import lombok.Builder;
