@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -49,10 +50,10 @@ public class MainService {
                 .collect(Collectors.toList());
     }
 
-
     public List<MainMenuResponse> getMenuResponse(Campus campus) {
         return cafeteriaRepository.findByCampus(campus)
                 .stream()
+                .sorted(Comparator.comparing(Cafeteria::getSequence))
                 .map(cafeteria -> findNowMealTypeMenu(cafeteria)
                         .map(menu -> MainMenuResponse.of(cafeteria, menu.getMenus()))
                         .orElse(MainMenuResponse.empty(cafeteria)))
