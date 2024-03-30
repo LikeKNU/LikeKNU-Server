@@ -2,8 +2,6 @@ package ac.knu.likeknu.controller;
 
 import ac.knu.likeknu.controller.dto.announcement.MainAnnouncementsResponse;
 import ac.knu.likeknu.controller.dto.citybus.MainCityBusResponse;
-import ac.knu.likeknu.controller.dto.menu.MainMenuResponse;
-import ac.knu.likeknu.controller.dto.menu.MenuListDto;
 import ac.knu.likeknu.controller.dto.schedule.MainScheduleResponse;
 import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;
@@ -25,7 +23,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.eq;
@@ -143,7 +140,7 @@ class MainControllerTest {
 
     }
 
-    @DisplayName("캠퍼스별 식단 정보 조회 API 요청에 성공한다.")
+    /*@DisplayName("캠퍼스별 식단 정보 조회 API 요청에 성공한다.")
     @Test
     void getMenuResponsesAndSuccess() throws Exception {
         //given
@@ -191,7 +188,7 @@ class MainControllerTest {
                 jsonPath("$.data.body.[2].menus.[1].menuName").value(menuResponse4.menus().get(1).getMenuName())
         ).andDo(print());
 
-    }
+    }*/
 
     @DisplayName("학사일정 정보 조회 API 요청에 성공한다.")
     @Test

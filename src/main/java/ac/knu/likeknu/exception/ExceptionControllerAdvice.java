@@ -6,9 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 @Slf4j
 @RestControllerAdvice
 public class ExceptionControllerAdvice {
@@ -28,7 +25,7 @@ public class ExceptionControllerAdvice {
                 .body(message);
     }
 
-    @ExceptionHandler(value = Exception.class)
+    /*@ExceptionHandler(value = Exception.class)
     protected ResponseEntity<String> exceptionHandler(Exception exception) {
         String message = exception.getMessage();
         String stackTrace = Arrays.stream(exception.getStackTrace())
@@ -38,5 +35,5 @@ public class ExceptionControllerAdvice {
         slackService.sendMessage(String.join("\n", message, stackTrace));
         return ResponseEntity.internalServerError()
                 .body(message);
-    }
+    }*/
 }
