@@ -1,4 +1,4 @@
-package ac.knu.likeknu.controller.dto.main;
+package ac.knu.likeknu.controller.dto.schedule;
 
 import ac.knu.likeknu.domain.AcademicCalendar;
 import lombok.Builder;

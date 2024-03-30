@@ -1,7 +1,7 @@
 package ac.knu.likeknu.domain;
 
-import ac.knu.likeknu.domain.value.Campus;
-import ac.knu.likeknu.domain.value.MealType;
+import ac.knu.likeknu.domain.constants.Campus;
+import ac.knu.likeknu.domain.constants.MealType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -46,39 +46,38 @@ public class Cafeteria {
     protected Cafeteria() {
     }
 
-    public String getTime(MealType mealType, LocalDate date) {
-        if (mealType == null)
-            return null;
+    public boolean isOperate(MealType mealType, LocalDate date) {
+        String operatingTime = getOperatingTime(mealType, date);
+        return operatingTime != null;
+    }
 
+    public String getOperatingTime(MealType mealType, LocalDate date) {
         if (isWeekend(date)) {
-            //주말일 때
-            if (isBreakfast(mealType))
+            if (mealType.equals(MealType.BREAKFAST)) {
                 return weekendBreakfast;
-            else if (isLunch(mealType))
+            }
+            if (mealType.equals(MealType.LUNCH)) {
                 return weekendLunch;
-            else
+            }
+            if (mealType.equals(MealType.DINNER))
                 return weekendDinner;
         } else {
-            //평일일 때
-            if (isBreakfast(mealType))
+            if (mealType.equals(MealType.BREAKFAST)) {
                 return weekdayBreakfast;
-            else if (isLunch(mealType))
+            }
+            if (mealType.equals(MealType.LUNCH)) {
                 return weekdayLunch;
-            else
+            }
+            if (mealType.equals(MealType.DINNER)) {
                 return weekdayDinner;
+            }
         }
+        return null;
     }
+
 
     private boolean isWeekend(LocalDate date) {
         return date.getDayOfWeek().getValue() >= 6;
-    }
-
-    private boolean isBreakfast(MealType mealType) {
-        return mealType.equals(MealType.BREAKFAST);
-    }
-
-    private boolean isLunch(MealType mealType) {
-        return mealType.equals(MealType.LUNCH);
     }
 
     @Override

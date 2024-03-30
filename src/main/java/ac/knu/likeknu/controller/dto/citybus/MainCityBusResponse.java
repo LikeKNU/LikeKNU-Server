@@ -1,4 +1,4 @@
-package ac.knu.likeknu.controller.dto.main;
+package ac.knu.likeknu.controller.dto.citybus;
 
 import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.domain.Route;

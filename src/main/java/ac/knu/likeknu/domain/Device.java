@@ -1,8 +1,8 @@
 package ac.knu.likeknu.domain;
 
 import ac.knu.likeknu.controller.dto.device.request.DeviceRegistrationRequest;
-import ac.knu.likeknu.domain.value.Campus;
-import ac.knu.likeknu.domain.value.Tag;
+import ac.knu.likeknu.domain.constants.Campus;
+import ac.knu.likeknu.domain.constants.Tag;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;

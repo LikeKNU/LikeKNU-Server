@@ -1,6 +1,6 @@
 package ac.knu.likeknu.controller.dto.device.response;
 
-import ac.knu.likeknu.domain.value.Tag;
+import ac.knu.likeknu.domain.constants.Tag;
 
 public record SubscribeTagListResponse(String tag) {
 

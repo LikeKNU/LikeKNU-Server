@@ -4,7 +4,7 @@ import ac.knu.likeknu.controller.dto.shuttlebus.ShuttleBusesArrivalTimeResponse;
 import ac.knu.likeknu.controller.dto.shuttlebus.ShuttleListResponse;
 import ac.knu.likeknu.domain.Shuttle;
 import ac.knu.likeknu.domain.ShuttleBus;
-import ac.knu.likeknu.domain.value.Campus;
+import ac.knu.likeknu.domain.constants.Campus;
 import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.repository.ShuttleBusRepository;
 import ac.knu.likeknu.repository.ShuttleRepository;

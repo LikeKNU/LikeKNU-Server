@@ -1,4 +1,4 @@
-package ac.knu.likeknu.domain.value;
+package ac.knu.likeknu.domain.constants;
 
 import lombok.Getter;
 
@@ -12,17 +12,17 @@ public enum Campus {
     CHEONAN("천안캠", "c-notice"),
     YESAN("예산캠", "y-notice");
 
-    private final String campus;
+    private final String name;
     private final String dormitoryAnnouncementId;
 
-    Campus(String campus, String dormitoryAnnouncementId) {
-        this.campus = campus;
+    Campus(String name, String dormitoryAnnouncementId) {
+        this.name = name;
         this.dormitoryAnnouncementId = dormitoryAnnouncementId;
     }
 
     public static Campus of(String campusName) {
         return Arrays.stream(values())
-                .filter(campus -> campus.getCampus().equals(campusName))
+                .filter(campus -> campus.getName().equals(campusName))
                 .findAny()
                 .orElseThrow();
     }

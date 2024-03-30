@@ -1,14 +1,15 @@
 package ac.knu.likeknu.service;
 
-import ac.knu.likeknu.controller.dto.main.MainAnnouncementsResponse;
-import ac.knu.likeknu.controller.dto.main.MainMenuResponse;
-import ac.knu.likeknu.controller.dto.main.MainScheduleResponse;
+import ac.knu.likeknu.controller.dto.announcement.MainAnnouncementsResponse;
+import ac.knu.likeknu.controller.dto.menu.MainMenuResponse;
+import ac.knu.likeknu.controller.dto.schedule.MainScheduleResponse;
 import ac.knu.likeknu.domain.AcademicCalendar;
 import ac.knu.likeknu.domain.Announcement;
 import ac.knu.likeknu.domain.Cafeteria;
-import ac.knu.likeknu.domain.value.Campus;
-import ac.knu.likeknu.domain.value.Category;
-import ac.knu.likeknu.domain.value.MealType;
+import ac.knu.likeknu.domain.Menu;
+import ac.knu.likeknu.domain.constants.Campus;
+import ac.knu.likeknu.domain.constants.Category;
+import ac.knu.likeknu.domain.constants.MealType;
 import ac.knu.likeknu.repository.AcademicCalendarRepository;
 import ac.knu.likeknu.repository.AnnouncementRepository;
 import ac.knu.likeknu.repository.CafeteriaRepository;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -49,11 +51,20 @@ public class MainService {
     }
 
     public List<MainMenuResponse> getMenuResponse(Campus campus) {
-        List<Cafeteria> cafeterias = cafeteriaRepository.findByCampus(campus);
-        return cafeterias.stream()
+        return cafeteriaRepository.findByCampus(campus)
+                .stream()
                 .sorted(Comparator.comparing(Cafeteria::getSequence))
-                .map(this::findAndGenerateMenuResponse)
-                .collect(Collectors.toList());
+                .map(cafeteria -> findNowMealTypeMenu(cafeteria)
+                        .map(menu -> MainMenuResponse.of(cafeteria, menu.getMenus()))
+                        .orElse(MainMenuResponse.empty(cafeteria)))
+                .toList();
+    }
+
+    private Optional<Menu> findNowMealTypeMenu(Cafeteria cafeteria) {
+        return menuRepository.findByCafeteriaAndMenuDate(cafeteria, LocalDate.now())
+                .stream()
+                .filter(menu -> menu.getMealType().equals(MealType.now()))
+                .findAny();
     }
 
     public List<MainScheduleResponse> getScheduleResponse() {
@@ -64,11 +75,5 @@ public class MainService {
         return calendarList.stream()
                 .map(MainScheduleResponse::of)
                 .collect(Collectors.toList());
-    }
-
-    private MainMenuResponse findAndGenerateMenuResponse(Cafeteria cafeteria) {
-        return menuRepository.findByMenuDateAndCafeteriaAndMealType(LocalDate.now(), cafeteria, MealType.now())
-                .map(menu -> MainMenuResponse.of(cafeteria, menu.getMenus()))
-                .orElse(MainMenuResponse.empty(cafeteria));
     }
 }

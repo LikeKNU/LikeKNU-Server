@@ -1,4 +1,4 @@
-package ac.knu.likeknu.domain.value;
+package ac.knu.likeknu.domain.constants;
 
 import ac.knu.likeknu.exception.BusinessException;
 

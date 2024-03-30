@@ -1,4 +1,4 @@
-package ac.knu.likeknu.domain.value;
+package ac.knu.likeknu.domain.constants;
 
 import lombok.Getter;
 
@@ -12,11 +12,11 @@ public enum MealType {
     LUNCH("점심", 14),
     DINNER("저녁", 19);
 
-    private final String mealTypeKr;
+    private final String korean;
     private final int hour;
 
-    MealType(String mealTypeKr, int hour) {
-        this.mealTypeKr = mealTypeKr;
+    MealType(String korean, int hour) {
+        this.korean = korean;
         this.hour = hour;
     }
 
@@ -25,7 +25,7 @@ public enum MealType {
                 .getHour();
 
         return Stream.of(MealType.values())
-                .filter((MealType m) -> m.getHour() > hour)
+                .filter(mealType -> mealType.getHour() > hour)
                 .findFirst()
                 .orElse(DINNER);
     }
