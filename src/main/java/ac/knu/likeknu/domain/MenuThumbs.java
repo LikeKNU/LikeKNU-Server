@@ -48,4 +48,8 @@ public class MenuThumbs {
         this.device = device;
         this.menu = menu;
     }
+
+    public String getType() {
+        return thumbsType.name();
+    }
 }

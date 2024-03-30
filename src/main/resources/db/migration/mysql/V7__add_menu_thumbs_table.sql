@@ -9,3 +9,6 @@ CREATE TABLE IF NOT EXISTS menu_thumbs
     FOREIGN KEY (device) REFERENCES device (id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (menu) REFERENCES menu (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+ALTER TABLE menu_thumbs
+    ADD UNIQUE INDEX device_menu_uix (device, menu);
