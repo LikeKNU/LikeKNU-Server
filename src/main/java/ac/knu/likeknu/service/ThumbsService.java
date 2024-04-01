@@ -11,7 +11,6 @@ import ac.knu.likeknu.repository.MenuRepository;
 import ac.knu.likeknu.repository.MenuThumbsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class ThumbsService {
         this.menuRepository = menuRepository;
     }
 
-    @Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
+    @Transactional(readOnly = true)
     public MenuThumbsStatusResponse getMenuThumbsStatus(String menuId, String deviceId) {
         Device device = deviceRepository.findById(deviceId)
                 .orElseThrow(() -> new BusinessException(String.format("device does not exist [%s]", deviceId)));
