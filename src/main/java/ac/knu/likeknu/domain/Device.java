@@ -100,7 +100,7 @@ public class Device {
 
     public void update(DeviceRegistrationRequest deviceRequest) {
         this.platform = deviceRequest.userAgent();
-        this.campus = Campus.of(deviceRequest.campus());
+        this.campus = deviceRequest.campus();
         this.themeColor = deviceRequest.themeColor();
         this.favoriteCafeteria = deviceRequest.favoriteCafeteria();
         lastVisitedAt = LocalDateTime.now();
