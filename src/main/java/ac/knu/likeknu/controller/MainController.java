@@ -1,7 +1,7 @@
 package ac.knu.likeknu.controller;
 
-import ac.knu.likeknu.controller.dto.base.ResponseDto;
 import ac.knu.likeknu.controller.dto.announcement.MainAnnouncementsResponse;
+import ac.knu.likeknu.controller.dto.base.ResponseDto;
 import ac.knu.likeknu.controller.dto.citybus.MainCityBusResponse;
 import ac.knu.likeknu.controller.dto.menu.MainMenuResponse;
 import ac.knu.likeknu.controller.dto.schedule.MainScheduleResponse;

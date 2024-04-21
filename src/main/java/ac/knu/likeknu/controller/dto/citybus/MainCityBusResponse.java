@@ -29,7 +29,7 @@ public record MainCityBusResponse(String routeId, String origin, String destinat
                 .origin(route.getOrigin())
                 .destination(route.getDestination())
                 .busNumber(cityBus.getBusNumber())
-                .remainingTime(remainingTime <= 1 ? "곧 도착" : remainingTime + "분 뒤")
+                .remainingTime(remainingTime <= 1 ? "곧 도착" : remainingTime + "분")
                 .arrivalTime(earliestArrivalTime.format(dateTimeFormatter))
                 .busColor(cityBus.getBusColor())
                 .build();
