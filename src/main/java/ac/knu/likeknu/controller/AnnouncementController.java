@@ -49,4 +49,17 @@ public class AnnouncementController {
                 announcementService.getAnnouncements(campus, Category.of(category), pageDto, keyword.trim());
         return PageResponseDto.of(studentNewsList, pageDto);
     }
+
+    @GetMapping
+    public PageResponseDto<List<AnnouncementListResponse>> searchAnnouncement(
+            @RequestParam("campus") Campus campus,
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword
+//            @RequestHeader(name = "Device-Id", required = false) String deviceId
+    ) {
+        PageDto pageDto = PageDto.of(page);
+        List<AnnouncementListResponse> announcements =
+                announcementService.searchAnnouncements(campus, pageDto, keyword.trim());
+        return PageResponseDto.of(announcements, pageDto);
+    }
 }

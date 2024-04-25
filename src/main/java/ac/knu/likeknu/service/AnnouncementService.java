@@ -8,6 +8,7 @@ import ac.knu.likeknu.domain.constants.Category;
 import ac.knu.likeknu.repository.AnnouncementRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
@@ -46,6 +47,18 @@ public class AnnouncementService {
 
         pageDto.updateTotalPages(announcementsPage.getTotalPages());
         pageDto.updateTotalElements(announcementsPage.getTotalElements());
+        return announcementsPage.stream()
+                .map(AnnouncementListResponse::of)
+                .toList();
+    }
+
+    public List<AnnouncementListResponse> searchAnnouncements(Campus campus, PageDto pageDto, String keyword) {
+        int requestPage = pageDto.getCurrentPage() - 1;
+        PageRequest pageRequest = PageRequest.of(requestPage, DEFAULT_ANNOUNCEMENT_PAGE_SIZE,
+                Sort.by(Order.desc("announcementDate"), Order.desc("collectedAt")));
+
+        Slice<Announcement> announcementsPage = announcementRepository
+                .findByCampusInAndAnnouncementTitleContains(Set.of(campus, Campus.ALL), keyword, pageRequest);
         return announcementsPage.stream()
                 .map(AnnouncementListResponse::of)
                 .toList();
