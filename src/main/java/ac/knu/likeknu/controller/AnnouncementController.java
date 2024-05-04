@@ -38,7 +38,8 @@ public class AnnouncementController {
             @RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
             @PathVariable("category") String category,
-            @RequestHeader(name = "Device-Id", required = false) String deviceId
+            @RequestHeader(name = "Device-Id", required = false) String deviceId,
+            @RequestParam(name = "deviceId", required = false) String nativeDeviceId
     ) {
         if (StringUtils.hasText(keyword)) {
             loggingService.addLog(LogType.SEARCH_ANNOUNCEMENT, deviceId, category, keyword);
@@ -46,7 +47,7 @@ public class AnnouncementController {
 
         PageDto pageDto = PageDto.of(page);
         List<AnnouncementListResponse> studentNewsList =
-                announcementService.getAnnouncements(campus, Category.of(category), pageDto, keyword.trim());
+                announcementService.getAnnouncements(campus, Category.of(category), pageDto, keyword.trim(), nativeDeviceId);
         return PageResponseDto.of(studentNewsList, pageDto);
     }
 

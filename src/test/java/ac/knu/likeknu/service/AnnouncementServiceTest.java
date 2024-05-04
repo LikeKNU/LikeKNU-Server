@@ -55,14 +55,14 @@ class AnnouncementServiceTest {
         )).thenReturn(new PageImpl<>(List.of(announcement1, announcement2, announcement3), PageRequest.of(0, 10), 1));
 
         List<AnnouncementListResponse> announcementList =
-                announcementService.getAnnouncements(Campus.CHEONAN, Category.STUDENT_NEWS, pageDto, "");
+                announcementService.getAnnouncements(Campus.CHEONAN, Category.STUDENT_NEWS, pageDto, "", nativeDeviceId);
 
         // then
         AnnouncementListResponse announcementResponse = announcementList.get(0);
         assertAll(
                 () -> assertThatList(announcementList).size().isEqualTo(3),
-                () -> assertThat(announcementResponse.getAnnouncementId()).isEqualTo(announcement1.getId()),
-                () -> assertThat(announcementResponse.getAnnouncementTag()).isEqualTo(announcement1.getTag().getTagName()),
+                () -> assertThat(announcementResponse.announcementId()).isEqualTo(announcement1.getId()),
+                () -> assertThat(announcementResponse.announcementTag()).isEqualTo(announcement1.getTag().getTagName()),
                 () -> assertThat(pageDto.getTotalPages()).isEqualTo(1)
         );
     }

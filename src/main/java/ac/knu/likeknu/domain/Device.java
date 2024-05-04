@@ -21,7 +21,9 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Table(name = "device")
@@ -53,6 +55,12 @@ public class Device {
     private String favoriteCafeteria;
 
     private LocalDateTime lastVisitedAt;
+
+    @JoinTable(name = "device_bookmark",
+            joinColumns = @JoinColumn(name = "device"),
+            inverseJoinColumns = @JoinColumn(name = "announcement"))
+    @ManyToMany
+    private Set<Announcement> bookmarks = new HashSet<>();
 
     @JoinTable(name = "device_notification",
             joinColumns = @JoinColumn(name = "device_id"),

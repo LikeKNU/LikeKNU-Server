@@ -1,6 +1,7 @@
 package ac.knu.likeknu.controller;
 
 import ac.knu.likeknu.controller.dto.base.ResponseDto;
+import ac.knu.likeknu.controller.dto.device.request.BookmarkRequest;
 import ac.knu.likeknu.controller.dto.device.request.CampusModificationRequest;
 import ac.knu.likeknu.controller.dto.device.request.ChangeNotificationRequest;
 import ac.knu.likeknu.controller.dto.device.request.DeviceRegistrationRequest;
@@ -8,8 +9,10 @@ import ac.knu.likeknu.controller.dto.device.request.DeviceTokenRequest;
 import ac.knu.likeknu.controller.dto.device.request.SubscribeTagsUpdateRequest;
 import ac.knu.likeknu.controller.dto.device.response.SubscribeTagListResponse;
 import ac.knu.likeknu.controller.dto.device.response.TurnOnNotificationResponse;
+import ac.knu.likeknu.service.BookmarkService;
 import ac.knu.likeknu.service.DeviceService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,9 +27,11 @@ import java.util.List;
 public class DeviceController {
 
     private final DeviceService deviceService;
+    private final BookmarkService bookmarkService;
 
-    public DeviceController(DeviceService deviceService) {
+    public DeviceController(DeviceService deviceService, BookmarkService bookmarkService) {
         this.deviceService = deviceService;
+        this.bookmarkService = bookmarkService;
     }
 
     @PostMapping
@@ -39,6 +44,14 @@ public class DeviceController {
     public ResponseDto<String> modifyCampus(@RequestBody CampusModificationRequest request) {
         deviceService.modifyCampusByDeviceId(request);
         return ResponseDto.of("Campus has been changed successfully.");
+    }
+
+    @PostMapping("/{deviceId}/bookmarks")
+    public ResponseDto<String> createNewBookmark(
+            @PathVariable("deviceId") String deviceId, @RequestBody BookmarkRequest request
+    ) {
+        bookmarkService.addAnnouncementBookmark(deviceId, request.announcementId());
+        return ResponseDto.of("The bookmark has been created successfully.");
     }
 
     @PostMapping("/token")
