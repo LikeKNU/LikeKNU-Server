@@ -39,8 +39,6 @@ public class AnnouncementService {
         PageRequest pageRequest = PageRequest.of(requestPage, DEFAULT_ANNOUNCEMENT_PAGE_SIZE,
                 Sort.by(Order.desc("announcementDate"), Order.desc("collectedAt")));
 
-        Device device = deviceRepository.findById(nativeDeviceId)
-                .orElseThrow(() -> new BusinessException(String.format("Device not found! [%s]", nativeDeviceId)));
         Page<Announcement> announcementsPage;
         if (keyword != null && !keyword.isEmpty()) {
             announcementsPage = announcementRepository.findByCampusInAndCategoryAndAnnouncementTitleContains(
@@ -54,8 +52,16 @@ public class AnnouncementService {
 
         pageDto.updateTotalPages(announcementsPage.getTotalPages());
         pageDto.updateTotalElements(announcementsPage.getTotalElements());
+
+        if (nativeDeviceId != null) {
+            Device device = deviceRepository.findById(nativeDeviceId)
+                    .orElseThrow(() -> new BusinessException(String.format("Device not found! [%s]", nativeDeviceId)));
+            return announcementsPage.stream()
+                    .map(announcement -> AnnouncementListResponse.of(announcement, device.getBookmarks()))
+                    .toList();
+        }
         return announcementsPage.stream()
-                .map(announcement -> AnnouncementListResponse.of(announcement, device.getBookmarks()))
+                .map(AnnouncementListResponse::of)
                 .toList();
     }
 
