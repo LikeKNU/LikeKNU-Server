@@ -55,11 +55,12 @@ public class AnnouncementController {
     public PageResponseDto<List<AnnouncementListResponse>> searchAnnouncement(
             @RequestParam("campus") Campus campus,
             @RequestParam(name = "page", defaultValue = "1") int page,
-            @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword
+            @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
+            @RequestParam("deviceId") String deviceId
     ) {
         PageDto pageDto = PageDto.of(page);
         List<AnnouncementListResponse> announcements =
-                announcementService.searchAnnouncements(campus, pageDto, keyword.trim());
+                announcementService.searchAnnouncements(campus, pageDto, keyword.trim(), deviceId);
         return PageResponseDto.of(announcements, pageDto);
     }
 }

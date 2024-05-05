@@ -65,15 +65,18 @@ public class AnnouncementService {
                 .toList();
     }
 
-    public List<AnnouncementListResponse> searchAnnouncements(Campus campus, PageDto pageDto, String keyword) {
+    public List<AnnouncementListResponse> searchAnnouncements(Campus campus, PageDto pageDto, String keyword, String deviceId) {
         int requestPage = pageDto.getCurrentPage() - 1;
         PageRequest pageRequest = PageRequest.of(requestPage, DEFAULT_ANNOUNCEMENT_PAGE_SIZE,
                 Sort.by(Order.desc("announcementDate"), Order.desc("collectedAt")));
 
         Slice<Announcement> announcementsPage = announcementRepository
                 .findByCampusInAndAnnouncementTitleContains(Set.of(campus, Campus.ALL), keyword, pageRequest);
+
+        Device device = deviceRepository.findById(deviceId)
+                .orElseThrow(() -> new BusinessException(String.format("Device not found! [%s]", deviceId)));
         return announcementsPage.stream()
-                .map(AnnouncementListResponse::of)
+                .map(announcement -> AnnouncementListResponse.of(announcement, device.getBookmarks()))
                 .toList();
     }
 }
