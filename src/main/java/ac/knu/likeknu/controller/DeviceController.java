@@ -11,6 +11,7 @@ import ac.knu.likeknu.controller.dto.device.response.SubscribeTagListResponse;
 import ac.knu.likeknu.controller.dto.device.response.TurnOnNotificationResponse;
 import ac.knu.likeknu.service.BookmarkService;
 import ac.knu.likeknu.service.DeviceService;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,6 +53,15 @@ public class DeviceController {
     ) {
         bookmarkService.addAnnouncementBookmark(deviceId, request.announcementId());
         return ResponseDto.of("The bookmark has been created successfully.");
+    }
+
+    @DeleteMapping("/{deviceId}/bookmarks/{announcementId}")
+    public ResponseDto<String> removeBookmark(
+            @PathVariable("deviceId") String deviceId,
+            @PathVariable("announcementId") String announcementId
+    ) {
+        bookmarkService.removeAnnouncementBookmark(deviceId, announcementId);
+        return ResponseDto.of("The bookmark has been removed successfully.");
     }
 
     @PostMapping("/token")

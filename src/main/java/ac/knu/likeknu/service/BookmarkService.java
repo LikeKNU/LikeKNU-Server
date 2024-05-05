@@ -34,4 +34,14 @@ public class BookmarkService {
         }
         bookmarks.add(announcement);
     }
+
+    public void removeAnnouncementBookmark(String deviceId, String announcementId) {
+        Device device = deviceRepository.findById(deviceId)
+                .orElseThrow(() -> new BusinessException(String.format("Device not found! [%s]", deviceId)));
+        Announcement announcement = announcementRepository.findById(announcementId)
+                .orElseThrow(() -> new BusinessException(String.format("Announcement not found! [%s]", announcementId)));
+
+        Set<Announcement> bookmarks = device.getBookmarks();
+        bookmarks.remove(announcement);
+    }
 }
