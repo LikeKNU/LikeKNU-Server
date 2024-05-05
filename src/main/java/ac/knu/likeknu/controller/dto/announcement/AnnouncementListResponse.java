@@ -10,26 +10,37 @@ import java.util.Set;
 public record AnnouncementListResponse(String announcementId, String announcementTitle, String announcementDate,
                                        String announcementUrl, String announcementTag, boolean isBookmarked) {
 
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+
     public static AnnouncementListResponse of(Announcement announcement) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
         return AnnouncementListResponse.builder()
                 .announcementId(announcement.getId())
                 .announcementTitle(announcement.getAnnouncementTitle())
-                .announcementDate(announcement.getAnnouncementDate().format(dateTimeFormatter))
+                .announcementDate(announcement.getAnnouncementDate().format(DATE_TIME_FORMATTER))
                 .announcementUrl(announcement.getAnnouncementUrl())
                 .announcementTag(announcement.getTag().getTagName())
                 .build();
     }
 
     public static AnnouncementListResponse of(Announcement announcement, Set<Announcement> bookmarks) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
         return AnnouncementListResponse.builder()
                 .announcementId(announcement.getId())
                 .announcementTitle(announcement.getAnnouncementTitle())
-                .announcementDate(announcement.getAnnouncementDate().format(dateTimeFormatter))
+                .announcementDate(announcement.getAnnouncementDate().format(DATE_TIME_FORMATTER))
                 .announcementUrl(announcement.getAnnouncementUrl())
                 .announcementTag(announcement.getTag().getTagName())
                 .isBookmarked(bookmarks.contains(announcement))
+                .build();
+    }
+
+    public static AnnouncementListResponse bookmarks(Announcement announcement) {
+        return AnnouncementListResponse.builder()
+                .announcementId(announcement.getId())
+                .announcementTitle(announcement.getAnnouncementTitle())
+                .announcementDate(announcement.getAnnouncementDate().format(DATE_TIME_FORMATTER))
+                .announcementUrl(announcement.getAnnouncementUrl())
+                .announcementTag(announcement.getTag().getTagName())
+                .isBookmarked(true)
                 .build();
     }
 }

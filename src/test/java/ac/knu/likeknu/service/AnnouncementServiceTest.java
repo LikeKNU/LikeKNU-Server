@@ -3,10 +3,12 @@ package ac.knu.likeknu.service;
 import ac.knu.likeknu.controller.dto.announcement.AnnouncementListResponse;
 import ac.knu.likeknu.controller.dto.base.PageDto;
 import ac.knu.likeknu.domain.Announcement;
+import ac.knu.likeknu.domain.Device;
 import ac.knu.likeknu.domain.constants.Campus;
 import ac.knu.likeknu.domain.constants.Category;
 import ac.knu.likeknu.domain.constants.Tag;
 import ac.knu.likeknu.repository.AnnouncementRepository;
+import ac.knu.likeknu.repository.DeviceRepository;
 import ac.knu.likeknu.utils.TestInstanceFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +21,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,6 +43,8 @@ class AnnouncementServiceTest {
 
     @Mock
     private AnnouncementRepository announcementRepository;
+    @Mock
+    private DeviceRepository deviceRepository;
 
     @DisplayName("학생소식 조회에 성공한다.")
     @Test
@@ -53,9 +59,11 @@ class AnnouncementServiceTest {
         when(announcementRepository.findByCampusInAndCategory(
                 eq(Set.of(Campus.ALL, Campus.CHEONAN)), eq(Category.STUDENT_NEWS), any(Pageable.class)
         )).thenReturn(new PageImpl<>(List.of(announcement1, announcement2, announcement3), PageRequest.of(0, 10), 1));
+        when(deviceRepository.findById(any(String.class)))
+                .thenReturn(Optional.of(new Device("deviceA", null, Campus.SINGWAN, LocalDateTime.now(), null, null)));
 
         List<AnnouncementListResponse> announcementList =
-                announcementService.getAnnouncements(Campus.CHEONAN, Category.STUDENT_NEWS, pageDto, "", nativeDeviceId);
+                announcementService.getAnnouncements(Campus.CHEONAN, Category.STUDENT_NEWS, pageDto, "", "");
 
         // then
         AnnouncementListResponse announcementResponse = announcementList.get(0);
