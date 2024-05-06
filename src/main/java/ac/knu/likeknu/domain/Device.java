@@ -50,6 +50,10 @@ public class Device {
 
     private String platform;
 
+    private String modelName;
+
+    private String osVersion;
+
     private String themeColor;
 
     private String favoriteCafeteria;
@@ -112,5 +116,12 @@ public class Device {
         this.themeColor = deviceRequest.themeColor();
         this.favoriteCafeteria = deviceRequest.favoriteCafeteria();
         lastVisitedAt = LocalDateTime.now();
+
+        if (deviceRequest.modelName() != null) {
+            this.modelName = deviceRequest.modelName();
+        }
+        if (deviceRequest.osVersion() != null) {
+            this.osVersion = deviceRequest.osVersion();
+        }
     }
 }
