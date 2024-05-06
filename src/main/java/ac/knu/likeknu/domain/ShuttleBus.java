@@ -50,6 +50,10 @@ public class ShuttleBus {
                 .orElse(LocalTime.of(23, 59, 59));
     }
 
+    public boolean isAvailableToday() {
+        return getDepartureTime().isAfter(LocalTime.now());
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;

@@ -8,12 +8,22 @@ import ac.knu.likeknu.domain.constants.Campus;
 import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.repository.ShuttleBusRepository;
 import ac.knu.likeknu.repository.ShuttleRepository;
+import ac.knu.likeknu.utils.DateTimeUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
+@Slf4j
 @Transactional(readOnly = true)
 @Service
 public class ShuttleBusService {
@@ -34,11 +44,57 @@ public class ShuttleBusService {
      * @return 캠퍼스별 셔틀버스 경로 목록
      */
     public List<ShuttleListResponse> getRouteList(Campus campus) {
-        return shuttleRepository.findByCampusesContains(campus)
-                .stream()
-                .sorted(Comparator.comparing(Shuttle::getSequence))
-                .map(ShuttleListResponse::of)
-                .toList();
+        List<Shuttle> shuttles = shuttleRepository.findByCampusesContains(campus);
+        shuttles.sort(Comparator.comparing(Shuttle::getSequence));
+
+        List<ShuttleListResponse> routeList = new ArrayList<>();
+        for (Shuttle shuttle : shuttles) {
+            LocalDateTime nextDepartureDateTime = shuttle.getNextDepartureDateTime();
+            String departureTimeMessage = generateDepartureTimeMessage(nextDepartureDateTime);
+
+            ShuttleListResponse shuttleListResponse = ShuttleListResponse.of(shuttle, departureTimeMessage);
+            routeList.add(shuttleListResponse);
+        }
+
+        return routeList;
+    }
+
+    private String generateDepartureTimeMessage(LocalDateTime nextDepartureDateTime) {
+        StringBuilder message = new StringBuilder();
+        String dateMessage = determineDateMessage(nextDepartureDateTime.toLocalDate());
+        message.append(dateMessage)
+                .append(" ");
+
+        String timeMessage = determineTimeMessage(nextDepartureDateTime.toLocalTime());
+        message.append(timeMessage);
+        return message.toString();
+    }
+
+    private String determineDateMessage(LocalDate nextDepartureDate) {
+        LocalDate currentDate = LocalDate.now();
+        if (nextDepartureDate.isEqual(currentDate)) {
+            return "";
+        }
+
+        if (nextDepartureDate.minusDays(1).isEqual(currentDate)) {
+            return "내일";
+        }
+
+        String displayName = nextDepartureDate.getDayOfWeek()
+                .getDisplayName(TextStyle.FULL, Locale.KOREA);
+        if (DateTimeUtils.isAnotherWeek(nextDepartureDate, currentDate)) {
+            return "다음주 " + displayName;
+        }
+        return displayName;
+    }
+
+    private String determineTimeMessage(LocalTime nextDepartureTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("a h시 m분", Locale.KOREA);
+        String formattedTime = nextDepartureTime.format(formatter);
+        if (formattedTime.contains(" 0분")) {
+            return formattedTime.split(" 0분")[0];
+        }
+        return formattedTime;
     }
 
     /**

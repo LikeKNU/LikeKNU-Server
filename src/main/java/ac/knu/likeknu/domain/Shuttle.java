@@ -1,9 +1,13 @@
 package ac.knu.likeknu.domain;
 
+import ac.knu.likeknu.converter.OperatingDaysConverter;
 import ac.knu.likeknu.domain.constants.Campus;
 import ac.knu.likeknu.domain.constants.ShuttleType;
+import ac.knu.likeknu.exception.BusinessException;
+import ac.knu.likeknu.utils.DateTimeUtils;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,7 +19,12 @@ import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,6 +47,10 @@ public class Shuttle {
 
     private int sequence;
 
+    @Convert(converter = OperatingDaysConverter.class)
+    @Column(name = "operating_days", columnDefinition = "SET")
+    private EnumSet<DayOfWeek> operatingDays;
+
     @OneToMany(mappedBy = "shuttle")
     private List<ShuttleBus> shuttleBuses = new ArrayList<>();
 
@@ -51,11 +64,44 @@ public class Shuttle {
     }
 
     @Builder
-    public Shuttle(String origin, String destination, ShuttleType shuttleType, String note) {
+    public Shuttle(String origin, String destination, ShuttleType shuttleType, String note, EnumSet<DayOfWeek> operatingDays) {
         this.origin = origin;
         this.destination = destination;
         this.shuttleType = shuttleType;
         this.note = note;
+        this.operatingDays = operatingDays;
+    }
+
+    public LocalDateTime getNextDepartureDateTime() {
+        if (isAvailableToday()) {
+            LocalTime todayNextDepartureTime = shuttleBuses.stream()
+                    .filter(ShuttleBus::isAvailableToday)
+                    .map(ShuttleBus::getDepartureTime)
+                    .sorted()
+                    .findFirst()
+                    .orElseThrow(() -> new BusinessException("There are no shuttle buses available."));
+            return LocalDateTime.of(LocalDate.now(), todayNextDepartureTime);
+        }
+
+        LocalTime nextDateEarliestDepartureTime = shuttleBuses.stream()
+                .map(ShuttleBus::getDepartureTime)
+                .sorted()
+                .findFirst()
+                .orElseThrow(() -> new BusinessException("There are no shuttle buses available."));
+        LocalDate earliestNextAvailableDate = DateTimeUtils.getEarliestNextAvailableDate(operatingDays);
+        return LocalDateTime.of(earliestNextAvailableDate, nextDateEarliestDepartureTime);
+    }
+
+    private boolean isAvailableToday() {
+        // TODO Judgment including public holidays
+        DayOfWeek currentDayOfWeek = LocalDate.now()
+                .getDayOfWeek();
+        if (!operatingDays.contains(currentDayOfWeek)) {
+            return false;
+        }
+
+        return shuttleBuses.stream()
+                .anyMatch(ShuttleBus::isAvailableToday);
     }
 
     @Override
