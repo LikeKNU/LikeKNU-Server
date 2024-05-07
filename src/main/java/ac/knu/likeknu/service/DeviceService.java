@@ -15,21 +15,16 @@ import ac.knu.likeknu.repository.DeviceRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Transactional
 @Service
 public class DeviceService {
 
     private final DeviceRepository deviceRepository;
-    private final Set<String> registeredDevices;
 
     public DeviceService(DeviceRepository deviceRepository) {
         this.deviceRepository = deviceRepository;
-        this.registeredDevices = Collections.synchronizedSet(new HashSet<>());
     }
 
     public void registerDevice(DeviceRegistrationRequest deviceRequest) {
@@ -43,9 +38,7 @@ public class DeviceService {
                 .orElseGet(() -> Device.of(deviceRequest));
 
         device.update(deviceRequest);
-        if (registeredDevices.add(deviceId)) {
-            deviceRepository.save(device);
-        }
+        deviceRepository.save(device);
     }
 
     public void modifyCampusByDeviceId(CampusModificationRequest campusModificationRequest) {
