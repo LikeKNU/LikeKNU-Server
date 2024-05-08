@@ -63,7 +63,7 @@ class AnnouncementServiceTest {
                 .thenReturn(Optional.of(new Device("deviceA", null, Campus.SINGWAN, LocalDateTime.now(), null, null)));
 
         List<AnnouncementListResponse> announcementList =
-                announcementService.getAnnouncements(Campus.CHEONAN, Category.STUDENT_NEWS, pageDto, "", "");
+                announcementService.getAnnouncements(Campus.CHEONAN, Category.STUDENT_NEWS, pageDto, "");
 
         // then
         AnnouncementListResponse announcementResponse = announcementList.get(0);
