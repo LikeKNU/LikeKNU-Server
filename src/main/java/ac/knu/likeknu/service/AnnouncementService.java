@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Transactional(readOnly = true)
@@ -54,8 +55,13 @@ public class AnnouncementService {
         pageDto.updateTotalElements(announcementsPage.getTotalElements());
 
         if (nativeDeviceId != null) {
-            Device device = deviceRepository.findById(nativeDeviceId)
-                    .orElseThrow(() -> new BusinessException(String.format("Device not found! [%s]", nativeDeviceId)));
+            Optional<Device> findDevice = deviceRepository.findById(nativeDeviceId);
+            if (findDevice.isEmpty()) {
+                return announcementsPage.stream()
+                        .map(AnnouncementListResponse::of)
+                        .toList();
+            }
+            Device device = findDevice.get();
             return announcementsPage.stream()
                     .map(announcement -> AnnouncementListResponse.of(announcement, device.getBookmarks()))
                     .toList();
