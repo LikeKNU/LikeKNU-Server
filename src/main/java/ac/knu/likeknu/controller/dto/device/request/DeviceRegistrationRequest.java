@@ -7,6 +7,7 @@ public record DeviceRegistrationRequest(
         String platform,
         String modelName,
         String osVersion,
+        String appVersion,
         Campus campus,
         String themeColor,
         String favoriteCafeteria
