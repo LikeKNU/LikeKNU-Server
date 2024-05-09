@@ -94,7 +94,7 @@ public class Device {
     public static Device of(DeviceRegistrationRequest request) {
         return Device.builder()
                 .id(request.deviceId())
-                .campus(Campus.CHEONAN)
+                .campus(Campus.SINGWAN)
                 .registeredAt(LocalDateTime.now())
                 .themeColor(request.themeColor())
                 .favoriteCafeteria(request.favoriteCafeteria())
@@ -111,7 +111,7 @@ public class Device {
     }
 
     public void update(DeviceRegistrationRequest deviceRequest) {
-        this.platform = deviceRequest.userAgent();
+        this.platform = deviceRequest.platform();
         this.campus = deviceRequest.campus();
         this.themeColor = deviceRequest.themeColor();
         this.favoriteCafeteria = deviceRequest.favoriteCafeteria();
