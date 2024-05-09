@@ -60,10 +60,10 @@ class AnnouncementServiceTest {
                 eq(Set.of(Campus.ALL, Campus.CHEONAN)), eq(Category.STUDENT_NEWS), any(Pageable.class)
         )).thenReturn(new PageImpl<>(List.of(announcement1, announcement2, announcement3), PageRequest.of(0, 10), 1));
         when(deviceRepository.findById(any(String.class)))
-                .thenReturn(Optional.of(new Device("deviceA", null, Campus.SINGWAN, LocalDateTime.now(), null, null)));
+                .thenReturn(Optional.of(new Device("deviceA", null, Campus.SINGWAN, LocalDateTime.now(), null, null, null)));
 
         List<AnnouncementListResponse> announcementList =
-                announcementService.getAnnouncements(Campus.CHEONAN, Category.STUDENT_NEWS, pageDto, "", "");
+                announcementService.getAnnouncements(Campus.CHEONAN, Category.STUDENT_NEWS, pageDto, "");
 
         // then
         AnnouncementListResponse announcementResponse = announcementList.get(0);

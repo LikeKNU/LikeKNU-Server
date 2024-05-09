@@ -28,11 +28,6 @@ public class DeviceService {
     }
 
     public void registerDevice(DeviceRegistrationRequest deviceRequest) {
-        String userAgent = deviceRequest.userAgent();
-        if (userAgent.contains("Googlebot") || userAgent.contains("AdsBot") || userAgent.contains("vercel")) {
-            return;
-        }
-
         String deviceId = deviceRequest.deviceId();
         Device device = deviceRepository.findById(deviceId)
                 .orElseGet(() -> Device.of(deviceRequest));

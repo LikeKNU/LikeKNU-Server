@@ -6,13 +6,10 @@ import ac.knu.likeknu.controller.dto.shuttlebus.ShuttleBusesArrivalTimeResponse;
 import ac.knu.likeknu.controller.dto.shuttlebus.ShuttleListResponse;
 import ac.knu.likeknu.domain.constants.Campus;
 import ac.knu.likeknu.domain.constants.RouteType;
-import ac.knu.likeknu.logging.domain.value.LogType;
-import ac.knu.likeknu.logging.service.LoggingService;
 import ac.knu.likeknu.service.CityBusService;
 import ac.knu.likeknu.service.ShuttleBusService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,24 +22,17 @@ public class BusController {
 
     private final CityBusService cityBusService;
     private final ShuttleBusService shuttleBusService;
-    private final LoggingService loggingService;
 
-    public BusController(CityBusService cityBusService, ShuttleBusService shuttleBusService, LoggingService loggingService) {
+    public BusController(CityBusService cityBusService, ShuttleBusService shuttleBusService) {
         this.cityBusService = cityBusService;
         this.shuttleBusService = shuttleBusService;
-        this.loggingService = loggingService;
     }
 
     @GetMapping("/city-bus/{type}")
     private ResponseDto<List<CityBusesResponse>> cityBusesArrivalTime(
             @RequestParam("campus") Campus campus, @PathVariable("type") String type,
-            @RequestParam(value = "isRefresh", required = false) boolean isRefresh,
-            @RequestHeader(name = "Device-Id", required = false) String deviceId
+            @RequestParam(value = "isRefresh", required = false) boolean isRefresh
     ) {
-        if (isRefresh) {
-            loggingService.addLog(LogType.REFRESH_CITY_BUS, deviceId);
-        }
-
         RouteType routeType = RouteType.of(type);
         List<CityBusesResponse> cityBusesArrivalTime = cityBusService.getCityBusesArrivalTime(campus, routeType);
         return ResponseDto.of(cityBusesArrivalTime);
@@ -56,9 +46,8 @@ public class BusController {
 
     @GetMapping("/shuttle-bus/{shuttleId}")
     public ResponseDto<List<ShuttleBusesArrivalTimeResponse>> shuttleBusesArrivalTime(
-            @PathVariable("shuttleId") String shuttleId, @RequestHeader(name = "Device-Id", required = false) String deviceId
+            @PathVariable("shuttleId") String shuttleId
     ) {
-        loggingService.addLog(LogType.SELECT_SHUTTLE, deviceId, shuttleId);
         List<ShuttleBusesArrivalTimeResponse> shuttleBusesArrivalTime = shuttleBusService.getShuttleBusesArrivalTime(shuttleId);
         return ResponseDto.of(shuttleBusesArrivalTime);
     }

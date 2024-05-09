@@ -6,7 +6,6 @@ import ac.knu.likeknu.domain.Announcement;
 import ac.knu.likeknu.domain.constants.Campus;
 import ac.knu.likeknu.domain.constants.Category;
 import ac.knu.likeknu.domain.constants.Tag;
-import ac.knu.likeknu.logging.service.LoggingService;
 import ac.knu.likeknu.service.AnnouncementService;
 import ac.knu.likeknu.service.SlackService;
 import ac.knu.likeknu.utils.TestInstanceFactory;
@@ -44,8 +43,6 @@ class AnnouncementControllerTest {
     private AnnouncementService announcementService;
     @MockBean
     private SlackService slackService;
-    @MockBean
-    private LoggingService loggingService;
 
     @DisplayName("학생소식 조회 API 요청에 성공한다.")
     @Test
@@ -56,7 +53,7 @@ class AnnouncementControllerTest {
         Announcement announcement3 = TestInstanceFactory.createAnnouncement("Test C", "https://testc.com", Tag.LIBRARY);
 
         // when
-        when(announcementService.getAnnouncements(eq(Campus.CHEONAN), eq(Category.STUDENT_NEWS), any(PageDto.class), any(), any()))
+        when(announcementService.getAnnouncements(eq(Campus.CHEONAN), eq(Category.STUDENT_NEWS), any(PageDto.class), any()))
                 .thenReturn(List.of(
                         AnnouncementListResponse.of(announcement1),
                         AnnouncementListResponse.of(announcement2),

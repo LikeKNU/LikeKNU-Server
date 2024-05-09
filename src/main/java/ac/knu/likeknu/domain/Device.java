@@ -54,6 +54,8 @@ public class Device {
 
     private String osVersion;
 
+    private String appVersion;
+
     private String themeColor;
 
     private String favoriteCafeteria;
@@ -82,11 +84,12 @@ public class Device {
     }
 
     @Builder
-    public Device(String id, String fcmToken, Campus campus, LocalDateTime registeredAt, String themeColor, String favoriteCafeteria) {
+    public Device(String id, String fcmToken, Campus campus, LocalDateTime registeredAt, String appVersion, String themeColor, String favoriteCafeteria) {
         this.id = id;
         this.fcmToken = fcmToken;
         this.campus = campus;
         this.registeredAt = registeredAt;
+        this.appVersion = appVersion;
         this.themeColor = themeColor;
         this.favoriteCafeteria = favoriteCafeteria;
     }
@@ -94,10 +97,8 @@ public class Device {
     public static Device of(DeviceRegistrationRequest request) {
         return Device.builder()
                 .id(request.deviceId())
-                .campus(Campus.CHEONAN)
+                .campus(Campus.SINGWAN)
                 .registeredAt(LocalDateTime.now())
-                .themeColor(request.themeColor())
-                .favoriteCafeteria(request.favoriteCafeteria())
                 .build();
     }
 
@@ -111,7 +112,7 @@ public class Device {
     }
 
     public void update(DeviceRegistrationRequest deviceRequest) {
-        this.platform = deviceRequest.userAgent();
+        this.platform = deviceRequest.platform();
         this.campus = deviceRequest.campus();
         this.themeColor = deviceRequest.themeColor();
         this.favoriteCafeteria = deviceRequest.favoriteCafeteria();
@@ -122,6 +123,9 @@ public class Device {
         }
         if (deviceRequest.osVersion() != null) {
             this.osVersion = deviceRequest.osVersion();
+        }
+        if (deviceRequest.appVersion() != null) {
+            this.appVersion = deviceRequest.appVersion();
         }
     }
 }

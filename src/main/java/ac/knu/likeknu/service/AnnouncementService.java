@@ -35,27 +35,19 @@ public class AnnouncementService {
         this.deviceRepository = deviceRepository;
     }
 
-    public List<AnnouncementListResponse> getAnnouncements(Campus campus, Category category, PageDto pageDto, String keyword, String nativeDeviceId) {
+    public List<AnnouncementListResponse> getAnnouncements(Campus campus, Category category, PageDto pageDto, String deviceId) {
         int requestPage = pageDto.getCurrentPage() - 1;
         PageRequest pageRequest = PageRequest.of(requestPage, DEFAULT_ANNOUNCEMENT_PAGE_SIZE,
                 Sort.by(Order.desc("announcementDate"), Order.desc("collectedAt")));
 
-        Page<Announcement> announcementsPage;
-        if (keyword != null && !keyword.isEmpty()) {
-            announcementsPage = announcementRepository.findByCampusInAndCategoryAndAnnouncementTitleContains(
-                    Set.of(campus, Campus.ALL), category, keyword, pageRequest
-            );
-        } else {
-            announcementsPage = announcementRepository.findByCampusInAndCategory(
-                    Set.of(campus, Campus.ALL), category, pageRequest
-            );
-        }
+        Page<Announcement> announcementsPage =
+                announcementRepository.findByCampusInAndCategory(Set.of(campus, Campus.ALL), category, pageRequest);
 
         pageDto.updateTotalPages(announcementsPage.getTotalPages());
         pageDto.updateTotalElements(announcementsPage.getTotalElements());
 
-        if (nativeDeviceId != null) {
-            Optional<Device> findDevice = deviceRepository.findById(nativeDeviceId);
+        if (deviceId != null) {
+            Optional<Device> findDevice = deviceRepository.findById(deviceId);
             if (findDevice.isEmpty()) {
                 return announcementsPage.stream()
                         .map(AnnouncementListResponse::of)
