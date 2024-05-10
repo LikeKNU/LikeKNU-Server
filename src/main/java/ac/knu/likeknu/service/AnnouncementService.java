@@ -6,7 +6,6 @@ import ac.knu.likeknu.domain.Announcement;
 import ac.knu.likeknu.domain.Device;
 import ac.knu.likeknu.domain.constants.Campus;
 import ac.knu.likeknu.domain.constants.Category;
-import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.repository.AnnouncementRepository;
 import ac.knu.likeknu.repository.DeviceRepository;
 import org.springframework.data.domain.Page;
@@ -48,15 +47,12 @@ public class AnnouncementService {
 
         if (deviceId != null) {
             Optional<Device> findDevice = deviceRepository.findById(deviceId);
-            if (findDevice.isEmpty()) {
+            if (findDevice.isPresent()) {
+                Device device = findDevice.get();
                 return announcementsPage.stream()
-                        .map(AnnouncementListResponse::of)
+                        .map(announcement -> AnnouncementListResponse.of(announcement, device.getBookmarks()))
                         .toList();
             }
-            Device device = findDevice.get();
-            return announcementsPage.stream()
-                    .map(announcement -> AnnouncementListResponse.of(announcement, device.getBookmarks()))
-                    .toList();
         }
         return announcementsPage.stream()
                 .map(AnnouncementListResponse::of)
@@ -71,10 +67,17 @@ public class AnnouncementService {
         Slice<Announcement> announcementsPage = announcementRepository
                 .findByCampusInAndAnnouncementTitleContains(Set.of(campus, Campus.ALL), keyword, pageRequest);
 
-        Device device = deviceRepository.findById(deviceId)
-                .orElseThrow(() -> new BusinessException(String.format("Device not found! [%s]", deviceId)));
+        if (deviceId != null) {
+            Optional<Device> findDevice = deviceRepository.findById(deviceId);
+            if (findDevice.isPresent()) {
+                Device device = findDevice.get();
+                return announcementsPage.stream()
+                        .map(announcement -> AnnouncementListResponse.of(announcement, device.getBookmarks()))
+                        .toList();
+            }
+        }
         return announcementsPage.stream()
-                .map(announcement -> AnnouncementListResponse.of(announcement, device.getBookmarks()))
+                .map(AnnouncementListResponse::of)
                 .toList();
     }
 }
