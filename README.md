@@ -2,12 +2,12 @@
 
 > 공주대학교 학생들을 위한 정보 제공 서비스
 
-공지사항, 시내버스와 셔틀버스 시간, 식단메뉴, 학사일정을 하나의 앱에서 확인하세요!  
+공지사항, 시내버스와 셔틀버스 시간, 식단메뉴, 학사일정을 하나의 앱에서 확인하세요!
 
 <img src="https://github.com/FREEWAYseoul/.github/assets/69714701/39e1ddf2-9947-4dc2-884a-c80bdf6e4b85" width="20px" alt="#"/>**[iOS 다운로드](https://apps.apple.com/kr/app/id6499512208)**   
-<img src="https://github.com/FREEWAYseoul/.github/assets/69714701/0dfec54f-81d6-4f9b-97ee-8c17e142189e" width="20px" alt="#"/>**[Android 다운로드](https://play.google.com/store/apps/details?id=ac.knu.likeknu)**   
+<img src="https://github.com/FREEWAYseoul/.github/assets/69714701/0dfec54f-81d6-4f9b-97ee-8c17e142189e" width="20px" alt="#"/>**[Android 다운로드](https://play.google.com/store/apps/details?id=ac.knu.likeknu)**
 
-![공주대처럼](https://github.com/LikeKNU/.github/assets/69714701/90b2483d-0964-4051-ad93-308f2ee4bf2c)
+![앱 클립](https://github.com/LikeKNU/.github/assets/69714701/e16bfaa6-dc3e-471b-b3b6-158237affeab)
 
 ## 프로젝트 소개
 
@@ -19,12 +19,19 @@
 
 #### App
 
-<img src="https://img.shields.io/badge/React Native-61DAFB?style=flat&logo=React&logoColor=white" alt="#"/> <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=TypeScript&logoColor=white" alt="#"/> <img src="https://img.shields.io/badge/Expo-000020?style=flat&logo=Expo&logoColor=white" alt="#"/>
+<img src="https://img.shields.io/badge/React Native-222222?style=flat&logo=React&logoColor=61DAFB" alt="#"/>
+<img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=TypeScript&logoColor=white" alt="#"/>
+<img src="https://img.shields.io/badge/Expo-000020?style=flat&logo=Expo&logoColor=white" alt="#"/>
 
 #### Back-end
 
-<img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat&logo=SpringBoot&logoColor=white" alt="#"/> <img src="https://img.shields.io/badge/Hibernate-59666C?style=flat&logo=Hibernate&logoColor=white" alt="#"/> <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySQL&logoColor=white" alt="#"/>   
-<img src="https://img.shields.io/badge/RabbitMQ-FF6600?style=flat&logo=RabbitMQ&logoColor=white" alt="#"/> <img src="https://img.shields.io/badge/Redis-DC382D?style=flat&logo=Redis&logoColor=white" alt="#"/> <img src="https://img.shields.io/badge/OpenAI-412991?style=flat&logo=OpenAI&logoColor=white" alt="#"/>
+<img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat&logo=SpringBoot&logoColor=white" alt="#"/>
+<img src="https://img.shields.io/badge/Hibernate-59666C?style=flat&logo=Hibernate&logoColor=white" alt="#"/>
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySQL&logoColor=white" alt="#"/>
+<br>
+<img src="https://img.shields.io/badge/RabbitMQ-FF6600?style=flat&logo=RabbitMQ&logoColor=white" alt="#"/>
+<img src="https://img.shields.io/badge/Redis-DC382D?style=flat&logo=Redis&logoColor=white" alt="#"/>
+<img src="https://img.shields.io/badge/OpenAI-412991?style=flat&logo=OpenAI&logoColor=white" alt="#"/>
 
 ### 📱 소개
 
