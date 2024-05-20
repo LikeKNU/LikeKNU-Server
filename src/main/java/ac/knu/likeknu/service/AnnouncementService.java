@@ -8,7 +8,6 @@ import ac.knu.likeknu.domain.constants.Campus;
 import ac.knu.likeknu.domain.constants.Category;
 import ac.knu.likeknu.repository.AnnouncementRepository;
 import ac.knu.likeknu.repository.DeviceRepository;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
@@ -39,24 +38,10 @@ public class AnnouncementService {
         PageRequest pageRequest = PageRequest.of(requestPage, DEFAULT_ANNOUNCEMENT_PAGE_SIZE,
                 Sort.by(Order.desc("announcementDate"), Order.desc("collectedAt")));
 
-        Page<Announcement> announcementsPage =
+        Slice<Announcement> announcementsPage =
                 announcementRepository.findByCampusInAndCategory(Set.of(campus, Campus.ALL), category, pageRequest);
 
-        pageDto.updateTotalPages(announcementsPage.getTotalPages());
-        pageDto.updateTotalElements(announcementsPage.getTotalElements());
-
-        if (deviceId != null) {
-            Optional<Device> findDevice = deviceRepository.findById(deviceId);
-            if (findDevice.isPresent()) {
-                Device device = findDevice.get();
-                return announcementsPage.stream()
-                        .map(announcement -> AnnouncementListResponse.of(announcement, device.getBookmarks()))
-                        .toList();
-            }
-        }
-        return announcementsPage.stream()
-                .map(AnnouncementListResponse::of)
-                .toList();
+        return getAnnouncementListResponses(deviceId, announcementsPage);
     }
 
     public List<AnnouncementListResponse> searchAnnouncements(Campus campus, PageDto pageDto, String keyword, String deviceId) {
@@ -67,16 +52,20 @@ public class AnnouncementService {
         Slice<Announcement> announcementsPage = announcementRepository
                 .findByCampusInAndAnnouncementTitleContains(Set.of(campus, Campus.ALL), keyword, pageRequest);
 
+        return getAnnouncementListResponses(deviceId, announcementsPage);
+    }
+
+    private List<AnnouncementListResponse> getAnnouncementListResponses(String deviceId, Slice<Announcement> announcements) {
         if (deviceId != null) {
             Optional<Device> findDevice = deviceRepository.findById(deviceId);
             if (findDevice.isPresent()) {
                 Device device = findDevice.get();
-                return announcementsPage.stream()
+                return announcements.stream()
                         .map(announcement -> AnnouncementListResponse.of(announcement, device.getBookmarks()))
                         .toList();
             }
         }
-        return announcementsPage.stream()
+        return announcements.stream()
                 .map(AnnouncementListResponse::of)
                 .toList();
     }

@@ -33,7 +33,9 @@ public class MainController {
     private final MainHeaderMessageRepository mainHeaderMessageRepository;
 
     @GetMapping("/announcements")
-    public ResponseDto<List<MainAnnouncementsResponse>> getMainAnnouncements(@RequestParam(name = "campus", defaultValue = "CHEONAN") Campus campus) {
+    public ResponseDto<List<MainAnnouncementsResponse>> getMainAnnouncements(
+            @RequestParam(name = "campus", defaultValue = "SINGWAN") Campus campus
+    ) {
         if (campus.equals(Campus.ALL)) {
             throw new BusinessException("Invalid campus");
         }
@@ -54,7 +56,7 @@ public class MainController {
 
     @GetMapping("/buses")
     public ResponseDto<List<MainCityBusResponse>> getMainPageCityBuses(
-            @RequestParam(name = "campus", defaultValue = "CHEONAN") Campus campus
+            @RequestParam(name = "campus", defaultValue = "SINGWAN") Campus campus
     ) {
         if (campus.equals(Campus.ALL)) {
             throw new BusinessException("Invalid campus");

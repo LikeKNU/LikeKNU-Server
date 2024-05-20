@@ -58,8 +58,7 @@ public class Route {
     }
 
     @Builder
-    protected Route(String id, RouteType routeType, String departureStop, String arrivalStop, String origin, String destination, Campus campus) {
-        this.id = id;
+    protected Route(RouteType routeType, String departureStop, String arrivalStop, String origin, String destination, Campus campus) {
         this.routeType = routeType;
         this.departureStop = departureStop;
         this.arrivalStop = arrivalStop;

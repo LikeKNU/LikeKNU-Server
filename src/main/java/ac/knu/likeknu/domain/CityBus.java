@@ -53,8 +53,7 @@ public class CityBus {
     }
 
     @Builder
-    protected CityBus(String id, String busNumber, String busName, String busColor, String busStop, Boolean isRealtime, List<LocalTime> arrivalTimes) {
-        this.id = id;
+    protected CityBus(String busNumber, String busName, String busColor, String busStop, Boolean isRealtime, List<LocalTime> arrivalTimes) {
         this.busNumber = busNumber;
         this.busName = busName;
         this.busColor = busColor;

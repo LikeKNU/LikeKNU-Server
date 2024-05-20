@@ -7,6 +7,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -44,6 +45,19 @@ public class Cafeteria {
     private List<Menu> menus = new ArrayList<>();
 
     protected Cafeteria() {
+    }
+
+    @Builder
+    public Cafeteria(String cafeteriaName, String weekdayBreakfast, String weekdayLunch, String weekdayDinner, String weekendBreakfast, String weekendLunch, String weekendDinner, Campus campus, Integer sequence) {
+        this.cafeteriaName = cafeteriaName;
+        this.weekdayBreakfast = weekdayBreakfast;
+        this.weekdayLunch = weekdayLunch;
+        this.weekdayDinner = weekdayDinner;
+        this.weekendBreakfast = weekendBreakfast;
+        this.weekendLunch = weekendLunch;
+        this.weekendDinner = weekendDinner;
+        this.campus = campus;
+        this.sequence = sequence;
     }
 
     public boolean isOperate(MealType mealType, LocalDate date) {
