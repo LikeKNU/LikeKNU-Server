@@ -4,7 +4,6 @@ import ac.knu.likeknu.domain.Announcement;
 import ac.knu.likeknu.domain.constants.Campus;
 import ac.knu.likeknu.domain.constants.Category;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
@@ -27,7 +26,5 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Stri
 
     Page<Announcement> findByCampusInAndCategory(Set<Campus> campuses, Category category, Pageable pageable);
 
-    Page<Announcement> findByCampusInAndCategoryAndAnnouncementTitleContains(Set<Campus> campuses, Category category, String keyword, Pageable pageable);
-
-    Slice<Announcement> findByCampusInAndAnnouncementTitleContains(Set<Campus> campus, String keyword, PageRequest pageRequest);
+    Slice<Announcement> findByCampusInAndAnnouncementTitleContains(Set<Campus> campus, String keyword, Pageable pageable);
 }

@@ -9,6 +9,7 @@ import ac.knu.likeknu.domain.constants.Category;
 import ac.knu.likeknu.repository.AnnouncementRepository;
 import ac.knu.likeknu.repository.DeviceRepository;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
@@ -35,22 +36,22 @@ public class AnnouncementService {
 
     public List<AnnouncementListResponse> getAnnouncements(Campus campus, Category category, PageDto pageDto, String deviceId) {
         int requestPage = pageDto.getCurrentPage() - 1;
-        PageRequest pageRequest = PageRequest.of(requestPage, DEFAULT_ANNOUNCEMENT_PAGE_SIZE,
+        Pageable pageable = PageRequest.of(requestPage, DEFAULT_ANNOUNCEMENT_PAGE_SIZE,
                 Sort.by(Order.desc("announcementDate"), Order.desc("collectedAt")));
 
         Slice<Announcement> announcementsPage =
-                announcementRepository.findByCampusInAndCategory(Set.of(campus, Campus.ALL), category, pageRequest);
+                announcementRepository.findByCampusInAndCategory(Set.of(campus, Campus.ALL), category, pageable);
 
         return getAnnouncementListResponses(deviceId, announcementsPage);
     }
 
     public List<AnnouncementListResponse> searchAnnouncements(Campus campus, PageDto pageDto, String keyword, String deviceId) {
         int requestPage = pageDto.getCurrentPage() - 1;
-        PageRequest pageRequest = PageRequest.of(requestPage, DEFAULT_ANNOUNCEMENT_PAGE_SIZE,
+        Pageable pageable = PageRequest.of(requestPage, DEFAULT_ANNOUNCEMENT_PAGE_SIZE,
                 Sort.by(Order.desc("announcementDate"), Order.desc("collectedAt")));
 
         Slice<Announcement> announcementsPage = announcementRepository
-                .findByCampusInAndAnnouncementTitleContains(Set.of(campus, Campus.ALL), keyword, pageRequest);
+                .findByCampusInAndAnnouncementTitleContains(Set.of(campus, Campus.ALL), keyword, pageable);
 
         return getAnnouncementListResponses(deviceId, announcementsPage);
     }
