@@ -24,4 +24,15 @@ public final class AnnouncementFixture {
                 .tag(Tag.ENROLMENT)
                 .build();
     }
+
+    public static Announcement createAnnouncementWithTitle(String title) {
+        return Announcement.builder()
+                .announcementTitle(title)
+                .announcementUrl(URL)
+                .announcementDate(DATE)
+                .campus(Campus.SINGWAN)
+                .category(Category.STUDENT_NEWS)
+                .tag(Tag.ENROLMENT)
+                .build();
+    }
 }

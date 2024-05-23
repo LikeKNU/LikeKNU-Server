@@ -57,7 +57,7 @@ class MainControllerTest {
 
     @DisplayName("메인 공지사항 목록 조회에 성공한다")
     @Test
-    void should_success_fetchMainAnnouncements() throws Exception {
+    void should_success_when_fetchMainAnnouncements() throws Exception {
         Announcement announcement = AnnouncementFixture.createAnnouncement();
         given(mainService.getAnnouncementsResponse(any(Campus.class)))
                 .willReturn(List.of(MainAnnouncementsResponse.of(announcement)));
@@ -75,7 +75,7 @@ class MainControllerTest {
 
     @DisplayName("메인 시내버스 시간 조회에 성공한다")
     @Test
-    void should_success_fetchMainCityBuses() throws Exception {
+    void should_success_when_fetchMainCityBuses() throws Exception {
         Route route = CityBusFixture.createRoute();
         CityBus cityBus = CityBusFixture.createCityBus();
 
