@@ -8,7 +8,7 @@ import ac.knu.likeknu.domain.constants.Tag;
 import java.time.LocalDate;
 import java.time.Month;
 
-public class AnnouncementFixture {
+public final class AnnouncementFixture {
 
     public static final String TITLE = "like-knu";
     public static final String URL = "https://fileisHere.com";
