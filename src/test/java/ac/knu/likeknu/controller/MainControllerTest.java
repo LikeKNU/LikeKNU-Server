@@ -18,7 +18,6 @@ import ac.knu.likeknu.fixture.MealFixture;
 import ac.knu.likeknu.repository.MainHeaderMessageRepository;
 import ac.knu.likeknu.service.CityBusService;
 import ac.knu.likeknu.service.MainService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,15 +42,11 @@ class MainControllerTest {
 
     @Autowired
     MockMvc mockMvc;
-    @Autowired
-    ObjectMapper objectMapper;
 
     @MockBean
     MainService mainService;
-
     @MockBean
     CityBusService cityBusService;
-
     @MockBean
     MainHeaderMessageRepository mainHeaderMessageRepository;
 
