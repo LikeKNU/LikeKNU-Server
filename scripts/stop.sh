@@ -1,13 +1,13 @@
 #!/bin/bash
 
-ROOT_PATH="/home/ec2-user/deploy"
-JAR="$ROOT_PATH/application.jar"
+ROOT_PATH="/home/ec2-user/LikeKNU"
+JAR="$ROOT_PATH/LikeKNU.jar"
 STOP_LOG="$ROOT_PATH/stop.log"
 SERVICE_PID=$(pgrep -f $JAR)
 
 if [ -z "$SERVICE_PID" ]; then
-  echo "서비스 NotFound" >> $STOP_LOG
+  echo "Service not found" >> $STOP_LOG
 else
-  echo "서비스 종료 " >> $STOP_LOG
+  echo "Terminate service " >> $STOP_LOG
   kill -9 "$SERVICE_PID"
 fi

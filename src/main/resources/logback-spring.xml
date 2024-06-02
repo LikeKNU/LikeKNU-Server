@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+    <timestamp key="BY_DATE" datePattern="yyyy-MM-dd" />
+    <property name="LOG_PATTERN"
+        value="%green([%d{yyyy-MM-dd HH:mm:ss.SSS}]) %magenta([%22.22thread]) %highlight(%-5level) | %yellow(%50.50logger{50}) | %msg%n" />
+    <property name="LOG_FILE_PATTERN"
+        value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%22.22thread] %-5level | %50.50logger{50} | %msg%n" />
+    <property name="DEFAULT_DIR" value="/home/ec2-user/LikeKNU" />
+
+    <springProfile name="dev">
+        <include resource="console-appender.xml" />
+        <root level="INFO">
+            <appender-ref ref="CONSOLE" />
+        </root>
+    </springProfile>
+
+    <springProfile name="prod">
+        <include resource="file-info-appender.xml" />
+        <include resource="file-warn-appender.xml" />
+        <include resource="file-error-appender.xml" />
+
+        <root level="INFO">
+            <appender-ref ref="FILE-INFO" />
+            <appender-ref ref="FILE-WARN" />
+            <appender-ref ref="FILE-ERROR" />
+        </root>
+
+    </springProfile>
+</configuration>
