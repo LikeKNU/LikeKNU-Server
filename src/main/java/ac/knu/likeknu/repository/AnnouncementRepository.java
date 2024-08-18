@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Repository
@@ -27,4 +28,8 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Stri
     Page<Announcement> findByCampusInAndCategory(Set<Campus> campuses, Category category, Pageable pageable);
 
     Slice<Announcement> findByCampusInAndAnnouncementTitleContains(Set<Campus> campus, String keyword, Pageable pageable);
+
+    List<Announcement> findTop30ByCategoryOrderByCollectedAtDesc(Category category);
+
+    Optional<Announcement> findByAnnouncementUrl(String url);
 }

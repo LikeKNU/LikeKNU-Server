@@ -1,26 +1,23 @@
 package ac.knu.likeknu.domain;
 
 import ac.knu.likeknu.domain.constants.MealType;
+import ac.knu.likeknu.domain.constants.Domain;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 @Getter
 @Entity
-public class Menu {
-
-    @Id
-    private String id;
+public class Menu extends BaseEntity {
 
     @Column
     private String menus;
@@ -37,28 +34,21 @@ public class Menu {
     private Cafeteria cafeteria;
 
     protected Menu() {
+        super(Domain.MENU);
     }
 
     @Builder
     public Menu(String menus, MealType mealType, LocalDate menuDate, Cafeteria cafeteria) {
+        this();
         this.menus = menus;
         this.mealType = mealType;
         this.menuDate = menuDate;
         this.cafeteria = cafeteria;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-
-        Menu menu = (Menu) object;
-
-        return Objects.equals(id, menu.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+    public void updateMenus(String menu) {
+        if (StringUtils.hasText(menu)) {
+            this.menus = menu;
+        }
     }
 }

@@ -7,7 +7,7 @@
         value="%yellow([%d{yyyy-MM-dd HH:mm:ss.SSS}]) %magenta([%22.22thread]) %clr(%-5level) | %blue(%50.50logger{50}) | %msg%n" />
     <property name="LOG_FILE_PATTERN"
         value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%22.22thread] %-5level | %50.50logger{50} | %msg%n" />
-    <property name="DEFAULT_DIR" value="/home/ec2-user/LikeKNU" />
+    <property name="DEFAULT_DIR" value="/home/ubuntu/LikeKNU" />
 
     <springProfile name="dev">
         <include resource="logback/console-appender.xml" />

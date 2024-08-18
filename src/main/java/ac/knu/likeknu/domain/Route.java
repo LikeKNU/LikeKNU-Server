@@ -2,11 +2,11 @@ package ac.knu.likeknu.domain;
 
 import ac.knu.likeknu.domain.constants.Campus;
 import ac.knu.likeknu.domain.constants.RouteType;
+import ac.knu.likeknu.domain.constants.Domain;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -15,15 +15,11 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.Objects;
 
 @Getter
 @Table(name = "route")
 @Entity
-public class Route {
-
-    @Id
-    private String id;
+public class Route extends BaseEntity {
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
@@ -55,6 +51,7 @@ public class Route {
     private List<CityBus> buses;
 
     protected Route() {
+        super(Domain.ROUTE);
     }
 
     @Builder
@@ -65,20 +62,5 @@ public class Route {
         this.origin = origin;
         this.destination = destination;
         this.campus = campus;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-
-        Route route = (Route) object;
-
-        return Objects.equals(id, route.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
     }
 }

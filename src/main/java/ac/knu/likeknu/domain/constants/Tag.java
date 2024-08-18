@@ -1,6 +1,5 @@
 package ac.knu.likeknu.domain.constants;
 
-import ac.knu.likeknu.exception.BusinessException;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -24,10 +23,10 @@ public enum Tag {
         this.tagName = tagName;
     }
 
-    public static Tag of(String tagName) {
+    public static Tag of(String content) {
         return Arrays.stream(Tag.values())
-                .filter(tag -> tag.getTagName().equals(tagName))
-                .findAny()
-                .orElseThrow(() -> new BusinessException(String.format("Tag name not found! [%s]", tagName)));
+                .filter(tag -> tag.tagName.equals(content))
+                .findFirst()
+                .orElse(ETC);
     }
 }

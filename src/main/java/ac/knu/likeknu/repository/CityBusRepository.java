@@ -11,4 +11,7 @@ public interface CityBusRepository extends JpaRepository<CityBus, String> {
 
     @EntityGraph(attributePaths = "arrivalTimes")
     List<CityBus> findByRoutesContaining(Route route);
+
+    @EntityGraph(attributePaths = "arrivalTimes")
+    List<CityBus> findByBusStop(String stopName);
 }

@@ -13,4 +13,6 @@ public interface AcademicCalendarRepository extends JpaRepository<AcademicCalend
     List<AcademicCalendar> findTop3ByStartDateBetweenOrderByStartDateAsc(LocalDate start, LocalDate end);
 
     List<AcademicCalendar> findByStartDateBetween(LocalDate start, LocalDate end);
+
+    List<AcademicCalendar> findByStartDateGreaterThanEqual(LocalDate startDate);
 }

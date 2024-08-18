@@ -1,21 +1,13 @@
 package ac.knu.likeknu.service;
 
 import ac.knu.likeknu.controller.dto.device.request.CampusModificationRequest;
-import ac.knu.likeknu.controller.dto.device.request.ChangeNotificationRequest;
 import ac.knu.likeknu.controller.dto.device.request.DeviceRegistrationRequest;
-import ac.knu.likeknu.controller.dto.device.request.DeviceTokenRequest;
-import ac.knu.likeknu.controller.dto.device.request.SubscribeTagsUpdateRequest;
-import ac.knu.likeknu.controller.dto.device.request.TagName;
-import ac.knu.likeknu.controller.dto.device.response.SubscribeTagListResponse;
 import ac.knu.likeknu.domain.Device;
 import ac.knu.likeknu.domain.constants.Campus;
-import ac.knu.likeknu.domain.constants.Tag;
 import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.repository.DeviceRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Transactional
 @Service
@@ -49,7 +41,7 @@ public class DeviceService {
         }
     }
 
-    public void registerTokenByDevice(DeviceTokenRequest tokenRequest) {
+    /*public void registerTokenByDevice(DeviceTokenRequest tokenRequest) {
         String deviceId = tokenRequest.deviceId();
         Device device = deviceRepository.findById(deviceId)
                 .orElseThrow(() -> new BusinessException(String.format("deviceId: %s does not exist.", deviceId)));
@@ -62,9 +54,9 @@ public class DeviceService {
         return device.getSubscribeTags().stream()
                 .map(SubscribeTagListResponse::of)
                 .toList();
-    }
+    }*/
 
-    public void updateSubscribeTagList(SubscribeTagsUpdateRequest subscribeTagsUpdateRequest) {
+    /*public void updateSubscribeTagList(SubscribeTagsUpdateRequest subscribeTagsUpdateRequest) {
         String deviceId = subscribeTagsUpdateRequest.deviceId();
         List<TagName> tagNames = subscribeTagsUpdateRequest.tags();
         List<Tag> tags = convertToTags(tagNames);
@@ -79,9 +71,9 @@ public class DeviceService {
                 .map(TagName::tag)
                 .map(Tag::of)
                 .toList();
-    }
+    }*/
 
-    @Transactional(readOnly = true)
+    /*@Transactional(readOnly = true)
     public boolean isTurnOnPushNotifications(String deviceId) {
         Device device = deviceRepository.findById(deviceId)
                 .orElseThrow(() -> new BusinessException(String.format("Device not found! [%s]", deviceId)));
@@ -94,5 +86,5 @@ public class DeviceService {
                 .orElseThrow(() -> new BusinessException(String.format("Device not found! [%s]", deviceId)));
 
         device.updateNotification(request.notification());
-    }
+    }*/
 }

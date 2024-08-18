@@ -5,7 +5,6 @@ import ac.knu.likeknu.domain.constants.MealType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,14 +12,10 @@ import lombok.Getter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Getter
 @Entity
-public class Cafeteria {
-
-    @Id
-    private String id;
+public class Cafeteria extends BaseEntity {
 
     private String cafeteriaName;
 
@@ -92,20 +87,5 @@ public class Cafeteria {
 
     private boolean isWeekend(LocalDate date) {
         return date.getDayOfWeek().getValue() >= 6;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-
-        Cafeteria cafeteria = (Cafeteria) object;
-
-        return Objects.equals(id, cafeteria.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
     }
 }

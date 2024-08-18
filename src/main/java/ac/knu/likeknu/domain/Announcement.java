@@ -2,52 +2,59 @@ package ac.knu.likeknu.domain;
 
 import ac.knu.likeknu.domain.constants.Campus;
 import ac.knu.likeknu.domain.constants.Category;
+import ac.knu.likeknu.domain.constants.Domain;
 import ac.knu.likeknu.domain.constants.Tag;
+import ac.knu.likeknu.job.announcement.dto.AnnouncementMessage;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Entity
-public class Announcement {
+public class Announcement extends BaseEntity {
 
-    @Id
-    private String id;
-
-    @Column
+    @Column(name = "announcement_title", nullable = false)
     private String announcementTitle;
 
-    @Column
+    @Column(name = "announcement_url", nullable = false)
     private String announcementUrl;
 
-    @Column
+    @Column(name = "announcement_date", nullable = false)
     private LocalDate announcementDate;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "campus", nullable = false)
     private Campus campus;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "category", nullable = false)
     private Category category;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "tag", nullable = false)
     private Tag tag;
 
-    @Column
+    @CreatedDate
+    @Column(name = "collected_at")
     private LocalDateTime collectedAt;
 
     protected Announcement() {
+        super(Domain.ANNOUNCEMENT);
     }
 
     @Builder
     public Announcement(String announcementTitle, String announcementUrl, LocalDate announcementDate, Campus campus, Category category, Tag tag) {
+        this();
         this.announcementTitle = announcementTitle;
         this.announcementUrl = announcementUrl;
         this.announcementDate = announcementDate;
@@ -56,18 +63,21 @@ public class Announcement {
         this.tag = tag;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-
-        Announcement that = (Announcement) object;
-
-        return Objects.equals(id, that.id);
+    public static Announcement of(AnnouncementMessage announcementMessage, Tag tag) {
+        return Announcement.builder()
+                .announcementTitle(announcementMessage.getTitle())
+                .announcementUrl(announcementMessage.getAnnouncementUrl())
+                .announcementDate(announcementMessage.getAnnouncementDate())
+                .campus(announcementMessage.getCampus())
+                .category(announcementMessage.getCategory())
+                .tag(tag)
+                .build();
     }
 
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+    public void update(AnnouncementMessage announcementMessage) {
+        String title = announcementMessage.getTitle();
+        Campus campus = announcementMessage.getCampus();
+        this.announcementTitle = title;
+        this.campus = campus;
     }
 }

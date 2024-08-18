@@ -5,7 +5,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -15,16 +14,13 @@ import lombok.Getter;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 @Getter
 @Table(name = "city_bus")
 @Entity
-public class CityBus {
-
-    @Id
-    private String id;
+public class CityBus extends BaseEntity {
 
     @Column(nullable = false)
     private String busNumber;
@@ -53,13 +49,12 @@ public class CityBus {
     }
 
     @Builder
-    protected CityBus(String busNumber, String busName, String busColor, String busStop, Boolean isRealtime, List<LocalTime> arrivalTimes) {
+    protected CityBus(String busNumber, String busName, String busColor, String busStop, Boolean isRealtime) {
         this.busNumber = busNumber;
         this.busName = busName;
         this.busColor = busColor;
         this.busStop = busStop;
         this.isRealtime = isRealtime;
-        this.arrivalTimes = arrivalTimes;
     }
 
     public LocalTime getEarliestArrivalTime() {
@@ -72,18 +67,8 @@ public class CityBus {
                 .orElse(null);
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-
-        CityBus cityBus = (CityBus) object;
-
-        return Objects.equals(id, cityBus.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+    public void updateArrivalTimes(Collection<LocalTime> arrivalTimes) {
+        this.arrivalTimes.clear();
+        this.arrivalTimes.addAll(arrivalTimes);
     }
 }
