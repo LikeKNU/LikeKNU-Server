@@ -3,14 +3,18 @@ package ac.knu.likeknu.collector.menu;
 import ac.knu.likeknu.collector.menu.constants.DormitoryCafeteria;
 import ac.knu.likeknu.collector.menu.domain.DormitoryCafeteriaAttributes;
 import ac.knu.likeknu.collector.menu.dto.Meal;
+import ac.knu.likeknu.utils.DateTimeUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,6 +50,16 @@ public class DormitoryCafeteriaMenuCollector implements MenuCollector {
     }
 
     private String generateUrl(String id) {
-        return menuProperties.getDormitoryCafeteriaPrefix() + id;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        LocalDate previousSunday = DateTimeUtils.getPreviousSunday();
+        LocalDate endDate = previousSunday.plusDays(13);
+        String formattedStartDate = formatter.format(previousSunday);
+        String formattedEndDate = formatter.format(endDate);
+
+        return UriComponentsBuilder.fromUriString(menuProperties.getDormitoryCafeteriaPrefix() + id)
+                .queryParam("currentWeekStart", formattedStartDate)
+                .queryParam("currentWeekEnd", formattedEndDate)
+                .build()
+                .toUriString();
     }
 }

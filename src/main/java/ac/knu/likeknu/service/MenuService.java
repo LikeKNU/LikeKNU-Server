@@ -39,8 +39,7 @@ public class MenuService {
                 );
 
         LocalDate startDate = LocalDate.now();
-        LocalDate endDate = LocalDate.now()
-                .plusDays(1);
+        LocalDate endDate = startDate.plusDays(6);
         return getPeriodCafeteriaMealList(specifiedCafeteria, startDate, endDate);
     }
 

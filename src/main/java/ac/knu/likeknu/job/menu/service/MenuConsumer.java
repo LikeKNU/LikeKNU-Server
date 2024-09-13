@@ -24,7 +24,7 @@ public class MenuConsumer {
     public void consumeMenuMessage(@Valid Meal meal) {
         List<MenuMessage> menus = meal.menus()
                 .stream()
-                .map(MenuMessage::from)
+                .map(menu -> MenuMessage.of(menu, meal.mealType().name()))
                 .toList();
         MealMessage mealMessage = MealMessage.builder()
                 .campus(Campus.valueOf(meal.campus().name()))

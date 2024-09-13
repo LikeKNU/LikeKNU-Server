@@ -2,9 +2,13 @@ package ac.knu.likeknu.utils;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.EnumSet;
 
-public class DateTimeUtils {
+public final class DateTimeUtils {
+
+    private DateTimeUtils() {
+    }
 
     public static LocalDate getEarliestNextAvailableDate(EnumSet<DayOfWeek> availableDayOfWeeks) {
         LocalDate date = LocalDate.now();
@@ -22,5 +26,10 @@ public class DateTimeUtils {
             return date1.getDayOfWeek().getValue() <= date2.getDayOfWeek().getValue();
         }
         return date2.getDayOfWeek().getValue() <= date1.getDayOfWeek().getValue();
+    }
+
+    public static LocalDate getPreviousSunday() {
+        LocalDate currentDate = LocalDate.now();
+        return currentDate.with(TemporalAdjusters.previous(DayOfWeek.SUNDAY));
     }
 }
