@@ -25,6 +25,4 @@ public class MenuSchedulingService {
                 .flatMap(menuCollector -> menuCollector.collectMenus().stream())
                 .forEach(menuProducer::produce);
     }
-
-    //TODO 다음주 메뉴 수집 스케줄 추가
 }

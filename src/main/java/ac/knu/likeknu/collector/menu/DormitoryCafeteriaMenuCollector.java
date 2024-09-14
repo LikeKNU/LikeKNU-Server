@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -51,7 +52,7 @@ public class DormitoryCafeteriaMenuCollector implements MenuCollector {
 
     private String generateUrl(String id) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        LocalDate previousSunday = DateTimeUtils.getPreviousSunday();
+        LocalDate previousSunday = DateTimeUtils.getPreviousOrSameDate(DayOfWeek.SUNDAY);
         LocalDate endDate = previousSunday.plusDays(13);
         String formattedStartDate = formatter.format(previousSunday);
         String formattedEndDate = formatter.format(endDate);

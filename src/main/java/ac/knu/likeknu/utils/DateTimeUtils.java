@@ -28,8 +28,8 @@ public final class DateTimeUtils {
         return date2.getDayOfWeek().getValue() <= date1.getDayOfWeek().getValue();
     }
 
-    public static LocalDate getPreviousSunday() {
+    public static LocalDate getPreviousOrSameDate(DayOfWeek dayOfWeek) {
         LocalDate currentDate = LocalDate.now();
-        return currentDate.with(TemporalAdjusters.previous(DayOfWeek.SUNDAY));
+        return currentDate.with(TemporalAdjusters.previousOrSame(dayOfWeek));
     }
 }

@@ -8,6 +8,7 @@ import ac.knu.likeknu.job.menu.dto.MealMessage;
 import ac.knu.likeknu.job.menu.dto.MenuMessage;
 import ac.knu.likeknu.repository.CafeteriaRepository;
 import ac.knu.likeknu.repository.MenuRepository;
+import ac.knu.likeknu.utils.DateTimeUtils;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
@@ -37,12 +37,11 @@ public class MenuService {
 
     @PostConstruct
     void init() {
-        LocalDate thisSunday = LocalDate.now()
-                .with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
+        LocalDate previousSunday = DateTimeUtils.getPreviousOrSameDate(DayOfWeek.SUNDAY);
         cafeteriaRepository.findAll()
                 .forEach(cafeteria -> {
                     menuCache.put(CafeteriaKey.from(cafeteria), Collections.synchronizedSet(new HashSet<>()));
-                    menuRepository.findByMenuDateAfterAndCafeteria(thisSunday.minusDays(1), cafeteria)
+                    menuRepository.findByMenuDateAfterAndCafeteria(previousSunday.minusDays(1), cafeteria)
                             .forEach(menu -> caching(MealMessage.of(cafeteria), MenuMessage.from(menu)));
                 });
     }
@@ -85,9 +84,10 @@ public class MenuService {
         menuMessages.add(menuMessage);
     }
 
-    @Scheduled(cron = "0 0 23 * * SAT")
+    @Scheduled(cron = "0 0 0 * * MON")
     public void scheduledMenuCache() {
+        LocalDate currentDate = LocalDate.now();
         menuCache.values()
-                .forEach(Set::clear);
+                .forEach(menuMessages -> menuMessages.removeIf(menuMessage -> menuMessage.date().isBefore(currentDate)));
     }
 }
