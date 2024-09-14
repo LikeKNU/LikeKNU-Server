@@ -7,7 +7,17 @@
         value="%yellow([%d{yyyy-MM-dd HH:mm:ss.SSS}]) %magenta([%22.22thread]) %clr(%-5level) | %blue(%50.50logger{50}) | %msg%n" />
     <property name="LOG_FILE_PATTERN"
         value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%22.22thread] %-5level | %50.50logger{50} | %msg%n" />
-    <property name="DEFAULT_DIR" value="/home/ubuntu/LikeKNU" />
+    <property name="DEFAULT_DIR" value="LikeKNU" />
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
 
     <springProfile name="dev">
         <include resource="logback/console-appender.xml" />
