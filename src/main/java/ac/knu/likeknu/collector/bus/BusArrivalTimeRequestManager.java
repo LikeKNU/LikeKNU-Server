@@ -25,26 +25,37 @@ public class BusArrivalTimeRequestManager {
 
     public List<NaverRealtimeBusInformation> fetchNaverRealTimeBusInformation(DepartureStop departureStop) {
         String uri = generateUri(webProperties.getNaverMapBus(), "stopId", departureStop.getStopId());
-        List<NaverRealtimeBusInformation> responseBody = restClient.get()
-                .uri(uri)
-                .retrieve()
-                .body(new ParameterizedTypeReference<>() {
-                });
-        validateResponseBodyIsNotNull(responseBody);
-        return responseBody.stream()
-                .filter(naverRealtimeBusInformation -> !naverRealtimeBusInformation.getArrivalBuses().isEmpty())
-                .toList();
+        try {
+            List<NaverRealtimeBusInformation> responseBody = restClient.get()
+                    .uri(uri)
+                    .header("Referer", "https://map.naver.com")
+                    .retrieve()
+                    .body(new ParameterizedTypeReference<>() {
+                    });
+            validateResponseBodyIsNotNull(responseBody);
+            return responseBody.stream()
+                    .filter(naverRealtimeBusInformation -> !naverRealtimeBusInformation.getArrivalBuses().isEmpty())
+                    .toList();
+        } catch (Exception e) {
+            log.error("Failed to fetch Naver real-time bus information. uri = {}", uri);
+            throw new IllegalArgumentException("Failed to fetch Naver real-time bus information.", e);
+        }
     }
 
     public KakaoRealtimeBusInformation fetchKakaoRealTimeBusInformation(DepartureStop departureStop) {
         String uri = generateUri(webProperties.getKakaoMapBus(), "busstopid", departureStop.getStopId());
-        KakaoRealtimeBusInformation responseBody = restClient.get()
-                .uri(uri)
-                .retrieve()
-                .body(new ParameterizedTypeReference<>() {
-                });
-        validateResponseBodyIsNotNull(responseBody);
-        return responseBody;
+        try {
+            KakaoRealtimeBusInformation responseBody = restClient.get()
+                    .uri(uri)
+                    .retrieve()
+                    .body(new ParameterizedTypeReference<>() {
+                    });
+            validateResponseBodyIsNotNull(responseBody);
+            return responseBody;
+        } catch (Exception e) {
+            log.error("Failed to fetch Kakao real-time bus information. uri = {}", uri);
+            throw new IllegalArgumentException("Failed to fetch Kakao real-time bus information.", e);
+        }
     }
 
     private String generateUri(String url, String parameterKey, String parameterValue) {

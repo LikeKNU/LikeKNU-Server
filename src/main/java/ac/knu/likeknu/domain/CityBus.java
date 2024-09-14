@@ -49,12 +49,13 @@ public class CityBus extends BaseEntity {
     }
 
     @Builder
-    protected CityBus(String busNumber, String busName, String busColor, String busStop, Boolean isRealtime) {
+    protected CityBus(String busNumber, String busName, String busColor, String busStop, Boolean isRealtime, List<LocalTime> arrivalTimes) {
         this.busNumber = busNumber;
         this.busName = busName;
         this.busColor = busColor;
         this.busStop = busStop;
         this.isRealtime = isRealtime;
+        this.arrivalTimes = arrivalTimes;
     }
 
     public LocalTime getEarliestArrivalTime() {
