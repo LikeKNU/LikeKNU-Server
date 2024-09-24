@@ -7,6 +7,7 @@ import ac.knu.likeknu.repository.CityBusRepository;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
@@ -53,5 +54,14 @@ public class CityBusService {
         } catch (DataIntegrityViolationException e) {
             log.error("message = {}", e.getMessage());
         }
+    }
+
+    @Scheduled(cron = "0 0 0 * * *")
+    public void clearRealTimeBusArrivalTime() {
+        cityBusRepository.findByIsRealtime(true)
+                .forEach(cityBus -> {
+                    cityBus.clearArrivalTime();
+                    cityBusRepository.save(cityBus);
+                });
     }
 }

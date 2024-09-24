@@ -34,10 +34,6 @@ public class Device {
     private String id;
 
     @Setter
-    @Column(unique = true)
-    private String fcmToken;
-
-    @Setter
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private Campus campus;
@@ -59,6 +55,8 @@ public class Device {
     private String themeColor;
 
     private String favoriteCafeteria;
+
+    private String expoPushToken;
 
     private LocalDateTime lastVisitedAt;
 
@@ -84,9 +82,9 @@ public class Device {
     }
 
     @Builder
-    public Device(String id, String fcmToken, Campus campus, LocalDateTime registeredAt, String appVersion, String themeColor, String favoriteCafeteria) {
+    public Device(String id, Campus campus, LocalDateTime registeredAt, String appVersion, String themeColor, String favoriteCafeteria, String expoPushToken) {
         this.id = id;
-        this.fcmToken = fcmToken;
+        this.expoPushToken = expoPushToken;
         this.campus = campus;
         this.registeredAt = registeredAt;
         this.appVersion = appVersion;
@@ -126,6 +124,9 @@ public class Device {
         }
         if (deviceRequest.appVersion() != null) {
             this.appVersion = deviceRequest.appVersion();
+        }
+        if (deviceRequest.expoPushToken() != null) {
+            this.expoPushToken = deviceRequest.expoPushToken();
         }
     }
 }

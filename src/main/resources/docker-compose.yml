@@ -1,0 +1,14 @@
+name: like-knu
+
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: like_knu
+      MYSQL_USER: local
+      MYSQL_PASSWORD: local
+    ports:
+      - "3306:3306"
+    cpus: 1
+    mem_limit: 1024mb

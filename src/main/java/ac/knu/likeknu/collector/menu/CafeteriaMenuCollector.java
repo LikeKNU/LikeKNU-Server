@@ -42,13 +42,14 @@ public class CafeteriaMenuCollector implements MenuCollector {
 
     private List<Meal> collectMenu(Cafeteria cafeteria) {
         try {
-            CompletableFuture<List<Meal>> thisWeekMealsFuture = CompletableFuture.supplyAsync(() -> fetchMealsForWeek(cafeteria, false));
-            CompletableFuture<List<Meal>> nextWeekMealsFuture = CompletableFuture.supplyAsync(() -> fetchMealsForWeek(cafeteria, true));
+            CompletableFuture<List<Meal>> thisWeekMealsFuture = CompletableFuture
+                    .supplyAsync(() -> fetchMealsForWeek(cafeteria, false));
+            CompletableFuture<List<Meal>> nextWeekMealsFuture = CompletableFuture
+                    .supplyAsync(() -> fetchMealsForWeek(cafeteria, true));
 
             return thisWeekMealsFuture.thenCombine(
-                    nextWeekMealsFuture, (thisWeekMeals, nextWeekMeals) ->
-                            Stream.concat(thisWeekMeals.stream(), nextWeekMeals.stream())
-                                    .toList()
+                    nextWeekMealsFuture, (thisWeekMeals, nextWeekMeals) -> Stream.concat(thisWeekMeals.stream(), nextWeekMeals.stream())
+                            .toList()
             ).get();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);

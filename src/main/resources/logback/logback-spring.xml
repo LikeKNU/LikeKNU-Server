@@ -9,17 +9,7 @@
         value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%22.22thread] %-5level | %50.50logger{50} | %msg%n" />
     <property name="DEFAULT_DIR" value="LikeKNU" />
 
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>${LOG_PATTERN}</pattern>
-        </encoder>
-    </appender>
-
-    <root level="INFO">
-        <appender-ref ref="CONSOLE" />
-    </root>
-
-    <springProfile name="dev">
+    <springProfile name="dev,test">
         <include resource="logback/console-appender.xml" />
         <root level="INFO">
             <appender-ref ref="CONSOLE" />

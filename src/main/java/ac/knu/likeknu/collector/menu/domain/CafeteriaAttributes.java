@@ -4,6 +4,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 public record CafeteriaAttributes(List<CafeteriaAttribute> cafeteriaAttributes) {
@@ -15,6 +16,7 @@ public record CafeteriaAttributes(List<CafeteriaAttribute> cafeteriaAttributes) 
 
         List<CafeteriaAttribute> cafeteriaAttributes = elements.stream()
                 .map(element -> CafeteriaAttribute.from(element, date))
+                .filter(Objects::nonNull)
                 .toList();
         return new CafeteriaAttributes(cafeteriaAttributes);
     }

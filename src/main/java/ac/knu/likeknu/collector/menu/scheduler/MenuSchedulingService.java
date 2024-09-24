@@ -19,7 +19,7 @@ public class MenuSchedulingService {
         this.menuProducer = menuProducer;
     }
 
-    @Scheduled(cron = "0 0/10 0-19 * * SUN-WED", zone = "Asia/Seoul")
+    @Scheduled(cron = "50 0/10 9-18 * * *", zone = "Asia/Seoul")
     public void scheduleMenuProduce() {
         menuCollectors.stream()
                 .flatMap(menuCollector -> menuCollector.collectMenus().stream())

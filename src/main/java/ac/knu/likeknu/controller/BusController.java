@@ -1,6 +1,7 @@
 package ac.knu.likeknu.controller;
 
 import ac.knu.likeknu.controller.dto.base.ResponseDto;
+import ac.knu.likeknu.controller.dto.citybus.CityBusRoutesResponse;
 import ac.knu.likeknu.controller.dto.citybus.CityBusesResponse;
 import ac.knu.likeknu.controller.dto.shuttlebus.ShuttleBusesArrivalTimeResponse;
 import ac.knu.likeknu.controller.dto.shuttlebus.ShuttleListResponse;
@@ -29,12 +30,26 @@ public class BusController {
     }
 
     @GetMapping("/city-bus/{type}")
-    private ResponseDto<List<CityBusesResponse>> cityBusesArrivalTime(
+    public ResponseDto<List<CityBusesResponse>> cityBusesArrivalTime(
             @RequestParam("campus") Campus campus, @PathVariable("type") String type,
             @RequestParam(value = "isRefresh", required = false) boolean isRefresh
     ) {
         RouteType routeType = RouteType.of(type);
         List<CityBusesResponse> cityBusesArrivalTime = cityBusService.getCityBusesArrivalTime(campus, routeType);
+        return ResponseDto.of(cityBusesArrivalTime);
+    }
+
+    @GetMapping("/city-bus/routes")
+    public ResponseDto<List<CityBusRoutesResponse>> eachRouteCityBuses(@RequestParam("campus") Campus campus) {
+        List<CityBusRoutesResponse> routeList = cityBusService.getRouteList(campus);
+        return ResponseDto.of(routeList);
+    }
+
+    @GetMapping("/city-bus/{routeId}/arrival-time")
+    public ResponseDto<CityBusesResponse> cityBusesArrivalTime(
+            @PathVariable("routeId") String routeId
+    ) {
+        CityBusesResponse cityBusesArrivalTime = cityBusService.getCityBusesArrivalTime(routeId);
         return ResponseDto.of(cityBusesArrivalTime);
     }
 

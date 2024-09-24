@@ -72,4 +72,8 @@ public class CityBus extends BaseEntity {
         this.arrivalTimes.clear();
         this.arrivalTimes.addAll(arrivalTimes);
     }
+
+    public void clearArrivalTime() {
+        arrivalTimes.clear();
+    }
 }

@@ -1,7 +1,6 @@
 package ac.knu.likeknu.controller.dto.citybus;
 
 import ac.knu.likeknu.domain.CityBus;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 
 import java.time.Duration;
@@ -9,7 +8,7 @@ import java.time.LocalTime;
 
 @Builder
 public record CityBusesArrivalTimeResponse(String busNumber, String remainingTime, String busColor,
-                                           @JsonIgnore LocalTime arrivalAt) {
+                                           LocalTime arrivalAt) {
 
     public static CityBusesArrivalTimeResponse of(CityBus cityBus, LocalTime arrivalTime, LocalTime currentTime) {
         long remainingTime = Duration.between(currentTime, arrivalTime).toMinutes();

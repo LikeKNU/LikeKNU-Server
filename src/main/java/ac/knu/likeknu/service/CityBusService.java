@@ -1,5 +1,6 @@
 package ac.knu.likeknu.service;
 
+import ac.knu.likeknu.controller.dto.citybus.CityBusRoutesResponse;
 import ac.knu.likeknu.controller.dto.citybus.CityBusesArrivalTimeResponse;
 import ac.knu.likeknu.controller.dto.citybus.CityBusesResponse;
 import ac.knu.likeknu.controller.dto.citybus.MainCityBusResponse;
@@ -76,6 +77,41 @@ public class CityBusService {
                 .stream()
                 .sorted(Comparator.comparing(Route::getSequence))
                 .map(this::generateCityBusesResponse)
+                .toList();
+    }
+
+    /**
+     * 특정 경로의 시내버스 도착 시간 조회
+     * @param routeId 경로 ID
+     * @return 특정 경로의 시내버스 도착 시간 목록
+     */
+    public CityBusesResponse getCityBusesArrivalTime(String routeId) {
+        Route route = routeRepository.findById(routeId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 경로입니다."));
+        List<CityBusesArrivalTimeResponse> list = cityBusRepository.findByRoutesContaining(route)
+                .stream()
+                .flatMap(cityBus -> cityBus.getArrivalTimes()
+                        .stream()
+                        .map(arrivalTime -> CityBusesArrivalTimeResponse.of(cityBus, arrivalTime, LocalTime.now())))
+                .sorted(Comparator.comparing(CityBusesArrivalTimeResponse::arrivalAt))
+                .toList();
+        return CityBusesResponse.of(route, list);
+    }
+
+    public List<CityBusRoutesResponse> getRouteList(Campus campus) {
+        LocalTime currentTime = LocalTime.now();
+        return routeRepository.findByCampus(campus)
+                .stream()
+                .sorted(Comparator.comparing(Route::getSequence))
+                .map(route -> {
+                    LocalTime nextArrivalTime = cityBusRepository.findByRoutesContaining(route)
+                            .stream()
+                            .flatMap(cityBus -> cityBus.getArrivalTimes().stream())
+                            .filter(currentTime::isBefore)
+                            .min(Comparator.naturalOrder())
+                            .orElse(null);
+                    return CityBusRoutesResponse.of(route, nextArrivalTime);
+                })
                 .toList();
     }
 
