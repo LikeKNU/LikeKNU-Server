@@ -68,9 +68,9 @@ public class MainService {
     }
 
     public List<MainScheduleResponse> getScheduleResponse() {
-        List<AcademicCalendar> calendarList = academicCalendarRepository.findTop3ByStartDateBetweenOrderByStartDateAsc(
-                LocalDate.now(), LocalDate.now().plusWeeks(4)
-        );
+        LocalDate currentDate = LocalDate.now();
+        List<AcademicCalendar> calendarList = academicCalendarRepository
+                .findBetweenDateLimit4(currentDate, currentDate.plusWeeks(4));
 
         return calendarList.stream()
                 .map(MainScheduleResponse::of)
