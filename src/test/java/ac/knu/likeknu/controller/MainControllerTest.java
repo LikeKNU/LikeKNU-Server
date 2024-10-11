@@ -130,7 +130,7 @@ class MainControllerTest {
                         status().isOk(),
                         jsonPath("$.data.body[*].scheduleContents").hasJsonPath(),
                         jsonPath("$.data.body[*].scheduleDate").hasJsonPath(),
-                        jsonPath("$.data.body[*].today").hasJsonPath()
+                        jsonPath("$.data.body[*].isToday").hasJsonPath()
                 );
     }
 }
