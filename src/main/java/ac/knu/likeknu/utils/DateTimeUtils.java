@@ -32,4 +32,8 @@ public final class DateTimeUtils {
         LocalDate currentDate = LocalDate.now();
         return currentDate.with(TemporalAdjusters.previousOrSame(dayOfWeek));
     }
+
+    public static boolean isDateInRange(LocalDate date, LocalDate startDate, LocalDate endDate) {
+        return !date.isBefore(startDate) && !date.isAfter(endDate);
+    }
 }

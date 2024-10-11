@@ -1,6 +1,8 @@
 package ac.knu.likeknu.controller.dto.schedule;
 
 import ac.knu.likeknu.domain.AcademicCalendar;
+import ac.knu.likeknu.utils.DateTimeUtils;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -13,47 +15,38 @@ public class ScheduleListDto {
 
     private String scheduleContents;
     private String scheduleDate;
+    @JsonProperty("isToday")
+    private boolean isToday;
 
     @Builder
-    public ScheduleListDto(String scheduleContents, String scheduleDate) {
+    public ScheduleListDto(String scheduleContents, String scheduleDate, boolean isToday) {
         this.scheduleContents = scheduleContents;
         this.scheduleDate = scheduleDate;
+        this.isToday = isToday;
     }
 
     public static ScheduleListDto of(AcademicCalendar academicCalendar) {
+        LocalDate startDate = academicCalendar.getStartDate();
+        LocalDate endDate = academicCalendar.getEndDate();
+        LocalDate currentDate = LocalDate.now();
+
         return ScheduleListDto.builder()
                 .scheduleContents(academicCalendar.getContents())
-                .scheduleDate(getScheduleDate(academicCalendar))
+                .scheduleDate(formatScheduleDate(startDate, endDate))
+                .isToday(DateTimeUtils.isDateInRange(currentDate, startDate, endDate))
                 .build();
     }
 
-    private static String getScheduleDate(AcademicCalendar academicCalendar) {
-        LocalDate startDate = academicCalendar.getStartDate();
-        LocalDate endDate = academicCalendar.getEndDate();
+    private static String formatScheduleDate(LocalDate startDate, LocalDate endDate) {
+        DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("dd일(E)", Locale.KOREAN);
+        DateTimeFormatter monthDayFormatter = DateTimeFormatter.ofPattern("MM월 dd일(E)", Locale.KOREAN);
 
-        if (isSameDate(startDate, endDate))
-            return parseLocalDate(startDate);
-
-        if (isSameMonth(startDate, endDate))
-            return parseLocalDate(startDate) + " ~ " + parseLocalDate(endDate);
-
-        return parseLocalDate(startDate) + " ~ " + parseLocalDateWithMonth(endDate);
+        if (startDate.equals(endDate)) {
+            return startDate.format(dayFormatter);
+        } else if (startDate.getMonthValue() == endDate.getMonthValue()) {
+            return startDate.format(dayFormatter) + " ~ " + endDate.format(dayFormatter);
+        } else {
+            return startDate.format(dayFormatter) + " ~ " + endDate.format(monthDayFormatter);
+        }
     }
-
-    private static String parseLocalDate(LocalDate localDate) {
-        return localDate.format(DateTimeFormatter.ofPattern("dd일(EEEEE)", Locale.KOREA));
-    }
-
-    private static String parseLocalDateWithMonth(LocalDate localDate) {
-        return localDate.format(DateTimeFormatter.ofPattern("MM월 dd일(EEEEE)", Locale.KOREA));
-    }
-
-    private static boolean isSameDate(LocalDate date1, LocalDate date2) {
-        return date1.equals(date2);
-    }
-
-    private static boolean isSameMonth(LocalDate date1, LocalDate date2) {
-        return date1.getMonthValue() == date2.getMonthValue();
-    }
-
 }

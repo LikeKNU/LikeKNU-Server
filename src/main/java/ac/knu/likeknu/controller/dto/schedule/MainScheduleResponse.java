@@ -1,6 +1,7 @@
 package ac.knu.likeknu.controller.dto.schedule;
 
 import ac.knu.likeknu.domain.AcademicCalendar;
+import ac.knu.likeknu.utils.DateTimeUtils;
 import lombok.Builder;
 
 import java.time.LocalDate;
@@ -8,36 +9,35 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 @Builder
-public record MainScheduleResponse(String scheduleId, String scheduleContents, String scheduleDate, boolean today) {
+public record MainScheduleResponse(
+        String scheduleId,
+        String scheduleContents,
+        String scheduleDate,
+        boolean isToday
+) {
 
     public static MainScheduleResponse of(AcademicCalendar calendar) {
-        LocalDate start = calendar.getStartDate();
-        LocalDate end = calendar.getEndDate();
+        LocalDate startDate = calendar.getStartDate();
+        LocalDate endDate = calendar.getEndDate();
+        LocalDate currentDate = LocalDate.now();
 
         return MainScheduleResponse.builder()
                 .scheduleId(calendar.getId())
                 .scheduleContents(calendar.getContents())
-                .scheduleDate(dateParser(start, end))
-                .today(isBetween(start, end))
+                .scheduleDate(formatDateRange(startDate, endDate))
+                .isToday(DateTimeUtils.isDateInRange(currentDate, startDate, endDate))
                 .build();
     }
 
-    private static boolean isBetween(LocalDate startDate, LocalDate endDate) {
-        LocalDate now = LocalDate.now();
-        return !startDate.isBefore(now) && !endDate.isAfter(now);
-    }
+    private static String formatDateRange(LocalDate startDate, LocalDate endDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd (E)", Locale.KOREAN);
+        String startFormatted = startDate.format(formatter);
 
-    private static String dateParser(LocalDate startDate, LocalDate endDate) {
-        String date = dateFormatter(startDate);
-
-        if (!startDate.isEqual(endDate)) {
-            date += " ~ " + dateFormatter(endDate);
+        if (startDate.isEqual(endDate)) {
+            return startFormatted;
+        } else {
+            String endFormatted = endDate.format(formatter);
+            return startFormatted + " ~ " + endFormatted;
         }
-
-        return date;
-    }
-
-    private static String dateFormatter(LocalDate date) {
-        return date.format(DateTimeFormatter.ofPattern("MM/dd(EEEEE)", Locale.KOREA));
     }
 }
