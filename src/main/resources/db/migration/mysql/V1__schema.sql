@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS announcement
     announcement_url   VARCHAR(200)                                                                                                 NOT NULL,
     announcement_date  DATE                                                                                                         NOT NULL,
     campus             ENUM ('ALL', 'SINGWAN', 'CHEONAN', 'YESAN')                                                                  NOT NULL,
-    category           ENUM ('STUDENT_NEWS', 'LIBRARY', 'DORMITORY', 'INTERNSHIP')                                                  NOT NULL,
+    category           ENUM ('STUDENT_NEWS', 'LIBRARY', 'DORMITORY')                                                                NOT NULL,
     tag                ENUM ('ENROLMENT', 'DORMITORY', 'SCHOLARSHIP', 'TUITION', 'WORK', 'LIBRARY', 'MILEAGE', 'INTERNSHIP', 'ETC') NOT NULL,
     collected_at       DATETIME                                                                                                     NOT NULL,
     CONSTRAINT announcement_unique
