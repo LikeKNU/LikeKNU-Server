@@ -16,5 +16,4 @@ public class AnnouncementProperties {
     private String libraryNotice;
     private String libraryFront;
     private String libraryBack;
-    private String internship;
 }
