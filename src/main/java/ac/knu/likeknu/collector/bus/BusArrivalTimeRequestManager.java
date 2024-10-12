@@ -48,8 +48,7 @@ public class BusArrivalTimeRequestManager {
             KakaoRealtimeBusInformation responseBody = restClient.get()
                     .uri(uri)
                     .retrieve()
-                    .body(new ParameterizedTypeReference<>() {
-                    });
+                    .body(KakaoRealtimeBusInformation.class);
             validateResponseBodyIsNotNull(responseBody);
             return responseBody;
         } catch (Exception e) {
