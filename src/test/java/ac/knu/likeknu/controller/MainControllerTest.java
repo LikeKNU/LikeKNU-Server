@@ -18,14 +18,15 @@ import ac.knu.likeknu.fixture.MealFixture;
 import ac.knu.likeknu.repository.MainHeaderMessageRepository;
 import ac.knu.likeknu.service.CityBusService;
 import ac.knu.likeknu.service.MainService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 
@@ -37,27 +38,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DisplayName("MainController 테스트")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@AutoConfigureMockMvc
+@WithMockUser
+@WebMvcTest(controllers = MainController.class,
+        excludeFilters = @ComponentScan.Filter(RestControllerAdvice.class))
 class MainControllerTest {
 
     @Autowired
     MockMvc mockMvc;
-    @Autowired
-    ObjectMapper objectMapper;
 
     @MockBean
     MainService mainService;
-
     @MockBean
     CityBusService cityBusService;
-
     @MockBean
     MainHeaderMessageRepository mainHeaderMessageRepository;
 
     @DisplayName("메인 공지사항 목록 조회에 성공한다")
     @Test
-    void should_success_fetchMainAnnouncements() throws Exception {
+    void should_success_when_fetchMainAnnouncements() throws Exception {
         Announcement announcement = AnnouncementFixture.createAnnouncement();
         given(mainService.getAnnouncementsResponse(any(Campus.class)))
                 .willReturn(List.of(MainAnnouncementsResponse.of(announcement)));
@@ -75,7 +73,7 @@ class MainControllerTest {
 
     @DisplayName("메인 시내버스 시간 조회에 성공한다")
     @Test
-    void should_success_fetchMainCityBuses() throws Exception {
+    void should_success_when_fetchMainCityBuses() throws Exception {
         Route route = CityBusFixture.createRoute();
         CityBus cityBus = CityBusFixture.createCityBus();
 
