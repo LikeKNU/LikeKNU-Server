@@ -3,7 +3,6 @@ package ac.knu.likeknu.collector.calendar.scheduler;
 import ac.knu.likeknu.collector.calendar.AcademicCalendarPageParser;
 import ac.knu.likeknu.collector.calendar.AcademicCalendarRequestManager;
 import ac.knu.likeknu.collector.calendar.dto.AcademicCalendar;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +10,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.IntStream;
 
-@Slf4j
 @Service
 public class AcademicCalendarScheduleService {
 

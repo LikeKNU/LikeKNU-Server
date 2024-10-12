@@ -9,7 +9,6 @@ import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.repository.ShuttleBusRepository;
 import ac.knu.likeknu.repository.ShuttleRepository;
 import ac.knu.likeknu.utils.DateTimeUtils;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +22,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-@Slf4j
 @Transactional(readOnly = true)
 @Service
 public class ShuttleBusService {
@@ -40,7 +38,6 @@ public class ShuttleBusService {
      * 셔틀버스 경로 목록 조회
      *
      * @param campus      캠퍼스
-     * @param shuttleType 셔틀버스 타입 (등교버스•순환버스)
      * @return 캠퍼스별 셔틀버스 경로 목록
      */
     public List<ShuttleListResponse> getRouteList(Campus campus) {

@@ -4,7 +4,6 @@ import ac.knu.likeknu.collector.announcement.AnnouncementProperties;
 import ac.knu.likeknu.collector.announcement.dto.Announcement;
 import ac.knu.likeknu.collector.announcement.dto.StudentNewsElement;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,7 +14,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class StudentNewsManager {

@@ -5,7 +5,6 @@ import ac.knu.likeknu.collector.announcement.dto.Announcement;
 import ac.knu.likeknu.collector.menu.constants.Campus;
 import ac.knu.likeknu.domain.constants.Category;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
@@ -19,7 +18,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class LibraryNoticeManager {

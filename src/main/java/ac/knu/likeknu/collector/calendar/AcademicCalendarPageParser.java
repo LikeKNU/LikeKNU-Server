@@ -1,7 +1,6 @@
 package ac.knu.likeknu.collector.calendar;
 
 import ac.knu.likeknu.collector.calendar.dto.AcademicCalendar;
-import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Slf4j
 @Component
 public class AcademicCalendarPageParser {
 

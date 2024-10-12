@@ -5,7 +5,6 @@ import ac.knu.likeknu.collector.menu.domain.DormitoryCafeteriaAttributes;
 import ac.knu.likeknu.collector.menu.dto.Meal;
 import ac.knu.likeknu.utils.DateTimeUtils;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,7 +18,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class DormitoryCafeteriaMenuCollector implements MenuCollector {

@@ -4,7 +4,6 @@ import ac.knu.likeknu.controller.dto.announcement.AnnouncementListResponse;
 import ac.knu.likeknu.controller.dto.base.ResponseDto;
 import ac.knu.likeknu.controller.dto.device.request.BookmarkRequest;
 import ac.knu.likeknu.service.BookmarkService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Slf4j
 @RequestMapping("/api/bookmarks")
 @RestController
 public class BookmarkController {

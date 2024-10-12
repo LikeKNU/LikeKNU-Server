@@ -1,6 +1,5 @@
 package ac.knu.likeknu.collector.announcement.studentnews;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -12,7 +11,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Objects;
 
-@Slf4j
 public class StudentNewsURLExtractor {
 
     private static final RestTemplate restTemplate = new RestTemplate();

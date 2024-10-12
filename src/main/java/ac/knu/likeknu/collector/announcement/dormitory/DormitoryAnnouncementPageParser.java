@@ -4,7 +4,6 @@ import ac.knu.likeknu.collector.announcement.dto.Announcement;
 import ac.knu.likeknu.collector.calendar.WebProperties;
 import ac.knu.likeknu.collector.menu.constants.Campus;
 import ac.knu.likeknu.domain.constants.Category;
-import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,7 +15,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 @Component
 public class DormitoryAnnouncementPageParser {
 

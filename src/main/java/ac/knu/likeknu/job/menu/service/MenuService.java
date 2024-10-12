@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Slf4j
 @Transactional
 @RequiredArgsConstructor
 @Service("jobMenuService")
@@ -47,7 +46,6 @@ public class MenuService {
     }
 
     public void updateMenus(MealMessage mealMessage) {
-        log.debug("updateMenus = {}", mealMessage);
         mealMessage.menus()
                 .stream()
                 .filter(menuMessage -> !isAlreadyCollected(mealMessage, menuMessage))
@@ -79,7 +77,6 @@ public class MenuService {
     }
 
     private void caching(MealMessage mealMessage, MenuMessage menuMessage) {
-        log.debug("caching menuMessage = {}", menuMessage);
         Set<MenuMessage> menuMessages = menuCache.get(new CafeteriaKey(mealMessage.campus(), mealMessage.cafeteria()));
         menuMessages.add(menuMessage);
     }

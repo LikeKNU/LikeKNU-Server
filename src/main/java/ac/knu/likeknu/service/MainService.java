@@ -15,7 +15,6 @@ import ac.knu.likeknu.repository.AnnouncementRepository;
 import ac.knu.likeknu.repository.CafeteriaRepository;
 import ac.knu.likeknu.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
@@ -27,7 +26,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor

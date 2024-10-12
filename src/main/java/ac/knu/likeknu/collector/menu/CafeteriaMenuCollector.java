@@ -5,7 +5,6 @@ import ac.knu.likeknu.collector.menu.domain.CafeteriaAttributes;
 import ac.knu.likeknu.collector.menu.dto.Meal;
 import ac.knu.likeknu.utils.DateTimeUtils;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -26,7 +25,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class CafeteriaMenuCollector implements MenuCollector {

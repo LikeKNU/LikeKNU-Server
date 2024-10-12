@@ -9,7 +9,6 @@ import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.repository.DeviceRepository;
 import ac.knu.likeknu.repository.MenuRepository;
 import ac.knu.likeknu.repository.MenuThumbsRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +18,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Transactional
 @Service
 public class ThumbsService {

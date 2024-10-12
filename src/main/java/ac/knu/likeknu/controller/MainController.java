@@ -12,7 +12,6 @@ import ac.knu.likeknu.repository.MainHeaderMessageRepository;
 import ac.knu.likeknu.service.CityBusService;
 import ac.knu.likeknu.service.MainService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Slf4j
 @Validated
 @RestController
 @RequestMapping("/api/main")

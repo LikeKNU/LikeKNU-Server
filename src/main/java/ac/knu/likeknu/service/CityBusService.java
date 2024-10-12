@@ -10,7 +10,6 @@ import ac.knu.likeknu.domain.constants.Campus;
 import ac.knu.likeknu.domain.constants.RouteType;
 import ac.knu.likeknu.repository.CityBusRepository;
 import ac.knu.likeknu.repository.RouteRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +19,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-@Slf4j
 @Transactional(readOnly = true)
 @Service
 public class CityBusService {

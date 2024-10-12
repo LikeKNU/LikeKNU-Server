@@ -3,14 +3,12 @@ package ac.knu.likeknu.logging.service;
 import ac.knu.likeknu.logging.domain.UserLog;
 import ac.knu.likeknu.logging.domain.value.LogType;
 import ac.knu.likeknu.logging.repository.UserLogRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 
-@Slf4j
 @Transactional
 @Service
 public class LoggingService {

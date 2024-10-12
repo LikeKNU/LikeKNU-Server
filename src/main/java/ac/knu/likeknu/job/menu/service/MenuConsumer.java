@@ -7,13 +7,11 @@ import ac.knu.likeknu.job.menu.dto.MealMessage;
 import ac.knu.likeknu.job.menu.dto.MenuMessage;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MenuConsumer {

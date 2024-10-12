@@ -1,7 +1,6 @@
 package ac.knu.likeknu.job.announcement.ai;
 
 import ac.knu.likeknu.domain.constants.Tag;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.ChatModel;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Slf4j
 @Component
 public class OpenAIFineTuning {
 

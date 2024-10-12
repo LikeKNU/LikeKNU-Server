@@ -42,7 +42,7 @@ public class AnnouncementMessage {
                 .title(announcement.getAnnouncementTitle())
                 .announcementUrl(announcement.getAnnouncementUrl())
                 .announcementDate(announcement.getAnnouncementDate())
-                .campus( announcement.getCampus())
+                .campus(announcement.getCampus())
                 .category(announcement.getCategory())
                 .build();
     }
