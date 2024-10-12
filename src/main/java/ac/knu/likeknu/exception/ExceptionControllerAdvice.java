@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -28,12 +29,18 @@ public class ExceptionControllerAdvice {
                 .body(message);
     }
 
+    @ExceptionHandler(NoResourceFoundException.class)
+    protected ResponseEntity<String> noResourceFoundExceptionHandler(NoResourceFoundException exception) {
+        return ResponseEntity.notFound()
+                .build();
+    }
+
     @ExceptionHandler(value = Exception.class)
     protected ResponseEntity<String> exceptionHandler(Exception exception) {
         String message = exception.getMessage();
         String stackTrace = Arrays.stream(exception.getStackTrace())
                 .map(StackTraceElement::toString)
-                .collect(Collectors.joining());
+                .collect(Collectors.joining(System.lineSeparator()));
         log.error("Exception: ", exception);
         slackService.sendMessage(String.join("\n", message, stackTrace));
         return ResponseEntity.internalServerError()
