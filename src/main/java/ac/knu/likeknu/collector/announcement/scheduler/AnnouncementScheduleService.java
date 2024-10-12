@@ -2,19 +2,18 @@ package ac.knu.likeknu.collector.announcement.scheduler;
 
 import ac.knu.likeknu.collector.announcement.dormitory.DormitoryAnnouncementPageParser;
 import ac.knu.likeknu.collector.announcement.dormitory.DormitoryAnnouncementRequestManager;
+import ac.knu.likeknu.collector.announcement.dto.Announcement;
 import ac.knu.likeknu.collector.announcement.library.LibraryNoticeManager;
 import ac.knu.likeknu.collector.announcement.studentnews.StudentNewsManager;
 import ac.knu.likeknu.collector.menu.constants.Campus;
-import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.parser.ParseException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 
-@Slf4j
 @Service
 public class AnnouncementScheduleService {
 
@@ -34,13 +33,14 @@ public class AnnouncementScheduleService {
 
     @Scheduled(cron = "10 */10 6-23 * * ?", zone = "Asia/Seoul")
     public void scheduleStudentNewsProduce() throws IOException {
-        studentNewsManager.fetchStudentNews()
-                .forEach(announcementProducer::produce);
+        List<Announcement> announcements = studentNewsManager.fetchStudentNews();
+        announcementProducer.produce(announcements);
     }
 
     @Scheduled(cron = "20 */10 6-23 * * ?")
     public void schedulingLibraryAnnouncementProduce() throws ParseException {
-        libraryNoticeManager.fetchLibraryNotice().forEach(announcementProducer::produce);
+        List<Announcement> announcements = libraryNoticeManager.fetchLibraryNotice();
+        announcementProducer.produce(announcements);
     }
 
     @Scheduled(cron = "40 */10 6-23 * * ?")
@@ -51,7 +51,6 @@ public class AnnouncementScheduleService {
                     String pageSource = dormitoryAnnouncementRequestManager.fetchDormitoryAnnouncementPage(campus, 1);
                     return dormitoryAnnouncementPageParser.parseDormitoryAnnouncementPage(pageSource, campus);
                 })
-                .flatMap(Collection::stream)
                 .forEach(announcementProducer::produce);
     }
 }

@@ -7,6 +7,8 @@ import jakarta.validation.Valid;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AnnouncementConsumer {
 
@@ -17,14 +19,16 @@ public class AnnouncementConsumer {
     }
 
     @EventListener
-    public void consumeAnnouncementMessage(@Valid Announcement announcement) {
-        AnnouncementMessage announcementMessage = AnnouncementMessage.builder()
-                .title(announcement.title())
-                .announcementUrl(announcement.announcementUrl())
-                .announcementDate(announcement.announcementDate())
-                .campus(Campus.valueOf(announcement.campus().name()))
-                .category(announcement.category())
-                .build();
-        announcementService.updateAnnouncement(announcementMessage);
+    public void consumeAnnouncementMessages(@Valid List<Announcement> announcements) {
+        List<AnnouncementMessage> announcementMessages = announcements.stream()
+                .map(announcement -> AnnouncementMessage.builder()
+                        .title(announcement.title())
+                        .announcementUrl(announcement.announcementUrl())
+                        .announcementDate(announcement.announcementDate())
+                        .campus(Campus.valueOf(announcement.campus().name()))
+                        .category(announcement.category())
+                        .build())
+                .toList();
+        announcementService.updateAnnouncements(announcementMessages);
     }
 }
