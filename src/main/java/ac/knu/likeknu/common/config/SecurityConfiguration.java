@@ -1,4 +1,4 @@
-package ac.knu.likeknu.config;
+package ac.knu.likeknu.common.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +27,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http)
             throws Exception {
         return http.authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/**", "/actuator/health").permitAll()
+                        .requestMatchers("/api/**", "/actuator/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin.loginPage("/admin/login")
                         .defaultSuccessUrl("/admin/messages")

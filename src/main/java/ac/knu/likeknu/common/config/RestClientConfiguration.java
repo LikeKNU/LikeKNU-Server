@@ -1,4 +1,4 @@
-package ac.knu.likeknu.collector.configure;
+package ac.knu.likeknu.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
