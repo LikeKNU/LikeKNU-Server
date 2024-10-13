@@ -4,6 +4,7 @@ import ac.knu.likeknu.collector.menu.MenuCollector;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -20,7 +21,8 @@ public class MenuSchedulingService {
     @Scheduled(cron = "50 0/10 9-18 * * *", zone = "Asia/Seoul")
     public void scheduleMenuProduce() {
         menuCollectors.stream()
-                .flatMap(menuCollector -> menuCollector.collectMenus().stream())
+                .map(MenuCollector::collectMenus)
+                .flatMap(Collection::stream)
                 .forEach(menuProducer::produce);
     }
 }
