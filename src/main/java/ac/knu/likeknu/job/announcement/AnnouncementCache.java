@@ -2,9 +2,12 @@ package ac.knu.likeknu.job.announcement;
 
 import ac.knu.likeknu.domain.constants.Category;
 import ac.knu.likeknu.job.announcement.dto.AnnouncementMessage;
+import ac.knu.likeknu.repository.AnnouncementRepository;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
@@ -24,12 +27,25 @@ public class AnnouncementCache {
     private final Map<Category, BlockingQueue<AnnouncementMessage>> memory = new ConcurrentHashMap<>();
     private final Map<Category, Set<AnnouncementMessage>> memorySupporter = new ConcurrentHashMap<>();
 
-    public AnnouncementCache() {
+    private final AnnouncementRepository announcementRepository;
+
+    @PostConstruct
+    private void loadCache() {
         Arrays.stream(Category.values())
                 .forEach(category -> {
                     memory.put(category, new ArrayBlockingQueue<>(CACHE_SIZE));
                     memorySupporter.put(category, Collections.synchronizedSet(new HashSet<>(CACHE_SIZE)));
                 });
+
+        Arrays.stream(Category.values())
+                .map(announcementRepository::findTop30ByCategoryOrderByCollectedAtDesc)
+                .flatMap(Collection::stream)
+                .map(AnnouncementMessage::of)
+                .forEach(this::cache);
+    }
+
+    public AnnouncementCache(AnnouncementRepository announcementRepository) {
+        this.announcementRepository = announcementRepository;
     }
 
     public AnnouncementMessage cache(AnnouncementMessage announcementMessage) {
