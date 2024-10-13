@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AcademicCalendarConsumer {
@@ -14,12 +16,14 @@ public class AcademicCalendarConsumer {
     private final AcademicCalendarService academicCalendarService;
 
     @EventListener
-    public void consumeAcademicCalendarMessage(@Valid AcademicCalendar academicCalendar) {
-        AcademicCalendarMessage academicCalendarMessage = AcademicCalendarMessage.builder()
-                .contents(academicCalendar.contents())
-                .startDate(academicCalendar.startDate())
-                .endDate(academicCalendar.endDate())
-                .build();
-        academicCalendarService.updateCalendar(academicCalendarMessage);
+    public void consumeAcademicCalendarMessages(@Valid List<AcademicCalendar> academicCalendars) {
+        List<AcademicCalendarMessage> calendarMessages = academicCalendars.stream()
+                .map(academicCalendar -> AcademicCalendarMessage.builder()
+                        .contents(academicCalendar.contents())
+                        .startDate(academicCalendar.startDate())
+                        .endDate(academicCalendar.endDate())
+                        .build())
+                .toList();
+        academicCalendarService.updateCalendars(calendarMessages);
     }
 }
