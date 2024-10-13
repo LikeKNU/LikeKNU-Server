@@ -1,20 +1,15 @@
-package ac.knu.likeknu.job.citybus.init;/*
-package ac.knu.likeknujobserver.citybus.init;
+/*
+package ac.knu.likeknu.job.citybus.init;
 
-import ac.knu.likeknujobserver.citybus.model.CityBus;
-import ac.knu.likeknujobserver.citybus.repository.CityBusRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
+import ac.knu.likeknu.domain.CityBus;
+import ac.knu.likeknu.repository.CityBusRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.FileReader;
@@ -26,11 +21,11 @@ import java.time.format.DateTimeFormatter;
 @Component
 public class TimeTableInitializer {
 
-    private static final RestTemplate REST_TEMPLATE = new RestTemplateBuilder().build();
-
+    private final RestClient restClient;
     private final CityBusRepository cityBusRepository;
 
-    public TimeTableInitializer(CityBusRepository cityBusRepository) {
+    public TimeTableInitializer(RestClient restClient, CityBusRepository cityBusRepository) {
+        this.restClient = restClient;
         this.cityBusRepository = cityBusRepository;
     }
 
@@ -50,8 +45,11 @@ public class TimeTableInitializer {
                 .queryParam("lstTime")
                 .queryParam("routeDLength")
                 .queryParam("avgTime")
-                .build().toUriString();
-        String pageSource = REST_TEMPLATE.getForObject(uri, String.class);
+                .toUriString();
+        String pageSource = restClient.get()
+                .uri(uri)
+                .retrieve()
+                .body(String.class);
         Document document = Jsoup.parse(pageSource);
         Element timeTable = document.getElementsByClass("timeTable").get(0);
         Elements timeElements = timeTable.getElementsByTag("dd");

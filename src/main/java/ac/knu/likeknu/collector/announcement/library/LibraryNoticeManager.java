@@ -9,13 +9,12 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -23,42 +22,44 @@ import java.util.List;
 public class LibraryNoticeManager {
 
     private final AnnouncementProperties announcementProperties;
+    private final RestClient restClient;
 
     public List<Announcement> fetchLibraryNotice() throws ParseException {
-        RestTemplate rt = new RestTemplate();
+        String url = announcementProperties.getLibraryNotice();
+        String response = restClient.get()
+                .uri(url)
+                .retrieve()
+                .body(String.class);
 
-        ResponseEntity<String> responseEntity = rt.getForEntity(announcementProperties.getLibraryNotice(), String.class);
         JSONParser jsonParser = new JSONParser(JSONParser.DEFAULT_PERMISSIVE_MODE);
-        Object obj = jsonParser.parse(responseEntity.getBody());
-        JSONObject jsonObject = (JSONObject) ((JSONObject) obj).get("data");
+        JSONObject responseObject = (JSONObject) jsonParser.parse(response);
+        JSONObject jsonObject = (JSONObject) responseObject.get("data");
         JSONArray jsonArray = (JSONArray) jsonObject.get("list");
 
-        List<Announcement> list = new ArrayList<>();
+        return jsonArray.stream()
+                .map(object -> {
+                    JSONObject jsonObj = (JSONObject) object;
 
-        for (Object object : jsonArray) {
-            JSONObject jsonObj = (JSONObject) object;
+                    Campus campus = Campus.ALL;
+                    Object bulletinTextHead = jsonObj.get("bulletinTextHead");
+                    if (bulletinTextHead != null) {
+                        String campusText = bulletinTextHead.toString();
+                        campus = Arrays.stream(Campus.values())
+                                .filter(it -> campusText.equals(it.getCampusLocation()))
+                                .findAny()
+                                .orElse(Campus.ALL);
+                    }
 
-            Campus campus = Campus.ALL;
-            Object bulletinTextHead = jsonObj.get("bulletinTextHead");
-            if (bulletinTextHead != null) {
-                String cp = bulletinTextHead.toString();
-                for (Campus c : Campus.values())
-                    campus = cp.equals(c.getCampusLocation()) ? c : campus;
-            }
-
-            String id = jsonObj.get("id").toString();
-
-            Announcement announcement = Announcement.builder()
-                    .title(jsonObj.get("title").toString())
-                    .campus(campus)
-                    .announcementDate(parseDate(jsonObj.get("dateCreated").toString()))
-                    .announcementUrl(generateUrl(id))
-                    .category(Category.LIBRARY)
-                    .build();
-            list.add(announcement);
-        }
-
-        return list;
+                    String id = jsonObj.get("id").toString();
+                    return Announcement.builder()
+                            .title(jsonObj.get("title").toString())
+                            .campus(campus)
+                            .announcementDate(parseDate(jsonObj.get("dateCreated").toString()))
+                            .announcementUrl(generateUrl(id))
+                            .category(Category.LIBRARY)
+                            .build();
+                })
+                .toList();
     }
 
     private LocalDate parseDate(String date) {
@@ -67,6 +68,6 @@ public class LibraryNoticeManager {
     }
 
     private String generateUrl(String id) {
-        return announcementProperties.getLibraryFront() + id + announcementProperties.getLibraryBack();
+        return announcementProperties.getLibraryFront() + id;
     }
 }
