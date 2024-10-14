@@ -1,6 +1,6 @@
 package ac.knu.likeknu.job.announcement.service;
 
-import ac.knu.likeknu.collector.announcement.dto.Announcement;
+import ac.knu.likeknu.collector.announcement.dto.AnnouncementsMessage;
 import ac.knu.likeknu.domain.constants.Campus;
 import ac.knu.likeknu.job.announcement.dto.AnnouncementMessage;
 import jakarta.validation.Valid;
@@ -19,8 +19,9 @@ public class AnnouncementConsumer {
     }
 
     @EventListener
-    public void consumeAnnouncementMessages(@Valid List<Announcement> announcements) {
-        List<AnnouncementMessage> announcementMessages = announcements.stream()
+    public void consumeAnnouncementMessages(@Valid AnnouncementsMessage announcements) {
+        List<AnnouncementMessage> announcementMessages = announcements.announcements()
+                .stream()
                 .map(announcement -> AnnouncementMessage.builder()
                         .title(announcement.title())
                         .announcementUrl(announcement.announcementUrl())

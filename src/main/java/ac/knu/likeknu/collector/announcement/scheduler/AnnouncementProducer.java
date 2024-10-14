@@ -1,21 +1,19 @@
 package ac.knu.likeknu.collector.announcement.scheduler;
 
-import ac.knu.likeknu.collector.announcement.dto.Announcement;
+import ac.knu.likeknu.collector.announcement.dto.AnnouncementsMessage;
 import ac.knu.likeknu.collector.event.EventProducer;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class AnnouncementProducer {
 
-    private final EventProducer<List<Announcement>> producer;
+    private final EventProducer<AnnouncementsMessage> producer;
 
-    public AnnouncementProducer(EventProducer<List<Announcement>> producer) {
+    public AnnouncementProducer(EventProducer<AnnouncementsMessage> producer) {
         this.producer = producer;
     }
 
-    public void produce(List<Announcement> announcements) {
+    public void produce(AnnouncementsMessage announcements) {
         producer.produce(announcements);
     }
 }

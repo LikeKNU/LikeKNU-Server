@@ -1,6 +1,6 @@
 package ac.knu.likeknu.job.calendar.service;
 
-import ac.knu.likeknu.collector.calendar.dto.AcademicCalendar;
+import ac.knu.likeknu.collector.calendar.dto.CalendarsMessage;
 import ac.knu.likeknu.job.calendar.dto.AcademicCalendarMessage;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +16,9 @@ public class AcademicCalendarConsumer {
     private final AcademicCalendarService academicCalendarService;
 
     @EventListener
-    public void consumeAcademicCalendarMessages(@Valid List<AcademicCalendar> academicCalendars) {
-        List<AcademicCalendarMessage> calendarMessages = academicCalendars.stream()
+    public void consumeAcademicCalendarMessages(@Valid CalendarsMessage calendarsMessage) {
+        List<AcademicCalendarMessage> calendarMessages = calendarsMessage.calendars()
+                .stream()
                 .map(academicCalendar -> AcademicCalendarMessage.builder()
                         .contents(academicCalendar.contents())
                         .startDate(academicCalendar.startDate())

@@ -4,6 +4,7 @@ import ac.knu.likeknu.collector.bus.DepartureStop;
 import ac.knu.likeknu.domain.CityBus;
 import ac.knu.likeknu.job.citybus.dto.BusArrivalTimeMessage;
 import ac.knu.likeknu.repository.CityBusRepository;
+import ac.knu.likeknu.service.SlackService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -22,9 +23,11 @@ import java.util.stream.Collectors;
 public class CityBusService {
 
     private final CityBusRepository cityBusRepository;
+    private final SlackService slackService;
 
-    public CityBusService(CityBusRepository cityBusRepository) {
+    public CityBusService(CityBusRepository cityBusRepository, SlackService slackService) {
         this.cityBusRepository = cityBusRepository;
+        this.slackService = slackService;
     }
 
     public void updateRealtimeBusArrivalTime(@Valid List<BusArrivalTimeMessage> busArrivalTimes) {
@@ -52,7 +55,8 @@ public class CityBusService {
         try {
             cityBusRepository.save(cityBus);
         } catch (DataIntegrityViolationException e) {
-            log.error("message = {}", e.getMessage());
+            log.warn("버스 도착 시간 중복 오류 - message: {}", e.getMessage());
+            slackService.sendMessage("버스 도착 시간 중복 오류 - message: " + e.getMessage());
         }
     }
 

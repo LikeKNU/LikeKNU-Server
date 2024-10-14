@@ -1,19 +1,19 @@
 package ac.knu.likeknu.collector.calendar.scheduler;
 
-import ac.knu.likeknu.collector.calendar.dto.AcademicCalendar;
+import ac.knu.likeknu.collector.calendar.dto.CalendarsMessage;
 import ac.knu.likeknu.collector.event.EventProducer;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AcademicCalendarProducer {
 
-    private final EventProducer<AcademicCalendar> producer;
+    private final EventProducer<CalendarsMessage> producer;
 
-    public AcademicCalendarProducer(EventProducer<AcademicCalendar> producer) {
+    public AcademicCalendarProducer(EventProducer<CalendarsMessage> producer) {
         this.producer = producer;
     }
 
-    public void produce(AcademicCalendar academicCalendar) {
-        producer.produce(academicCalendar);
+    public void produce(CalendarsMessage calendarsMessage) {
+        producer.produce(calendarsMessage);
     }
 }

@@ -3,6 +3,7 @@ package ac.knu.likeknu.collector.announcement.scheduler;
 import ac.knu.likeknu.collector.announcement.dormitory.DormitoryAnnouncementPageParser;
 import ac.knu.likeknu.collector.announcement.dormitory.DormitoryAnnouncementRequestManager;
 import ac.knu.likeknu.collector.announcement.dto.Announcement;
+import ac.knu.likeknu.collector.announcement.dto.AnnouncementsMessage;
 import ac.knu.likeknu.collector.announcement.library.LibraryNoticeManager;
 import ac.knu.likeknu.collector.announcement.studentnews.StudentNewsManager;
 import ac.knu.likeknu.collector.menu.constants.Campus;
@@ -34,13 +35,13 @@ public class AnnouncementScheduleService {
     @Scheduled(cron = "10 */10 6-23 * * ?", zone = "Asia/Seoul")
     public void scheduleStudentNewsProduce() throws IOException {
         List<Announcement> announcements = studentNewsManager.fetchStudentNews();
-        announcementProducer.produce(announcements);
+        announcementProducer.produce(new AnnouncementsMessage(announcements));
     }
 
     @Scheduled(cron = "20 */10 6-23 * * ?")
     public void schedulingLibraryAnnouncementProduce() throws ParseException {
         List<Announcement> announcements = libraryNoticeManager.fetchLibraryNotice();
-        announcementProducer.produce(announcements);
+        announcementProducer.produce(new AnnouncementsMessage(announcements));
     }
 
     @Scheduled(cron = "40 */10 6-23 * * ?")
@@ -51,6 +52,7 @@ public class AnnouncementScheduleService {
                     String pageSource = dormitoryAnnouncementRequestManager.fetchDormitoryAnnouncementPage(campus, 1);
                     return dormitoryAnnouncementPageParser.parseDormitoryAnnouncementPage(pageSource, campus);
                 })
+                .map(AnnouncementsMessage::new)
                 .forEach(announcementProducer::produce);
     }
 }

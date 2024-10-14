@@ -3,6 +3,7 @@ package ac.knu.likeknu.collector.calendar.scheduler;
 import ac.knu.likeknu.collector.calendar.AcademicCalendarPageParser;
 import ac.knu.likeknu.collector.calendar.AcademicCalendarRequestManager;
 import ac.knu.likeknu.collector.calendar.dto.AcademicCalendar;
+import ac.knu.likeknu.collector.calendar.dto.CalendarsMessage;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,6 @@ public class AcademicCalendarScheduleService {
                 .flatMap(List::stream)
                 .toList();
 
-        academicCalendarList.forEach(academicCalendarProducer::produce);
+        academicCalendarProducer.produce(new CalendarsMessage(academicCalendarList));
     }
 }
