@@ -1,7 +1,7 @@
 package ac.knu.likeknu.collector.announcement.scheduler;
 
 import ac.knu.likeknu.collector.announcement.dormitory.DormitoryAnnouncementPageParser;
-import ac.knu.likeknu.collector.announcement.dormitory.DormitoryAnnouncementRequestManager;
+import ac.knu.likeknu.collector.announcement.dormitory.DormitoryAnnouncementClient;
 import ac.knu.likeknu.collector.announcement.dto.Announcement;
 import ac.knu.likeknu.collector.announcement.dto.AnnouncementsMessage;
 import ac.knu.likeknu.collector.announcement.library.LibraryNoticeManager;
@@ -20,14 +20,14 @@ public class AnnouncementScheduleService {
 
     private final AnnouncementProducer announcementProducer;
     private final StudentNewsManager studentNewsManager;
-    private final DormitoryAnnouncementRequestManager dormitoryAnnouncementRequestManager;
+    private final DormitoryAnnouncementClient dormitoryAnnouncementClient;
     private final DormitoryAnnouncementPageParser dormitoryAnnouncementPageParser;
     private final LibraryNoticeManager libraryNoticeManager;
 
-    public AnnouncementScheduleService(AnnouncementProducer announcementProducer, StudentNewsManager studentNewsManager, DormitoryAnnouncementRequestManager dormitoryAnnouncementRequestManager, DormitoryAnnouncementPageParser dormitoryAnnouncementPageParser, LibraryNoticeManager libraryNoticeManager) {
+    public AnnouncementScheduleService(AnnouncementProducer announcementProducer, StudentNewsManager studentNewsManager, DormitoryAnnouncementClient dormitoryAnnouncementClient, DormitoryAnnouncementPageParser dormitoryAnnouncementPageParser, LibraryNoticeManager libraryNoticeManager) {
         this.announcementProducer = announcementProducer;
         this.studentNewsManager = studentNewsManager;
-        this.dormitoryAnnouncementRequestManager = dormitoryAnnouncementRequestManager;
+        this.dormitoryAnnouncementClient = dormitoryAnnouncementClient;
         this.dormitoryAnnouncementPageParser = dormitoryAnnouncementPageParser;
         this.libraryNoticeManager = libraryNoticeManager;
     }
@@ -49,7 +49,7 @@ public class AnnouncementScheduleService {
         Arrays.stream(Campus.values())
                 .filter(campus -> campus != Campus.ALL)
                 .map(campus -> {
-                    String pageSource = dormitoryAnnouncementRequestManager.fetchDormitoryAnnouncementPage(campus, 1);
+                    String pageSource = dormitoryAnnouncementClient.fetchDormitoryAnnouncementPage(campus, 1);
                     return dormitoryAnnouncementPageParser.parseDormitoryAnnouncementPage(pageSource, campus);
                 })
                 .map(AnnouncementsMessage::new)

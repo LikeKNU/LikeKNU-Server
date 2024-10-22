@@ -32,4 +32,14 @@ public record Announcement(String title, String announcementUrl, LocalDate annou
                 .category(Category.STUDENT_NEWS)
                 .build();
     }
+
+    public static Announcement dormitory(String title, String url, LocalDate announcementDate, Campus campus) {
+        return Announcement.builder()
+                .title(title)
+                .announcementUrl(url)
+                .announcementDate(announcementDate)
+                .campus(campus)
+                .category(Category.DORMITORY)
+                .build();
+    }
 }

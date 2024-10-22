@@ -7,7 +7,7 @@ import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
-public class DormitoryAnnouncementRequestManager {
+public class DormitoryAnnouncementClient {
 
     private static final String DORMITORY_ID_KEY = "id";
     private static final String PAGE_KEY = "p";
@@ -15,7 +15,7 @@ public class DormitoryAnnouncementRequestManager {
     private final WebProperties webProperties;
     private final RestClient restClient;
 
-    public DormitoryAnnouncementRequestManager(WebProperties webProperties, RestClient restClient) {
+    public DormitoryAnnouncementClient(WebProperties webProperties, RestClient restClient) {
         this.webProperties = webProperties;
         this.restClient = restClient;
     }

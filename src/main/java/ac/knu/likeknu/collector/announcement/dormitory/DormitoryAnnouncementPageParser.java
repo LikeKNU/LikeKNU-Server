@@ -3,7 +3,6 @@ package ac.knu.likeknu.collector.announcement.dormitory;
 import ac.knu.likeknu.collector.announcement.dto.Announcement;
 import ac.knu.likeknu.collector.calendar.WebProperties;
 import ac.knu.likeknu.collector.menu.constants.Campus;
-import ac.knu.likeknu.domain.constants.Category;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,8 +10,7 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -26,26 +24,22 @@ public class DormitoryAnnouncementPageParser {
 
     public List<Announcement> parseDormitoryAnnouncementPage(String pageSource, Campus campus) {
         Document document = Jsoup.parse(pageSource);
-        Element tbodyElement = document.select("table.table-board tbody").first();
-        List<Announcement> dormitoryAnnouncements = new ArrayList<>();
-        if (tbodyElement != null) {
-            Elements rows = tbodyElement.select("tr");
-            for (Element row : rows) {
-                Elements columns = row.select("td");
-                if (columns.size() >= 6) {
-                    String title = columns.get(2).text();
-                    String date = columns.get(3).text();
-                    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                    LocalDate announcementDate = LocalDate.parse(date, dateTimeFormatter);
-
-                    Element linkElement = columns.get(2).select("a").first();
-                    String url = webProperties.getDormitoryAnnouncement() + linkElement.attr("href");
-
-                    dormitoryAnnouncements.add(new Announcement(title, url, announcementDate, campus, Category.DORMITORY));
-                }
-            }
+        Element tableBodyElement = document.select("table.table-board tbody").first();
+        if (tableBodyElement == null) {
+            return Collections.emptyList();
         }
 
-        return dormitoryAnnouncements;
+        Elements announcementRows = tableBodyElement.select("tr");
+        return announcementRows.stream()
+                .map(announcementRow -> announcementRow.select("td"))
+                .filter(announcementColumns -> announcementColumns.size() >= 6)
+                .map(DormitoryAnnouncementElements::new)
+                .map(announcementElements -> {
+                    String title = announcementElements.getTitle();
+                    LocalDate date = announcementElements.getDate();
+                    String url = webProperties.getDormitoryAnnouncement() + announcementElements.getPath();
+                    return Announcement.dormitory(title, url, date, campus);
+                })
+                .toList();
     }
 }
