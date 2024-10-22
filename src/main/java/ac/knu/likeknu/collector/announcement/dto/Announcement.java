@@ -33,13 +33,23 @@ public record Announcement(String title, String announcementUrl, LocalDate annou
                 .build();
     }
 
-    public static Announcement dormitory(String title, String url, LocalDate announcementDate, Campus campus) {
+    public static Announcement ofDormitory(String title, String url, LocalDate date, Campus campus) {
         return Announcement.builder()
                 .title(title)
                 .announcementUrl(url)
-                .announcementDate(announcementDate)
+                .announcementDate(date)
                 .campus(campus)
                 .category(Category.DORMITORY)
+                .build();
+    }
+
+    public static Announcement ofLibrary(String title, String url, LocalDate date, Campus campus) {
+        return Announcement.builder()
+                .title(title)
+                .announcementUrl(url)
+                .announcementDate(date)
+                .campus(campus)
+                .category(Category.LIBRARY)
                 .build();
     }
 }

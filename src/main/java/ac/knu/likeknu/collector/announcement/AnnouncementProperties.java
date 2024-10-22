@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "announcement")
 public class AnnouncementProperties {
 
-    private String kongjuUnivAddress;
-    private String studentNews;
-    private String libraryNotice;
-    private String libraryFront;
+    private String kongjuUniversityUrl;
+    private String studentNewsUrl;
+    private String libraryAnnouncementUrl;
+    private String libraryAnnouncementPrefixUrl;
 }

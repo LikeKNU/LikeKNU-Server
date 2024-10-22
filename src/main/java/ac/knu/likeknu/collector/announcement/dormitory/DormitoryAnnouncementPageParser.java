@@ -38,7 +38,7 @@ public class DormitoryAnnouncementPageParser {
                     String title = announcementElements.getTitle();
                     LocalDate date = announcementElements.getDate();
                     String url = webProperties.getDormitoryAnnouncement() + announcementElements.getPath();
-                    return Announcement.dormitory(title, url, date, campus);
+                    return Announcement.ofDormitory(title, url, date, campus);
                 })
                 .toList();
     }
