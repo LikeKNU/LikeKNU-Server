@@ -3,17 +3,23 @@ package ac.knu.likeknu.collector.announcement.studentnews;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
 import java.util.Objects;
 
+@Component
 public class StudentNewsURLExtractor {
 
-    private static final RestClient restClient = RestClient.create();
+    private final RestClient restClient;
 
-    public static String extractRedirectURL(String originalURL) {
+    public StudentNewsURLExtractor(RestClient restClient) {
+        this.restClient = restClient;
+    }
+
+    public String extractRedirectURL(String originalURL) {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("layout", "ylSMW362wYQN%2B2qo%2BkZuI7ECT9MbeWxhVFwsIyGN%2F0c%3D");
 
