@@ -26,7 +26,7 @@ public class BusArrivalTimeScheduleService {
         this.busArrivalTimeProducer = busArrivalTimeProducer;
     }
 
-    @Scheduled(cron = "*/30 * 6-23 * * ?")
+    @Scheduled(cron = "*/30 * 6-23 * * *")
     public void schedulingBusArrivalTimeProduce() {
         List<BusArrivalTime> busArrivalTimes = Arrays.stream(DepartureStop.values())
                 .flatMap(this::fetchBusArrivalTimes)

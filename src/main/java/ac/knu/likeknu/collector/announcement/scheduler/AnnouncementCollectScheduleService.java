@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class AnnouncementScheduleService {
+public class AnnouncementCollectScheduleService {
 
     private final AnnouncementProducer announcementProducer;
     private final StudentNewsAnnouncementParser studentNewsAnnouncementParser;
@@ -26,7 +26,7 @@ public class AnnouncementScheduleService {
     private final LibraryAnnouncementClient libraryAnnouncementClient;
     private final StudentNewsAnnouncementClient studentNewsAnnouncementClient;
 
-    public AnnouncementScheduleService(AnnouncementProducer announcementProducer, StudentNewsAnnouncementParser studentNewsAnnouncementParser, DormitoryAnnouncementClient dormitoryAnnouncementClient, DormitoryAnnouncementPageParser dormitoryAnnouncementPageParser, LibraryAnnouncementParser libraryAnnouncementParser, LibraryAnnouncementClient libraryAnnouncementClient, StudentNewsAnnouncementClient studentNewsAnnouncementClient) {
+    public AnnouncementCollectScheduleService(AnnouncementProducer announcementProducer, StudentNewsAnnouncementParser studentNewsAnnouncementParser, DormitoryAnnouncementClient dormitoryAnnouncementClient, DormitoryAnnouncementPageParser dormitoryAnnouncementPageParser, LibraryAnnouncementParser libraryAnnouncementParser, LibraryAnnouncementClient libraryAnnouncementClient, StudentNewsAnnouncementClient studentNewsAnnouncementClient) {
         this.announcementProducer = announcementProducer;
         this.studentNewsAnnouncementParser = studentNewsAnnouncementParser;
         this.dormitoryAnnouncementClient = dormitoryAnnouncementClient;
@@ -36,21 +36,21 @@ public class AnnouncementScheduleService {
         this.studentNewsAnnouncementClient = studentNewsAnnouncementClient;
     }
 
-    @Scheduled(cron = "10 */10 6-23 * * ?")
+    @Scheduled(cron = "10 */10 8-19 * * MON-FRI")
     public void scheduleStudentNewsProduce() {
         String pageSource = studentNewsAnnouncementClient.fetchStudentNewsAnnouncementPage();
         List<Announcement> announcements = studentNewsAnnouncementParser.parseStudentNewsAnnouncementPage(pageSource);
         announcementProducer.produce(new AnnouncementsMessage(announcements));
     }
 
-    @Scheduled(cron = "20 */10 6-23 * * ?")
+    @Scheduled(cron = "20 */10 8-19 * * MON-FRI")
     public void schedulingLibraryAnnouncementProduce() {
         String response = libraryAnnouncementClient.fetchLibraryAnnouncement();
         List<Announcement> announcements = libraryAnnouncementParser.parseLibraryAnnouncements(response);
         announcementProducer.produce(new AnnouncementsMessage(announcements));
     }
 
-    @Scheduled(cron = "40 */10 6-23 * * ?")
+    @Scheduled(cron = "40 */10 8-19 * * MON-FRI")
     public void schedulingDormitoryAnnouncementProduce() {
         Arrays.stream(Campus.values())
                 .filter(campus -> campus != Campus.ALL)
