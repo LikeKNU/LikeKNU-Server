@@ -10,21 +10,26 @@
     <property name="DEFAULT_DIR" value="LikeKNU" />
 
     <springProfile name="dev,test">
-        <include resource="logback/console-appender.xml" />
+        <include resource="logging/console-appender.xml" />
+        <include resource="logging/logstash-appender.xml" />
+
         <root level="INFO">
             <appender-ref ref="CONSOLE" />
+            <appender-ref ref="LOGSTASH" />
         </root>
     </springProfile>
 
     <springProfile name="prod">
-        <include resource="logback/file-info-appender.xml" />
-        <include resource="logback/file-warn-appender.xml" />
-        <include resource="logback/file-error-appender.xml" />
+        <include resource="logging/file-info-appender.xml" />
+        <include resource="logging/file-warn-appender.xml" />
+        <include resource="logging/file-error-appender.xml" />
+        <include resource="logging/logstash-appender.xml" />
 
         <root level="INFO">
             <appender-ref ref="FILE-INFO" />
             <appender-ref ref="FILE-WARN" />
             <appender-ref ref="FILE-ERROR" />
+            <appender-ref ref="LOGSTASH" />
         </root>
 
     </springProfile>
