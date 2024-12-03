@@ -21,7 +21,7 @@ public class StudentNewsURLExtractor {
 
     public String extractRedirectURL(String originalURL) {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-        formData.add("layout", "ylSMW362wYQN%2B2qo%2BkZuI7ECT9MbeWxhVFwsIyGN%2F0c%3D");
+        formData.add("layout", "H6SoXMZXrpIIXPThULLaS%2FlabU8u4tWWDbOYcFOF2Xw%3D");
 
         ResponseEntity<String> response = restClient.post()
                 .uri(originalURL)

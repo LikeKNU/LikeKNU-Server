@@ -13,7 +13,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.IntStream;
 
 @Component
 @RequiredArgsConstructor
@@ -25,35 +24,24 @@ public class StudentNewsAnnouncementParser {
     public List<Announcement> parseStudentNewsAnnouncementPage(String pageSource) {
         Document document = Jsoup.parse(pageSource);
 
-        int noticesSize = document.getElementsByClass("notice")
-                .size();
-        Elements studentNewsTitleElements = document.select("td strong");
-        Elements studentNewsUrlElements = document.select("td a");
-        Elements studentNewsDateElements = document.getElementsByClass("td-date");
+        Elements rows = document.select("table.board-table tbody tr");
+        return rows.stream()
+                .map(row -> {
+                    String dateText = row.select("td.td-date").text();
+                    String baseHref = row.select("a").attr("href");
+                    String campusText = row.select("span.cate").text();
 
-        return IntStream.range(noticesSize, studentNewsTitleElements.size())
-                .mapToObj(i -> {
-                    String title = studentNewsTitleElements.get(i).text();
-                    String oldUrl = announcementProperties.getKongjuUniversityUrl() + studentNewsUrlElements.get(i)
-                            .attr("href");
-                    String url = studentNewsURLExtractor.extractRedirectURL(oldUrl);
-                    String dateText = studentNewsDateElements.get(i).text();
+                    String title = row.select("strong").text();
+                    String url = studentNewsURLExtractor.extractRedirectURL(
+                            announcementProperties.getKongjuUniversityUrl() + baseHref
+                    );
                     LocalDate date = LocalDate.parse(dateText, DateTimeFormatter.ofPattern("yyyy.MM.dd"));
-                    String campusText = document.select("table tbody tr:nth-child(" + (i + 1) + ") td:nth-child(2) a span:nth-child(1)").text();
-
-                    String campus = hasCampus(campusText) ? campusText : "";
-                    Campus campusType = Arrays.stream(Campus.values())
-                            .filter(campusValue -> campus.contains(campusValue.getCampusLocation()))
+                    Campus campus = campusText.isEmpty() ? Campus.ALL : Arrays.stream(Campus.values())
+                            .filter(it -> campusText.contains(it.getCampusLocation()))
                             .findAny()
                             .orElse(Campus.ALL);
-
-                    return Announcement.ofStudentNews(title, url, date, campusType);
+                    return Announcement.ofStudentNews(title, url, date, campus);
                 })
                 .toList();
     }
-
-    private boolean hasCampus(String campus) {
-        return !(campus == null || campus.equals("새글"));
-    }
-
 }
