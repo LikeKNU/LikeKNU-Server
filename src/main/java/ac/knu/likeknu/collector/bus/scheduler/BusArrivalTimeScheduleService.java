@@ -6,6 +6,7 @@ import ac.knu.likeknu.collector.bus.MapType;
 import ac.knu.likeknu.collector.bus.dto.BusArrivalTime;
 import ac.knu.likeknu.collector.bus.dto.KakaoRealtimeBusInformation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -14,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
+@Profile("prod")
 @Slf4j
 @Service
 public class BusArrivalTimeScheduleService {
