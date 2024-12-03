@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -59,12 +60,15 @@ public class CityBus extends BaseEntity {
     }
 
     public LocalTime getEarliestArrivalTime() {
-        LocalTime minimumTime = LocalTime.now().minusMinutes(1);
-        LocalTime maximumTime = LocalTime.now().plusMinutes(60);
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalDateTime minimumDateTime = currentDateTime.minusMinutes(1);
+        LocalDateTime maximumDateTime = currentDateTime.plusMinutes(60);
+
         return this.arrivalTimes.stream()
-                .filter(minimumTime::isBefore)
-                .filter(maximumTime::isAfter)
-                .min(LocalTime::compareTo)
+                .map(arrivalTime -> LocalDateTime.of(currentDateTime.toLocalDate(), arrivalTime))
+                .filter(arrivalTime -> arrivalTime.isAfter(minimumDateTime) && arrivalTime.isBefore(maximumDateTime))
+                .min(LocalDateTime::compareTo)
+                .map(LocalDateTime::toLocalTime)
                 .orElse(null);
     }
 
