@@ -21,7 +21,9 @@ public record Menu(LocalDate date, String menu) {
         String date = menuAttribute.getDate();
         String menu = menuAttribute.getMenu();
         menu = menu.replaceAll(", ", " ")
-                .replaceAll(",", " ");
+                .replaceAll(",", " ")
+                .replaceAll(" plus ", " ")
+                .replaceAll("/", " ");
         DateTimeFormatter matchFormatter = findMatchFormatter(date);
         return new Menu(LocalDate.parse(date, matchFormatter), menu);
     }

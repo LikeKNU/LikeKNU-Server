@@ -5,15 +5,15 @@ import lombok.Getter;
 @Getter
 public enum Cafeteria implements CafeteriaProxy {
 
-    SINGWAN_STUDENT_CAFETERIA(Campus.SINGWAN, "소담", "13155", 4),
-    SINGWAN_EMPLOYEES_RESTAURANT(Campus.SINGWAN, "늘솜", "13156", 5),
+    SINGWAN_STUDENT_CAFETERIA(Campus.SINGWAN, "소담", "16862", 18),
+    SINGWAN_EMPLOYEES_RESTAURANT(Campus.SINGWAN, "늘솜", "16863", 19),
 
-    CHEONAN_STUDENT_CAFETERIA(Campus.CHEONAN, "학생식당", "13157", 6),
-    CHEONAN_EMPLOYEES_RESTAURANT(Campus.CHEONAN, "직원식당", "13158", 7),
-    CHEONAN_DORMITORY_CAFETERIA(Campus.CHEONAN, "생활관식당", "13163", 8),
+    CHEONAN_STUDENT_CAFETERIA(Campus.CHEONAN, "학생식당", "16865", 20),
+    CHEONAN_EMPLOYEES_RESTAURANT(Campus.CHEONAN, "직원식당", "16866", 21),
+//    CHEONAN_DORMITORY_CAFETERIA(Campus.CHEONAN, "생활관식당", "16867", 22),
 
-    YESAN_STUDENT_CAFETERIA(Campus.YESAN, "학생식당", "13159", 2),
-    YESAN_EMPLOYEES_RESTAURANT(Campus.YESAN, "직원식당", "13160", 3);
+    YESAN_STUDENT_CAFETERIA(Campus.YESAN, "학생식당", "16869", 16),
+    YESAN_EMPLOYEES_RESTAURANT(Campus.YESAN, "직원식당", "16870", 17);
 
     private final Campus campus;
     private final String name;

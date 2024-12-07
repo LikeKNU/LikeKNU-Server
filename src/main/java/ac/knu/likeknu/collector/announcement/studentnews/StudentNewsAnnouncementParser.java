@@ -36,7 +36,7 @@ public class StudentNewsAnnouncementParser {
                             announcementProperties.getKongjuUniversityUrl() + baseHref
                     );
                     LocalDate date = LocalDate.parse(dateText, DateTimeFormatter.ofPattern("yyyy.MM.dd"));
-                    Campus campus = campusText.isEmpty() ? Campus.ALL : Arrays.stream(Campus.values())
+                    Campus campus = Arrays.stream(Campus.values())
                             .filter(it -> campusText.contains(it.getCampusLocation()))
                             .findAny()
                             .orElse(Campus.ALL);

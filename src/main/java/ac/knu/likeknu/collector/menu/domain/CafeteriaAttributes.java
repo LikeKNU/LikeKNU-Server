@@ -10,8 +10,8 @@ import java.util.stream.Stream;
 public record CafeteriaAttributes(List<CafeteriaAttribute> cafeteriaAttributes) {
 
     public static CafeteriaAttributes from(Document document) {
-        Elements elements = document.select("#viewForm div table tbody tr");
-        Elements date = document.select("#viewForm div table thead tr th");
+        Elements elements = document.select("table._fnTable tbody tr");
+        Elements date = document.select("table._fnTable thead tr th");
         date.remove(0);
 
         List<CafeteriaAttribute> cafeteriaAttributes = elements.stream()

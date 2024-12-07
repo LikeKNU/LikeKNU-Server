@@ -12,6 +12,6 @@ import org.springframework.stereotype.Component;
 public class MenuProperties {
 
     private String cafeteriaPrefix;
-    private String cafeteriaPostfix;
+    private String cafeteriaSuffix;
     private String dormitoryCafeteriaPrefix;
 }
