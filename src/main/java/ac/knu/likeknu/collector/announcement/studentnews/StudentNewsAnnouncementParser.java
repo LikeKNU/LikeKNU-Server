@@ -26,6 +26,7 @@ public class StudentNewsAnnouncementParser {
 
         Elements rows = document.select("table.board-table tbody tr");
         return rows.stream()
+                .filter(element -> !element.classNames().contains("notice"))
                 .map(row -> {
                     String dateText = row.select("td.td-date").text();
                     String baseHref = row.select("a").attr("href");
