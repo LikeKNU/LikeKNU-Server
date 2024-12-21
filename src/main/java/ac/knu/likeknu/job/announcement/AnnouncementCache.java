@@ -38,7 +38,7 @@ public class AnnouncementCache {
                 });
 
         Arrays.stream(Category.values())
-                .map(announcementRepository::findTop30ByCategoryOrderByCollectedAtDesc)
+                .map(announcementRepository::findTop30ByCategoryOrderByAnnouncementDateDesc)
                 .flatMap(Collection::stream)
                 .map(AnnouncementMessage::of)
                 .forEach(this::cache);

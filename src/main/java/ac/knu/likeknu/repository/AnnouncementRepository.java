@@ -29,7 +29,7 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Stri
 
     Slice<Announcement> findByCampusInAndAnnouncementTitleContains(Set<Campus> campus, String keyword, Pageable pageable);
 
-    List<Announcement> findTop30ByCategoryOrderByCollectedAtDesc(Category category);
+    List<Announcement> findTop30ByCategoryOrderByAnnouncementDateDesc(Category category);
 
     Optional<Announcement> findByAnnouncementUrl(String url);
 }
