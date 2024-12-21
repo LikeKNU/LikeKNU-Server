@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ApiLoggingFilter extends OncePerRequestFilter {
 
@@ -53,7 +52,7 @@ public class ApiLoggingFilter extends OncePerRequestFilter {
             logData.put("method", request.getMethod());
             logData.put("uri", request.getRequestURI());
             logData.put("queryString", request.getQueryString());
-            logData.put("duration", duration);
+            logData.put("duration", duration + "ms");
             logData.put("status", responseWrapper.getStatus());
             logData.put("clientIp", getClientIp(request));
             logData.put("userAgent", request.getHeader("User-Agent"));
