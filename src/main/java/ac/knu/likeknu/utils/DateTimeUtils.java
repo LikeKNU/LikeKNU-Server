@@ -36,4 +36,8 @@ public final class DateTimeUtils {
     public static boolean isDateInRange(LocalDate date, LocalDate startDate, LocalDate endDate) {
         return !date.isBefore(startDate) && !date.isAfter(endDate);
     }
+
+    public static boolean isWeekend(LocalDate date) {
+        return date.getDayOfWeek().getValue() >= 6;
+    }
 }

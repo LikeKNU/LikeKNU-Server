@@ -2,6 +2,7 @@ package ac.knu.likeknu.domain;
 
 import ac.knu.likeknu.domain.constants.Campus;
 import ac.knu.likeknu.domain.constants.MealType;
+import ac.knu.likeknu.utils.DateTimeUtils;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -61,7 +62,7 @@ public class Cafeteria extends BaseEntity {
     }
 
     public String getOperatingTime(MealType mealType, LocalDate date) {
-        if (isWeekend(date)) {
+        if (DateTimeUtils.isWeekend(date)) {
             if (mealType.equals(MealType.BREAKFAST)) {
                 return weekendBreakfast;
             }
@@ -82,10 +83,5 @@ public class Cafeteria extends BaseEntity {
             }
         }
         return null;
-    }
-
-
-    private boolean isWeekend(LocalDate date) {
-        return date.getDayOfWeek().getValue() >= 6;
     }
 }
