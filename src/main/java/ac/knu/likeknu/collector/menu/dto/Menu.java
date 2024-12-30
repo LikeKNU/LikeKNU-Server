@@ -3,6 +3,7 @@ package ac.knu.likeknu.collector.menu.dto;
 import ac.knu.likeknu.collector.menu.domain.MenuAttribute;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,7 +26,8 @@ public record Menu(LocalDate date, String menu) {
                 .replaceAll(" plus ", " ")
                 .replaceAll("/", " ");
         DateTimeFormatter matchFormatter = findMatchFormatter(date);
-        return new Menu(LocalDate.parse(date, matchFormatter), menu);
+        LocalDate parsedDate = parseDate(date, matchFormatter);
+        return new Menu(parsedDate, menu);
     }
 
     private static DateTimeFormatter findMatchFormatter(String date) {
@@ -35,6 +37,15 @@ public record Menu(LocalDate date, String menu) {
                 .findAny()
                 .orElseThrow()
                 .getValue();
+    }
+
+    private static LocalDate parseDate(String date, DateTimeFormatter formatter) {
+        LocalDate parsedDate = LocalDate.parse(date, formatter);
+        LocalDate currentDate = LocalDate.now();
+        if (currentDate.getMonth() == Month.DECEMBER && parsedDate.getMonth() == Month.JANUARY) {
+            return parsedDate.withYear(currentDate.getYear() + 1);
+        }
+        return parsedDate.withYear(currentDate.getYear());
     }
 
     public boolean isNotEmpty() {

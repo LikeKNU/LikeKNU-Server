@@ -14,7 +14,6 @@ public record MenuAttribute(Element menu, Element date) {
     public String getDate() {
         String date = this.date.text();
         if (date.contains("월") && date.contains("일")) {
-            //TODO 다음 년도 처리
             int currentYear = LocalDate.now()
                     .getYear();
             return String.join("년 ", String.valueOf(currentYear), date);
