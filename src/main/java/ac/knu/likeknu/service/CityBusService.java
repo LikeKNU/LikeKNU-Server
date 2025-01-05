@@ -10,15 +10,17 @@ import ac.knu.likeknu.domain.constants.Campus;
 import ac.knu.likeknu.domain.constants.RouteType;
 import ac.knu.likeknu.repository.CityBusRepository;
 import ac.knu.likeknu.repository.RouteRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 
+@Slf4j
 @Transactional(readOnly = true)
 @Service
 public class CityBusService {
@@ -78,6 +80,19 @@ public class CityBusService {
                 .toList();
     }
 
+    private CityBusesResponse generateCityBusesResponse(Route route) {
+        LocalTime currentTime = LocalTime.now();
+        List<CityBusesArrivalTimeResponse> cityBusesArrivalTime = cityBusRepository.findByRoutesContaining(route)
+                .stream()
+                .flatMap(cityBus -> cityBus.getArrivalTimesWithinRange()
+                        .stream()
+                        .map(arrivalTime -> CityBusesArrivalTimeResponse.of(cityBus, arrivalTime, currentTime)))
+                .sorted(Comparator.comparing(CityBusesArrivalTimeResponse::arrivalAt))
+                .limit(MAX_ARRIVAL_TIMES_SIZE)
+                .toList();
+        return CityBusesResponse.of(route, cityBusesArrivalTime);
+    }
+
     /**
      * 특정 경로의 시내버스 도착 시간 조회
      * @param routeId 경로 ID
@@ -96,43 +111,22 @@ public class CityBusService {
         return CityBusesResponse.of(route, list);
     }
 
+    /**
+     * 캠퍼스별 시내버스 경로 목록 조회
+     */
     public List<CityBusRoutesResponse> getRouteList(Campus campus) {
-        LocalTime currentTime = LocalTime.now();
         return routeRepository.findByCampus(campus)
                 .stream()
                 .sorted(Comparator.comparing(Route::getSequence))
                 .map(route -> {
                     LocalTime nextArrivalTime = cityBusRepository.findByRoutesContaining(route)
                             .stream()
-                            .flatMap(cityBus -> cityBus.getArrivalTimes().stream())
-                            .filter(currentTime::isBefore)
-                            .min(Comparator.naturalOrder())
+                            .map(CityBus::getEarliestArrivalTime)
+                            .filter(Objects::nonNull)
+                            .min(LocalTime::compareTo)
                             .orElse(null);
                     return CityBusRoutesResponse.of(route, nextArrivalTime);
                 })
                 .toList();
-    }
-
-    private CityBusesResponse generateCityBusesResponse(Route route) {
-        List<CityBusesArrivalTimeResponse> cityBusesArrivalTime = getCityBusesArrivalTime(route);
-        return CityBusesResponse.of(route, cityBusesArrivalTime);
-    }
-
-    private List<CityBusesArrivalTimeResponse> getCityBusesArrivalTime(Route route) {
-        LocalTime currentTime = LocalTime.now();
-        return cityBusRepository.findByRoutesContaining(route)
-                .stream()
-                .flatMap(cityBus -> getCloseArrivalTimesStream(cityBus, currentTime)
-                        .map(arrivalTime -> CityBusesArrivalTimeResponse.of(cityBus, arrivalTime, currentTime)))
-                .sorted(Comparator.comparing(CityBusesArrivalTimeResponse::arrivalAt))
-                .limit(MAX_ARRIVAL_TIMES_SIZE)
-                .toList();
-    }
-
-    private Stream<LocalTime> getCloseArrivalTimesStream(CityBus cityBus, LocalTime currentTime) {
-        return cityBus.getArrivalTimes()
-                .stream()
-                .filter(currentTime.minusMinutes(1)::isBefore)
-                .filter(currentTime.plusMinutes(30)::isAfter);
     }
 }

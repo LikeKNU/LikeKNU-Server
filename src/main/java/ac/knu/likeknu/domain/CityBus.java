@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -22,6 +23,9 @@ import java.util.List;
 @Table(name = "city_bus")
 @Entity
 public class CityBus extends BaseEntity {
+
+    public static final Duration MINIMUM_OFFSET_MINUTES = Duration.ofMinutes(1);
+    public static final Duration MAXIMUM_OFFSET_MINUTES = Duration.ofMinutes(30);
 
     @Column(nullable = false)
     private String busNumber;
@@ -61,15 +65,21 @@ public class CityBus extends BaseEntity {
 
     public LocalTime getEarliestArrivalTime() {
         LocalDateTime currentDateTime = LocalDateTime.now();
-        LocalDateTime minimumDateTime = currentDateTime.minusMinutes(1);
-        LocalDateTime maximumDateTime = currentDateTime.plusMinutes(60);
-
         return this.arrivalTimes.stream()
                 .map(arrivalTime -> LocalDateTime.of(currentDateTime.toLocalDate(), arrivalTime))
-                .filter(arrivalTime -> arrivalTime.isAfter(minimumDateTime) && arrivalTime.isBefore(maximumDateTime))
+                .filter(currentDateTime.minus(MINIMUM_OFFSET_MINUTES)::isBefore)
+                .filter(currentDateTime.plus(MAXIMUM_OFFSET_MINUTES)::isAfter)
                 .min(LocalDateTime::compareTo)
                 .map(LocalDateTime::toLocalTime)
                 .orElse(null);
+    }
+
+    public List<LocalTime> getArrivalTimesWithinRange() {
+        LocalTime currentTime = LocalTime.now();
+        return arrivalTimes.stream()
+                .filter(currentTime.minus(MINIMUM_OFFSET_MINUTES)::isBefore)
+                .filter(currentTime.plus(MAXIMUM_OFFSET_MINUTES)::isAfter)
+                .toList();
     }
 
     public void updateArrivalTimes(Collection<LocalTime> arrivalTimes) {
