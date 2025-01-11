@@ -15,4 +15,5 @@ public class AnnouncementProperties {
     private String studentNewsUrl;
     private String libraryAnnouncementUrl;
     private String libraryAnnouncementPrefixUrl;
+    private String recruitmentNewsUrl;
 }

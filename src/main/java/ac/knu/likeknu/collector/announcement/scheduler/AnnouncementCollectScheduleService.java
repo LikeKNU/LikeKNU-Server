@@ -6,6 +6,8 @@ import ac.knu.likeknu.collector.announcement.dto.Announcement;
 import ac.knu.likeknu.collector.announcement.dto.AnnouncementsMessage;
 import ac.knu.likeknu.collector.announcement.library.LibraryAnnouncementClient;
 import ac.knu.likeknu.collector.announcement.library.LibraryAnnouncementParser;
+import ac.knu.likeknu.collector.announcement.recruitment.RecruitmentNewsAnnouncementClient;
+import ac.knu.likeknu.collector.announcement.recruitment.RecruitmentNewsAnnouncementParser;
 import ac.knu.likeknu.collector.announcement.studentnews.StudentNewsAnnouncementClient;
 import ac.knu.likeknu.collector.announcement.studentnews.StudentNewsAnnouncementParser;
 import ac.knu.likeknu.collector.menu.constants.Campus;
@@ -25,8 +27,10 @@ public class AnnouncementCollectScheduleService {
     private final LibraryAnnouncementParser libraryAnnouncementParser;
     private final LibraryAnnouncementClient libraryAnnouncementClient;
     private final StudentNewsAnnouncementClient studentNewsAnnouncementClient;
+    private final RecruitmentNewsAnnouncementClient recruitmentNewsAnnouncementClient;
+    private final RecruitmentNewsAnnouncementParser recruitmentNewsAnnouncementParser;
 
-    public AnnouncementCollectScheduleService(AnnouncementProducer announcementProducer, StudentNewsAnnouncementParser studentNewsAnnouncementParser, DormitoryAnnouncementClient dormitoryAnnouncementClient, DormitoryAnnouncementPageParser dormitoryAnnouncementPageParser, LibraryAnnouncementParser libraryAnnouncementParser, LibraryAnnouncementClient libraryAnnouncementClient, StudentNewsAnnouncementClient studentNewsAnnouncementClient) {
+    public AnnouncementCollectScheduleService(AnnouncementProducer announcementProducer, StudentNewsAnnouncementParser studentNewsAnnouncementParser, DormitoryAnnouncementClient dormitoryAnnouncementClient, DormitoryAnnouncementPageParser dormitoryAnnouncementPageParser, LibraryAnnouncementParser libraryAnnouncementParser, LibraryAnnouncementClient libraryAnnouncementClient, StudentNewsAnnouncementClient studentNewsAnnouncementClient, RecruitmentNewsAnnouncementClient recruitmentNewsAnnouncementClient, RecruitmentNewsAnnouncementParser recruitmentNewsAnnouncementParser) {
         this.announcementProducer = announcementProducer;
         this.studentNewsAnnouncementParser = studentNewsAnnouncementParser;
         this.dormitoryAnnouncementClient = dormitoryAnnouncementClient;
@@ -34,6 +38,8 @@ public class AnnouncementCollectScheduleService {
         this.libraryAnnouncementParser = libraryAnnouncementParser;
         this.libraryAnnouncementClient = libraryAnnouncementClient;
         this.studentNewsAnnouncementClient = studentNewsAnnouncementClient;
+        this.recruitmentNewsAnnouncementClient = recruitmentNewsAnnouncementClient;
+        this.recruitmentNewsAnnouncementParser = recruitmentNewsAnnouncementParser;
     }
 
     @Scheduled(cron = "10 */10 8-19 * * MON-FRI")
@@ -60,5 +66,12 @@ public class AnnouncementCollectScheduleService {
                 })
                 .map(AnnouncementsMessage::new)
                 .forEach(announcementProducer::produce);
+    }
+
+    @Scheduled(cron = "50 */10 8-19 * * MON-FRI")
+    public void scheduleRecruitmentNewsProduce() {
+        String pageSource = recruitmentNewsAnnouncementClient.fetchRecruitmentNewsAnnouncementPage();
+        List<Announcement> announcements = recruitmentNewsAnnouncementParser.parseRecruitmentNewsAnnouncementPage(pageSource);
+        announcementProducer.produce(new AnnouncementsMessage(announcements));
     }
 }
