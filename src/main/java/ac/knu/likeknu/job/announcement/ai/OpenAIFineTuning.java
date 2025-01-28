@@ -25,7 +25,7 @@ public class OpenAIFineTuning {
         ChatResponse chatResponse = chatModel.call(new Prompt(List.of(systemMessage, userMessage)));
         String content = chatResponse.getResult()
                 .getOutput()
-                .getContent();
+                .getText();
         return Tag.of(content);
     }
 }
