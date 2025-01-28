@@ -52,8 +52,9 @@ public class BusArrivalTimeRequestManager {
             validateResponseBodyIsNotNull(responseBody);
             return responseBody;
         } catch (Exception e) {
-            log.error("Failed to fetch Kakao real-time bus information. uri = {}", uri);
-            throw new IllegalArgumentException("Failed to fetch Kakao real-time bus information.", e);
+            log.warn("Failed to fetch Kakao real-time bus information. uri = {}", uri);
+            log.warn("reason: {}", e.getMessage());
+            return KakaoRealtimeBusInformation.empty();
         }
     }
 

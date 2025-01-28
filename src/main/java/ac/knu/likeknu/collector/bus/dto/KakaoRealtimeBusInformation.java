@@ -13,6 +13,12 @@ public class KakaoRealtimeBusInformation {
     @JsonAlias(value = "lines")
     private List<ArrivalInformation> arrivals;
 
+    public static KakaoRealtimeBusInformation empty() {
+        KakaoRealtimeBusInformation kakaoRealtimeBusInformation = new KakaoRealtimeBusInformation();
+        kakaoRealtimeBusInformation.arrivals = Collections.emptyList();
+        return kakaoRealtimeBusInformation;
+    }
+
     public List<ArrivalInformation.ArrivalBusTime> getArrivalBuses() {
         return arrivals.stream()
                 .map(ArrivalInformation::getArrivalBusTime)

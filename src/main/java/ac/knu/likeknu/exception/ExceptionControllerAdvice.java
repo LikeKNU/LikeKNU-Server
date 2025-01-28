@@ -2,6 +2,7 @@ package ac.knu.likeknu.exception;
 
 import ac.knu.likeknu.service.SlackService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.connector.ClientAbortException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -32,6 +33,13 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(NoResourceFoundException.class)
     protected ResponseEntity<String> noResourceFoundExceptionHandler(NoResourceFoundException exception) {
         return ResponseEntity.notFound()
+                .build();
+    }
+
+    @ExceptionHandler(value = ClientAbortException.class)
+    protected ResponseEntity<String> clientAbortExceptionHandler(ClientAbortException exception) {
+        log.error("ClientAbortException: {}", exception.getMessage());
+        return ResponseEntity.ok()
                 .build();
     }
 
