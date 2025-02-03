@@ -1,14 +1,12 @@
 package ac.knu.likeknu.collector.event;
 
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Component;
 
-@Component
-public class SpringEventProducer<T> implements EventProducer<T> {
+public abstract class AbstractSpringEventProducer<T> implements EventProducer<T> {
 
     private final ApplicationEventPublisher eventPublisher;
 
-    public SpringEventProducer(ApplicationEventPublisher eventPublisher) {
+    protected AbstractSpringEventProducer(ApplicationEventPublisher eventPublisher) {
         this.eventPublisher = eventPublisher;
     }
 
