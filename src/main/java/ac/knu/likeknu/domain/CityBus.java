@@ -63,12 +63,22 @@ public class CityBus extends BaseEntity {
         this.arrivalTimes = arrivalTimes;
     }
 
-    public LocalTime getEarliestArrivalTime() {
+    public LocalTime getEarliestArrivalTimeWithinRange() {
         LocalDateTime currentDateTime = LocalDateTime.now();
         return this.arrivalTimes.stream()
                 .map(arrivalTime -> LocalDateTime.of(currentDateTime.toLocalDate(), arrivalTime))
                 .filter(currentDateTime.minus(MINIMUM_OFFSET_MINUTES)::isBefore)
                 .filter(currentDateTime.plus(MAXIMUM_OFFSET_MINUTES)::isAfter)
+                .min(LocalDateTime::compareTo)
+                .map(LocalDateTime::toLocalTime)
+                .orElse(null);
+    }
+
+    public LocalTime getEarliestArrivalTime() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        return this.arrivalTimes.stream()
+                .map(arrivalTime -> LocalDateTime.of(currentDateTime.toLocalDate(), arrivalTime))
+                .filter(currentDateTime::isBefore)
                 .min(LocalDateTime::compareTo)
                 .map(LocalDateTime::toLocalTime)
                 .orElse(null);

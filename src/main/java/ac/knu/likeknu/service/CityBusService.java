@@ -61,8 +61,8 @@ public class CityBusService {
 
     private Optional<CityBus> findEarliestCityBus(List<CityBus> buses) {
         return buses.stream()
-                .filter(cityBus -> cityBus.getEarliestArrivalTime() != null)
-                .min(Comparator.comparing(CityBus::getEarliestArrivalTime));
+                .filter(cityBus -> cityBus.getEarliestArrivalTimeWithinRange() != null)
+                .min(Comparator.comparing(CityBus::getEarliestArrivalTimeWithinRange));
     }
 
     /**

@@ -21,7 +21,7 @@ public record MainCityBusResponse(String routeId, String origin, String destinat
     }
 
     public static MainCityBusResponse of(Route route, CityBus cityBus) {
-        LocalTime earliestArrivalTime = cityBus.getEarliestArrivalTime();
+        LocalTime earliestArrivalTime = cityBus.getEarliestArrivalTimeWithinRange();
         long remainingTime = Duration.between(LocalTime.now(), earliestArrivalTime).toMinutes();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         return MainCityBusResponse.builder()
