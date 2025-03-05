@@ -2,6 +2,7 @@ package ac.knu.likeknu.service;
 
 import ac.knu.likeknu.controller.dto.announcement.MainAnnouncementsResponse;
 import ac.knu.likeknu.controller.dto.menu.MainMenuResponse;
+import ac.knu.likeknu.controller.dto.menu.MainMenuResponseV2;
 import ac.knu.likeknu.controller.dto.schedule.MainScheduleResponse;
 import ac.knu.likeknu.domain.AcademicCalendar;
 import ac.knu.likeknu.domain.Announcement;
@@ -55,6 +56,16 @@ public class MainService {
                 .map(cafeteria -> findNowMealTypeMenu(cafeteria)
                         .map(menu -> MainMenuResponse.of(cafeteria, menu.getMenus()))
                         .orElse(MainMenuResponse.empty(cafeteria)))
+                .toList();
+    }
+
+    public List<MainMenuResponseV2> getMenuResponseV2(Campus campus) {
+        return cafeteriaRepository.findByCampus(campus)
+                .stream()
+                .sorted(Comparator.comparing(Cafeteria::getSequence))
+                .map(cafeteria -> findNowMealTypeMenu(cafeteria)
+                        .map(menu -> MainMenuResponseV2.of(cafeteria, menu.getMenus()))
+                        .orElse(MainMenuResponseV2.empty(cafeteria)))
                 .toList();
     }
 

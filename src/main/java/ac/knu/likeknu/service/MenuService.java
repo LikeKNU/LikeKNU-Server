@@ -48,7 +48,7 @@ public class MenuService {
             return "홍/은/해";
         }
         if (cafeteriaName.contains("드림")) {
-            return "비/드/블";
+            return "드/비/블";
         }
         return cafeteriaName;
     }
