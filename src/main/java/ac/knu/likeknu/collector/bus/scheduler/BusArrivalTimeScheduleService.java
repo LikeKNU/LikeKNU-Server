@@ -15,8 +15,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-@Profile("prod")
 @Slf4j
+@Profile("!local")
 @Service
 public class BusArrivalTimeScheduleService {
 

@@ -11,42 +11,28 @@ public record Announcement(String title, String announcementUrl, LocalDate annou
                            Category category) {
 
     public static Announcement ofDormitory(String title, String url, LocalDate date, Campus campus) {
-        return Announcement.builder()
-                .title(title)
-                .announcementUrl(url)
-                .announcementDate(date)
-                .campus(campus)
-                .category(Category.DORMITORY)
-                .build();
+        return ofCategory(title, url, date, campus, Category.DORMITORY);
     }
 
     public static Announcement ofLibrary(String title, String url, LocalDate date, Campus campus) {
-        return Announcement.builder()
-                .title(title)
-                .announcementUrl(url)
-                .announcementDate(date)
-                .campus(campus)
-                .category(Category.LIBRARY)
-                .build();
+        return ofCategory(title, url, date, campus, Category.LIBRARY);
     }
 
     public static Announcement ofStudentNews(String title, String url, LocalDate date, Campus campus) {
-        return Announcement.builder()
-                .title(title)
-                .announcementUrl(url)
-                .announcementDate(date)
-                .campus(campus)
-                .category(Category.STUDENT_NEWS)
-                .build();
+        return ofCategory(title, url, date, campus, Category.STUDENT_NEWS);
     }
 
     public static Announcement ofRecruitment(String title, String url, LocalDate date, Campus campus) {
+        return ofCategory(title, url, date, campus, Category.RECRUITMENT);
+    }
+
+    private static Announcement ofCategory(String title, String url, LocalDate date, Campus campus, Category category) {
         return Announcement.builder()
                 .title(title)
                 .announcementUrl(url)
                 .announcementDate(date)
                 .campus(campus)
-                .category(Category.RECRUITMENT)
+                .category(category)
                 .build();
     }
 }

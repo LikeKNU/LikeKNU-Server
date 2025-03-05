@@ -28,12 +28,38 @@ public class MenuService {
     private final CafeteriaRepository cafeteriaRepository;
 
     public List<CafeteriaMealListResponse> getCafeteriaMeals(Campus campus, String cafeteriaName) {
+        String changedCafeteriaName = changeCafeteriaName(cafeteriaName);
+
         Cafeteria specifiedCafeteria = cafeteriaRepository.findByCampus(campus)
                 .stream()
-                .filter(cafeteria -> cafeteria.getCafeteriaName().equals(cafeteriaName))
+                .filter(cafeteria -> cafeteria.getCafeteriaName().equals(changedCafeteriaName))
                 .findAny()
                 .orElseThrow(() -> new BusinessException(
-                        String.format("cafeteria name does not exist [%s], on campus [%s]", cafeteriaName, campus.getName()))
+                        String.format("cafeteria name does not exist [%s], on campus [%s]", changedCafeteriaName, campus.getName()))
+                );
+
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = startDate.plusDays(6);
+        return getPeriodCafeteriaMealList(specifiedCafeteria, startDate, endDate);
+    }
+
+    private String changeCafeteriaName(String cafeteriaName) {
+        if (cafeteriaName.contains("은행사")) {
+            return "홍/은/해";
+        }
+        if (cafeteriaName.contains("드림")) {
+            return "비/드/블";
+        }
+        return cafeteriaName;
+    }
+
+    public List<CafeteriaMealListResponse> getCafeteriaMealsV2(Campus campus, String cafeteriaId) {
+        Cafeteria specifiedCafeteria = cafeteriaRepository.findByCampus(campus)
+                .stream()
+                .filter(cafeteria -> cafeteria.getId().equals(cafeteriaId))
+                .findAny()
+                .orElseThrow(() -> new BusinessException(
+                        String.format("cafeteriaId does not exist [%s], on campus [%s]", cafeteriaId, campus.getName()))
                 );
 
         LocalDate startDate = LocalDate.now();
