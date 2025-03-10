@@ -21,10 +21,13 @@ public record Menu(LocalDate date, String menu) {
     public static Menu from(MenuAttribute menuAttribute) {
         String date = menuAttribute.getDate();
         String menu = menuAttribute.getMenu();
-        menu = menu.replaceAll(", ", " ")
-                .replaceAll(",", " ")
-                .replaceAll(" plus ", " ")
-                .replaceAll("/", " ");
+        if (!menu.contains("1,000원") && !menu.contains("50명한정")) {
+            menu = menu.replaceAll(", ", " ")
+                    .replaceAll(",", " ")
+                    .replaceAll(" plus ", " ")
+                    .replaceAll("/", " ");
+        }
+
         DateTimeFormatter matchFormatter = findMatchFormatter(date);
         LocalDate parsedDate = parseDate(date, matchFormatter);
         return new Menu(parsedDate, menu);
