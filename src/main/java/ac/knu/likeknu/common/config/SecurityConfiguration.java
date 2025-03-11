@@ -27,7 +27,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http)
             throws Exception {
         return http.authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/**", "/actuator/**").permitAll()
+                        .requestMatchers("/api/**", "/actuator/**", "/collect/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin.loginPage("/admin/login")
                         .defaultSuccessUrl("/admin/messages")

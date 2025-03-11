@@ -3,6 +3,7 @@ package ac.knu.likeknu.controller;
 import ac.knu.likeknu.controller.dto.base.ResponseDto;
 import ac.knu.likeknu.controller.dto.menu.CafeteriaListResponse;
 import ac.knu.likeknu.controller.dto.menu.CafeteriaMealListResponse;
+import ac.knu.likeknu.domain.Cafeteria;
 import ac.knu.likeknu.domain.constants.Campus;
 import ac.knu.likeknu.exception.BusinessException;
 import ac.knu.likeknu.repository.CafeteriaRepository;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -30,6 +32,7 @@ public class MenuControllerV2 {
     public ResponseDto<List<CafeteriaListResponse>> getCafeteriasByCampus(@RequestParam("campus") Campus campus) {
         List<CafeteriaListResponse> cafeterias = cafeteriaRepository.findByCampus(campus)
                 .stream()
+                .sorted(Comparator.comparing(Cafeteria::getSequence))
                 .map(CafeteriaListResponse::from)
                 .toList();
         return ResponseDto.of(cafeterias);

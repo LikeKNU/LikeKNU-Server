@@ -1,5 +1,6 @@
 package ac.knu.likeknu.controller;
 
+import ac.knu.likeknu.collector.menu.scheduler.MenuSchedulingService;
 import ac.knu.likeknu.domain.MainHeaderMessage;
 import ac.knu.likeknu.repository.MainHeaderMessageRepository;
 import org.springframework.stereotype.Controller;
@@ -18,9 +19,11 @@ import java.util.List;
 public class AdminController {
 
     private final MainHeaderMessageRepository messageRepository;
+    private final MenuSchedulingService menuSchedulingService;
 
-    public AdminController(MainHeaderMessageRepository messageRepository) {
+    public AdminController(MainHeaderMessageRepository messageRepository, MenuSchedulingService menuSchedulingService) {
         this.messageRepository = messageRepository;
+        this.menuSchedulingService = menuSchedulingService;
     }
 
     @GetMapping("/login")

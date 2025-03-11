@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.net.URI;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -55,7 +56,7 @@ public class DormitoryCafeteriaMenuCollector implements MenuCollector {
         String formattedStartDate = formatter.format(previousSunday);
         String formattedEndDate = formatter.format(endDate);
 
-        return UriComponentsBuilder.fromUriString(menuProperties.getDormitoryCafeteriaPrefix() + id)
+        return UriComponentsBuilder.fromUri(URI.create(menuProperties.getDormitoryCafeteriaPrefix() + id))
                 .queryParam("currentWeekStart", formattedStartDate)
                 .queryParam("currentWeekEnd", formattedEndDate)
                 .build()
