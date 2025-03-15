@@ -36,12 +36,11 @@ out/
 ### VS Code ###
 .vscode/
 
-/src/main/resources/application-local.properties
-/src/main/resources/application-dev.properties
-/src/main/resources/application-prod.properties
+like-knu-api/src/main/resources/application-local.properties
+like-knu-api/src/main/resources/application-dev.properties
+like-knu-api/src/main/resources/application-prod.properties
 
 .DS_Store
-/src/main/resources/application-dev.yml
 
 logs/
 

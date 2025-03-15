@@ -1,1 +1,8 @@
 rootProject.name = 'LikeKNU'
+
+include 'like-knu-api'
+include 'like-knu-job'
+include 'like-knu-collector'
+include 'like-knu-data'
+include 'like-knu-common'
+include 'univ-club'

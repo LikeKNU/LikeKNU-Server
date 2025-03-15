@@ -1,11 +1,19 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.2.3'
-    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.springframework.boot' version '3.2.3' apply false
+    id 'io.spring.dependency-management' version '1.1.4' apply false
 }
 
-group = 'ac.knu'
-version = '1.0.0'
+allprojects {
+    group = 'com.woopaca'
+    version = '1.0.0'
+
+    repositories {
+        mavenCentral()
+        maven { url 'https://repo.spring.io/milestone' }
+        maven { url 'https://repo.spring.io/snapshot' }
+    }
+}
 
 java {
     sourceCompatibility = '17'
@@ -17,45 +25,34 @@ configurations {
     }
 }
 
-repositories {
-    mavenCentral()
-    maven { url 'https://repo.spring.io/milestone' }
-    maven { url 'https://repo.spring.io/snapshot' }
-}
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.springframework.boot'
 
-jar {
-    enabled = false
-}
+    bootJar.enabled = false
+    jar.enabled = true
 
-bootJar {
-    archiveFileName = 'like-knu.jar'
-}
-
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'com.github.seratch:jslack:3.4.2'
-    implementation platform("org.springframework.ai:spring-ai-bom:1.0.0-SNAPSHOT")
-    implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter'
-    implementation 'org.jsoup:jsoup:1.16.1'
-    implementation 'net.logstash.logback:logstash-logback-encoder:6.6'
-    compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    testCompileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'com.mysql:mysql-connector-j'
-    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
-    annotationProcessor 'org.projectlombok:lombok'
-    testAnnotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation 'org.springframework.amqp:spring-rabbit-test'
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+        implementation 'com.github.seratch:jslack:3.4.2'
+        implementation 'org.jsoup:jsoup:1.16.1'
+        implementation 'net.logstash.logback:logstash-logback-encoder:6.6'
+        compileOnly 'org.projectlombok:lombok'
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+        testCompileOnly 'org.projectlombok:lombok'
+        runtimeOnly 'com.h2database:h2'
+        runtimeOnly 'com.mysql:mysql-connector-j'
+        runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+        annotationProcessor 'org.projectlombok:lombok'
+        testAnnotationProcessor 'org.projectlombok:lombok'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testImplementation 'org.springframework.security:spring-security-test'
+        testImplementation 'org.springframework.amqp:spring-rabbit-test'
+    }
 }

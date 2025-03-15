@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>일일 분석</title>
+  <link href="https://getbootstrap.com/docs/5.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/headers.css" rel="stylesheet">
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header
+      class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+    <div class="col-md-3 mb-2 mb-md-0">
+      <a href="/static" class="d-inline-flex link-body-emphasis text-decoration-none">
+        <h3>공주대처럼 관리자</h3>
+      </a>
+    </div>
+
+    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+      <li><a href="/admin/messages" class="nav-link px-2">메시지 설정</a></li>
+      <li><a href="/admin/analytics" class="nav-link px-2 link-secondary">접속자 수 확인</a></li>
+    </ul>
+
+    <div class="col-md-3 text-end">
+      <button type="button" class="btn btn-outline-danger" id="logoutButton">로그아웃</button>
+    </div>
+  </header>
+</div>
+
+<main class="form-signin w-100 m-auto">
+  <h1 style="text-align: center">준비 중입니다!</h1>
+</main>
+</body>
+<script>
+  (() => {
+    'use strict'
+
+    const getStoredTheme = () => localStorage.getItem('theme')
+    const setStoredTheme = theme => localStorage.setItem('theme', theme)
+
+    const getPreferredTheme = () => {
+      const storedTheme = getStoredTheme()
+      if (storedTheme) {
+        return storedTheme
+      }
+
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    }
+
+    const setTheme = theme => {
+      if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-bs-theme', 'dark')
+      } else {
+        document.documentElement.setAttribute('data-bs-theme', theme)
+      }
+    }
+
+    setTheme(getPreferredTheme())
+
+    const showActiveTheme = (theme, focus = false) => {
+      const themeSwitcher = document.querySelector('#bd-theme')
+
+      if (!themeSwitcher) {
+        return
+      }
+
+      const themeSwitcherText = document.querySelector('#bd-theme-text')
+      const activeThemeIcon = document.querySelector('.theme-icon-active use')
+      const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+      const svgOfActiveBtn = btnToActive.querySelector('svg use').getAttribute('href')
+
+      document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+        element.classList.remove('active')
+        element.setAttribute('aria-pressed', 'false')
+      })
+
+      btnToActive.classList.add('active')
+      btnToActive.setAttribute('aria-pressed', 'true')
+      activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+      const themeSwitcherLabel = `${themeSwitcherText.textContent} (${btnToActive.dataset.bsThemeValue})`
+      themeSwitcher.setAttribute('aria-label', themeSwitcherLabel)
+
+      if (focus) {
+        themeSwitcher.focus()
+      }
+    }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      const storedTheme = getStoredTheme()
+      if (storedTheme !== 'light' && storedTheme !== 'dark') {
+        setTheme(getPreferredTheme())
+      }
+    })
+
+    window.addEventListener('DOMContentLoaded', () => {
+      showActiveTheme(getPreferredTheme())
+
+      document.querySelectorAll('[data-bs-theme-value]')
+        .forEach(toggle => {
+          toggle.addEventListener('click', () => {
+            const theme = toggle.getAttribute('data-bs-theme-value')
+            setStoredTheme(theme)
+            setTheme(theme)
+            showActiveTheme(theme, true)
+          })
+        })
+    })
+  })()
+</script>
+</html>

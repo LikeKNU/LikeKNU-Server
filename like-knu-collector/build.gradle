@@ -1,0 +1,4 @@
+dependencies {
+    implementation project(':like-knu-data')
+    implementation project(':like-knu-common')
+}

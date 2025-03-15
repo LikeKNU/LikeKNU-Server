@@ -1,0 +1,19 @@
+dependencies {
+    implementation project(':like-knu-job')
+    implementation project(':like-knu-collector')
+    implementation project(':like-knu-data')
+    implementation project(':like-knu-common')
+}
+
+jar {
+    enabled = false
+}
+
+bootJar {
+    enabled = true
+    archiveFileName = 'like-knu.jar'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
