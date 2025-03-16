@@ -9,13 +9,19 @@
         value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%22.22thread] %-5level | %50.50logger{50} | %msg%n" />
     <property name="DEFAULT_DIR" value="LikeKNU" />
 
-    <springProfile name="dev,test,local">
+    <springProfile name="test,local">
         <include resource="logging/console-appender.xml" />
-        <include resource="logging/logstash-appender.xml" />
 
         <root level="INFO">
             <appender-ref ref="CONSOLE" />
-<!--            <appender-ref ref="LOGSTASH" />-->
+        </root>
+    </springProfile>
+
+    <springProfile name="dev">
+        <include resource="logging/console-appender.xml" />
+
+        <root level="INFO">
+            <appender-ref ref="CONSOLE" />
         </root>
     </springProfile>
 
@@ -29,7 +35,7 @@
             <appender-ref ref="FILE-INFO" />
             <appender-ref ref="FILE-WARN" />
             <appender-ref ref="FILE-ERROR" />
-<!--            <appender-ref ref="LOGSTASH" />-->
+            <appender-ref ref="LOGSTASH" />
         </root>
 
     </springProfile>

@@ -1,6 +1,6 @@
 <included>
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>localhost:5044</destination>
+        <destination>10.2.12.229:5044</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <customFields>{"application":"like-knu"}</customFields>
         </encoder>
