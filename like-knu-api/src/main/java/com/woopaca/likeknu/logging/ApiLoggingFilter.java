@@ -16,6 +16,8 @@ import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +36,7 @@ public class ApiLoggingFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        if (!request.getRequestURI().startsWith("/api")) {
+        if (!request.getRequestURI().startsWith("/api") && !request.getRequestURI().startsWith("/univ-club")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -52,7 +54,10 @@ public class ApiLoggingFilter extends OncePerRequestFilter {
             logData.put("timestamp", LocalDateTime.now().toString());
             logData.put("method", request.getMethod());
             logData.put("uri", request.getRequestURI());
-            logData.put("queryString", request.getQueryString());
+            String queryString = request.getQueryString();
+            if (StringUtils.hasText(queryString)) {
+                logData.put("queryString", URLDecoder.decode(queryString, StandardCharsets.UTF_8));
+            }
             logData.put("duration", duration + "ms");
             logData.put("status", responseWrapper.getStatus());
             logData.put("userAgent", request.getHeader("User-Agent"));

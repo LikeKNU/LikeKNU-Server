@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
-@Transactional
+@Transactional("univClubTransactionManager")
 public class ClubService {
 
     private final ClubRepository clubRepository;
