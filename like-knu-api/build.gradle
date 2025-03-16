@@ -3,6 +3,7 @@ dependencies {
     implementation project(':like-knu-collector')
     implementation project(':like-knu-data')
     implementation project(':like-knu-common')
+    implementation project(':univ-club')
 }
 
 jar {

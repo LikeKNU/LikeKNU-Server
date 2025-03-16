@@ -1,0 +1,4 @@
+dependencies {
+    implementation 'software.amazon.awssdk:s3:2.30.0'
+    runtimeOnly 'org.postgresql:postgresql'
+}

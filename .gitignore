@@ -36,10 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 
-like-knu-api/src/main/resources/application-local.properties
-like-knu-api/src/main/resources/application-dev.properties
-like-knu-api/src/main/resources/application-prod.properties
-
 .DS_Store
 
 logs/

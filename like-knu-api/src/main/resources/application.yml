@@ -1,0 +1,33 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+    import:
+      - classpath:secrets/application-local.properties
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+    import:
+      - classpath:secrets/application-dev.properties
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+    import:
+      - classpath:secrets/application-prod.properties
+
+---
+
+spring:
+  config:
+    import:
+      - classpath:monitoring/monitoring.yml
+  profiles:
+    active: local
