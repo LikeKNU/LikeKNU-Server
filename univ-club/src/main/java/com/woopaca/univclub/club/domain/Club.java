@@ -8,7 +8,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.DynamicUpdate;
@@ -25,8 +24,7 @@ import java.time.LocalDateTime;
 public class Club {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "club_id_seq")
-    @SequenceGenerator(name = "club_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
