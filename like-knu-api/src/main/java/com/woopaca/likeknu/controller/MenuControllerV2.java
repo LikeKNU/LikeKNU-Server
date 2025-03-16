@@ -40,14 +40,9 @@ public class MenuControllerV2 {
 
     @GetMapping
     public ResponseDto<List<CafeteriaMealListResponse>> getMenuByCampus(
-            @RequestParam("campus") Campus campus,
             @RequestParam("cafeteriaId") String cafeteriaId
     ) {
-        if (campus.equals(Campus.ALL)) {
-            throw new BusinessException("Invalid campus");
-        }
-
-        List<CafeteriaMealListResponse> cafeteriaMeals = menuService.getCafeteriaMealsV2(campus, cafeteriaId);
+        List<CafeteriaMealListResponse> cafeteriaMeals = menuService.getCafeteriaMealsV2(cafeteriaId);
         return ResponseDto.of(cafeteriaMeals);
     }
 }

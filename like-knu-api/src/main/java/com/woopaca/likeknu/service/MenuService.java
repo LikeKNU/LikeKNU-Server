@@ -53,13 +53,10 @@ public class MenuService {
         return cafeteriaName;
     }
 
-    public List<CafeteriaMealListResponse> getCafeteriaMealsV2(Campus campus, String cafeteriaId) {
-        Cafeteria specifiedCafeteria = cafeteriaRepository.findByCampus(campus)
-                .stream()
-                .filter(cafeteria -> cafeteria.getId().equals(cafeteriaId))
-                .findAny()
+    public List<CafeteriaMealListResponse> getCafeteriaMealsV2(String cafeteriaId) {
+        Cafeteria specifiedCafeteria = cafeteriaRepository.findById(cafeteriaId)
                 .orElseThrow(() -> new BusinessException(
-                        String.format("cafeteriaId does not exist [%s], on campus [%s]", cafeteriaId, campus.getName()))
+                        String.format("존재하지 않는 cafeteriaId: [%s]", cafeteriaId))
                 );
 
         LocalDate startDate = LocalDate.now();
