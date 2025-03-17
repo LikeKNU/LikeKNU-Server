@@ -5,7 +5,6 @@ import com.woopaca.likeknu.controller.dto.base.ResponseDto;
 import com.woopaca.likeknu.controller.dto.menu.CafeteriaListResponse;
 import com.woopaca.likeknu.controller.dto.menu.CafeteriaMealListResponse;
 import com.woopaca.likeknu.entity.Cafeteria;
-import com.woopaca.likeknu.exception.BusinessException;
 import com.woopaca.likeknu.repository.CafeteriaRepository;
 import com.woopaca.likeknu.service.MenuService;
 import org.springframework.web.bind.annotation.GetMapping;

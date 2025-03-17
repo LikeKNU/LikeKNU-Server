@@ -1,0 +1,3 @@
+<included>
+    <appender name="ASYNC_DB" class="com.woopaca.likeknu.logging.appender.AsyncDBAppender" />
+</included>

@@ -35,7 +35,7 @@
             <appender-ref ref="FILE-INFO" />
             <appender-ref ref="FILE-WARN" />
             <appender-ref ref="FILE-ERROR" />
-            <appender-ref ref="LOGSTASH" />
+            <!--            <appender-ref ref="LOGSTASH" />-->
         </root>
 
     </springProfile>

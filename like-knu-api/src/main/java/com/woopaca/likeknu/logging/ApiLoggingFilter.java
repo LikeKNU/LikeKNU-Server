@@ -27,6 +27,7 @@ import java.util.Map;
 public class ApiLoggingFilter extends OncePerRequestFilter {
 
     private static final Logger apiLogger = LoggerFactory.getLogger("api.request");
+
     private final ObjectMapper objectMapper;
 
     public ApiLoggingFilter(ObjectMapper objectMapper) {
@@ -58,7 +59,7 @@ public class ApiLoggingFilter extends OncePerRequestFilter {
             if (StringUtils.hasText(queryString)) {
                 logData.put("queryString", URLDecoder.decode(queryString, StandardCharsets.UTF_8));
             }
-            logData.put("duration", duration + "ms");
+            logData.put("duration", duration);
             logData.put("status", responseWrapper.getStatus());
             logData.put("userAgent", request.getHeader("User-Agent"));
             logData.put("deviceId", request.getHeader("Device-Id"));
