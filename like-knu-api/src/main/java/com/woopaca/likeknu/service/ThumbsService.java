@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Transactional
 @Service
 public class ThumbsService {
 
@@ -32,7 +31,6 @@ public class ThumbsService {
         this.menuRepository = menuRepository;
     }
 
-    @Transactional(readOnly = true)
     public MenuThumbsStatusResponse getMenuThumbsStatus(String menuId, String deviceId) {
         Device device = deviceRepository.findById(deviceId)
                 .orElseThrow(() -> new BusinessException(String.format("device does not exist [%s]", deviceId)));
@@ -64,6 +62,7 @@ public class ThumbsService {
                 .orElse(null);
     }
 
+    @Transactional
     public MenuThumbsStatusResponse updateThumbs(String menuId, String deviceId, ThumbsType thumbsType) {
         Device device = deviceRepository.findById(deviceId)
                 .orElseThrow(() -> new BusinessException(String.format("device does not exist [%s]", deviceId)));

@@ -10,7 +10,6 @@ import com.woopaca.likeknu.repository.ShuttleBusRepository;
 import com.woopaca.likeknu.repository.ShuttleRepository;
 import com.woopaca.likeknu.utils.DateTimeUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,7 +21,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-@Transactional(readOnly = true)
 @Service
 public class ShuttleBusService {
 
