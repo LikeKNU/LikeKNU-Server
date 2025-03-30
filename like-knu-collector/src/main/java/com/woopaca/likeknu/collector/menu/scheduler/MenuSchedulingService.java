@@ -18,7 +18,7 @@ public class MenuSchedulingService {
         this.menuProducer = menuProducer;
     }
 
-    @Scheduled(cron = "50 0/10 9-18 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "50 0/10 9-18 * * *")
     public void scheduleMenuProduce() {
         menuCollectors.stream()
                 .map(MenuCollector::collectMenus)

@@ -29,11 +29,9 @@ public class AcademicCalendarScheduleService {
         LocalDate currentDate = LocalDate.now();
         List<AcademicCalendarDto> academicCalendarList = IntStream.range(0, 12)
                 .mapToObj(currentDate::plusMonths)
-                .map(date -> {
-                    String pageSource = academicCalendarRequestManager
-                            .fetchAcademicCalendarPage(date.getYear(), date.getMonthValue());
-                    return academicCalendarPageParser.parseAcademicCalendarPage(pageSource);
-                })
+                .map(date ->
+                        academicCalendarRequestManager.fetchAcademicCalendarPage(date.getYear(), date.getMonthValue()))
+                .map(academicCalendarPageParser::parseAcademicCalendarPage)
                 .flatMap(List::stream)
                 .toList();
 
