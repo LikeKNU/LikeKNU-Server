@@ -7,6 +7,7 @@ import java.util.Arrays;
 @Getter
 public enum Tag {
 
+    STUDENT_NEWS("학생소식"),
     ENROLMENT("수강신청"),
     DORMITORY("생활관"),
     SCHOLARSHIP("장학금"),

@@ -12,9 +12,9 @@ public class AnnouncementModifier {
     private final AnnouncementRepository announcementRepository;
     private final AnnouncementTagAbstracter announcementTagAbstracter;
 
-    public AnnouncementModifier(AnnouncementRepository announcementRepository, AnnouncementTagAbstracter announcementTagAbstracter) {
+    public AnnouncementModifier(AnnouncementRepository announcementRepository) {
         this.announcementRepository = announcementRepository;
-        this.announcementTagAbstracter = announcementTagAbstracter;
+        this.announcementTagAbstracter = announcementMessage -> Tag.STUDENT_NEWS;
     }
 
     public void appendAnnouncement(AnnouncementMessage announcementMessage) {
