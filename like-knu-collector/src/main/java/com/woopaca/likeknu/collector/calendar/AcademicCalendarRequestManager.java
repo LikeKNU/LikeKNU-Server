@@ -1,7 +1,6 @@
 package com.woopaca.likeknu.collector.calendar;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -27,13 +26,9 @@ public class AcademicCalendarRequestManager {
         formData.add("year", String.valueOf(year));
         formData.add("month", String.valueOf(month));
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
         String responseBody = restClient.post()
                 .uri(uri)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .headers(headers -> headers.addAll(httpHeaders))
                 .body(formData)
                 .retrieve()
                 .body(String.class);
