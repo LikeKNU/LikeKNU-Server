@@ -43,3 +43,5 @@ logs/
 /src/main/resources/docker-compose.yml
 
 **/.env
+
+like-knu-api/src/main/resources/monitoring/loki/data

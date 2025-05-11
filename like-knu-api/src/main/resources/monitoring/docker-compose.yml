@@ -2,7 +2,7 @@ name: like-knu-monitoring
 
 services:
   prometheus:
-    image: prom/prometheus:v2.44.0
+    image: prom/prometheus:v3.3.0
     container_name: prometheus
     ports:
       - "9090:9090"
@@ -10,7 +10,7 @@ services:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
 
   grafana:
-    image: grafana/grafana:9.5.2
+    image: grafana/grafana:12.0.0
     container_name: grafana
     ports:
       - "3000:3000"
@@ -19,3 +19,22 @@ services:
       - GF_SERVER_SERVE_FROM_SUB_PATH=true
     volumes:
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+
+  loki:
+    image: grafana/loki:3.5.0
+    container_name: loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yml
+    volumes:
+      - ./loki/local-config.yml:/etc/loki/local-config.yml
+      - ./loki/data:/tmp/loki
+
+  promtail:
+    image: grafana/promtail:3.5.0
+    container_name: promtail
+    volumes:
+      - /var/log:/var/log
+      - /Users/jcw1031/Develop/LikeKNU-Server/logs:/app/logs
+      - ./promtail/promtail-config.yml:/etc/promtail/promtail-config.yml
+    command: -config.file=/etc/promtail/promtail-config.yml

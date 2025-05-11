@@ -46,7 +46,7 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
         implementation 'com.github.seratch:jslack:3.4.2'
         implementation 'org.jsoup:jsoup:1.16.1'
-        implementation 'net.logstash.logback:logstash-logback-encoder:6.6'
+        implementation 'net.logstash.logback:logstash-logback-encoder:8.0'
         compileOnly 'org.projectlombok:lombok'
         developmentOnly 'org.springframework.boot:spring-boot-devtools'
         testCompileOnly 'org.projectlombok:lombok'
