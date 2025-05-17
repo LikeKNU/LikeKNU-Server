@@ -2,7 +2,6 @@ package com.woopaca.likeknu.controller.dto.announcement;
 
 import com.woopaca.likeknu.entity.Announcement;
 import lombok.Builder;
-
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
