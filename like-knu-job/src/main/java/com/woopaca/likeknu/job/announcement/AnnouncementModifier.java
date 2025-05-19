@@ -14,7 +14,7 @@ public class AnnouncementModifier {
 
     public AnnouncementModifier(AnnouncementRepository announcementRepository) {
         this.announcementRepository = announcementRepository;
-        this.announcementTagAbstracter = announcementMessage -> Tag.of(announcementMessage.getCategory().name());
+        this.announcementTagAbstracter = announcementMessage -> Tag.of(announcementMessage.getCategory().getCategoryName());
     }
 
     public void appendAnnouncement(AnnouncementMessage announcementMessage) {
