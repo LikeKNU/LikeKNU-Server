@@ -10,6 +10,15 @@ spring:
 spring:
   config:
     activate:
+      on-profile: local-dev
+    import:
+      - classpath:secrets/application-local-dev.properties
+
+---
+
+spring:
+  config:
+    activate:
       on-profile: dev
     import:
       - classpath:secrets/application-dev.properties

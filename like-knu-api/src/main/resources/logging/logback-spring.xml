@@ -6,7 +6,7 @@
     <property name="LOG_PATTERN"
         value="%yellow([%d{yyyy-MM-dd HH:mm:ss.SSS}]) %magenta([%22.22thread]) %clr(%-5level) | %blue(%50.50logger{50}) | %msg%n" />
 
-    <springProfile name="local,test">
+    <springProfile name="local,local-dev,test">
         <include resource="logging/console-appender.xml" />
 
         <root level="INFO">
