@@ -54,7 +54,7 @@ public class MenuCache {
     }
 
     @Scheduled(cron = "0 0 0 * * MON")
-    private void scheduledMenuCache() {
+    void scheduledMenuCache() {
         LocalDate currentDate = LocalDate.now();
         menuCache.values()
                 .forEach(menuMessages -> menuMessages.removeIf(menuMessage -> menuMessage.date().isBefore(currentDate)));

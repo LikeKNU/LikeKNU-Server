@@ -38,3 +38,22 @@ services:
       - /Users/jcw1031/Develop/LikeKNU-Server/logs:/app/logs
       - ./promtail/promtail-config.yml:/etc/promtail/promtail-config.yml
     command: -config.file=/etc/promtail/promtail-config.yml
+
+  tempo:
+    image: grafana/tempo:2.7.2
+    container_name: tempo
+    command: [ "-config.file=/etc/tempo/tempo-config.yml" ]
+    ports:
+      - "3200:3200"
+      - "4317:4317"
+    volumes:
+      - ./tempo/tempo-config.yml:/etc/tempo/tempo-config.yml
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.126.0
+    container_name: otel-collector
+    command: [ "--config=/etc/otel-collector-config.yml" ]
+    volumes:
+      - ./otel-collector/otel-collector-config.yml:/etc/otel-collector-config.yml
+    depends_on:
+      - tempo
