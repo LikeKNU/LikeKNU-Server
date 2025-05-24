@@ -38,5 +38,6 @@ spring:
   config:
     import:
       - classpath:monitoring/monitoring.yml
+      - classpath:secrets/application-common.properties
   profiles:
     active: local
