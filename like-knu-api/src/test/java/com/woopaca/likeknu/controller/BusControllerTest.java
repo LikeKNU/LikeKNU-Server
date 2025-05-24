@@ -113,6 +113,7 @@ class BusControllerTest {
                 .andDo(print())
                 .andExpectAll(
                         status().isOk(),
+                        jsonPath("$.data.body[*].shuttleBusId").hasJsonPath(),
                         jsonPath("$.data.body[*].busName").hasJsonPath(),
                         jsonPath("$.data.body[*].isRunning").hasJsonPath(),
                         jsonPath("$.data.body[*].times").hasJsonPath(),

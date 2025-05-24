@@ -10,7 +10,8 @@ import java.util.Comparator;
 import java.util.List;
 
 @Builder
-public record ShuttleBusesArrivalTimeResponse(String busName, boolean isRunning, List<ShuttleTimeDto> times) {
+public record ShuttleBusesArrivalTimeResponse(String shuttleBusId, String busName, boolean isRunning,
+                                              List<ShuttleTimeDto> times) {
 
     public static ShuttleBusesArrivalTimeResponse of(ShuttleBus shuttleBus) {
         List<ShuttleTime> shuttleTimes = shuttleBus.getShuttleTimes();
@@ -25,6 +26,7 @@ public record ShuttleBusesArrivalTimeResponse(String busName, boolean isRunning,
             isRunning = false;
         }
         return ShuttleBusesArrivalTimeResponse.builder()
+                .shuttleBusId(shuttleBus.getId())
                 .busName(shuttleBus.getBusName())
                 .isRunning(isRunning)
                 .times(shuttleTimeList)
