@@ -36,7 +36,7 @@ public class ScheduleResponse {
         return date.format(DateTimeFormatter.ofPattern("MM월"));
     }
 
-    public void setScheduleCriterionWithYear(LocalDate date) {
-        scheduleCriterion = date.format(DateTimeFormatter.ofPattern("yyyy년 MM월"));
+    public void setScheduleCriterionWithYear() {
+        scheduleCriterion = this.localDate.format(DateTimeFormatter.ofPattern("yyyy년 MM월"));
     }
 }

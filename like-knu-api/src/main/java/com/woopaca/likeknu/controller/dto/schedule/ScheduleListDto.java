@@ -1,8 +1,8 @@
 package com.woopaca.likeknu.controller.dto.schedule;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.woopaca.likeknu.entity.AcademicCalendar;
 import com.woopaca.likeknu.utils.DateTimeUtils;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -16,13 +16,13 @@ public class ScheduleListDto {
     private String scheduleContents;
     private String scheduleDate;
     @JsonProperty("isToday")
-    private boolean isToday;
+    private boolean today;
 
     @Builder
-    public ScheduleListDto(String scheduleContents, String scheduleDate, boolean isToday) {
+    public ScheduleListDto(String scheduleContents, String scheduleDate, boolean today) {
         this.scheduleContents = scheduleContents;
         this.scheduleDate = scheduleDate;
-        this.isToday = isToday;
+        this.today = today;
     }
 
     public static ScheduleListDto of(AcademicCalendar academicCalendar) {
@@ -33,7 +33,7 @@ public class ScheduleListDto {
         return ScheduleListDto.builder()
                 .scheduleContents(academicCalendar.getContents())
                 .scheduleDate(formatScheduleDate(startDate, endDate))
-                .isToday(DateTimeUtils.isDateInRange(currentDate, startDate, endDate))
+                .today(DateTimeUtils.isDateInRange(currentDate, startDate, endDate))
                 .build();
     }
 

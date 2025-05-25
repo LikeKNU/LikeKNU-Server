@@ -37,18 +37,22 @@ public class ScheduleService {
     }
 
     private List<ScheduleResponse> fetchScheduleResponses(LocalDate startDate, LocalDate endDate) {
-        Map<LocalDate, List<ScheduleListDto>> list = academicCalendarRepository.findByStartDateBetween(startDate, endDate).stream()
+        Map<LocalDate, List<ScheduleListDto>> list = academicCalendarRepository.findByStartDateBetween(startDate, endDate)
+                .stream()
                 .sorted(Comparator.comparing(AcademicCalendar::getStartDate))
                 .collect(Collectors.groupingBy(
                         academicCalendar -> academicCalendar.getStartDate().withDayOfMonth(1),
                         Collectors.mapping(ScheduleListDto::of, Collectors.toList())));
 
-        List<ScheduleResponse> response = list.entrySet().stream()
+        List<ScheduleResponse> response = list.entrySet()
+                .stream()
                 .map(entry -> ScheduleResponse.of(entry.getKey(), entry.getValue()))
                 .sorted(Comparator.comparing(ScheduleResponse::getLocalDate))
                 .collect(Collectors.toList());
 
-        response.stream().findFirst().ifPresent(sr -> sr.setScheduleCriterionWithYear(sr.getLocalDate()));
+        response.stream()
+                .findFirst()
+                .ifPresent(ScheduleResponse::setScheduleCriterionWithYear);
 
         return response;
     }
