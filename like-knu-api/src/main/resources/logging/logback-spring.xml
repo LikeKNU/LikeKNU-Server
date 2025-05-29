@@ -7,6 +7,7 @@
         value="%yellow([%d{yyyy-MM-dd HH:mm:ss.SSS}]) %magenta([%22.22thread]) %clr(%-5level) | %blue(%50.50logger{50}) | %msg%n" />
 
     <include resource="logging/console-appender.xml" />
+    <include resource="logging/file-appender.xml" />
     <include resource="logging/json-file-appender.xml" />
 
     <springProfile name="local,test">
@@ -16,10 +17,15 @@
     </springProfile>
 
     <springProfile name="local-dev">
-
         <root level="INFO">
             <appender-ref ref="CONSOLE" />
             <appender-ref ref="JSON-FILE" />
+        </root>
+    </springProfile>
+
+    <springProfile name="dev">
+        <root level="INFO">
+            <appender-ref ref="FILE" />
         </root>
     </springProfile>
 

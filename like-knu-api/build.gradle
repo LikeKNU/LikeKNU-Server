@@ -3,6 +3,7 @@ dependencies {
     implementation project(':like-knu-collector')
     implementation project(':like-knu-data')
     implementation project(':like-knu-common')
+    implementation project(':like-knu-external')
     implementation project(':univ-club')
 }
 
