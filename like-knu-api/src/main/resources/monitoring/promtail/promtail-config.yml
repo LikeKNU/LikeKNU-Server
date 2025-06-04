@@ -25,10 +25,12 @@ scrape_configs:
             message: message
             thread: thread_name
             logger: logger_name
+            exception: stack_trace
       - labels:
           level:
           logger:
           thread:
           message:
+          exception:
       - output:
           source: message

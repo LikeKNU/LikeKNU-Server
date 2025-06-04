@@ -3,10 +3,10 @@
         <file>./logs/like-knu-json.log</file>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>./logs/like-knu-%d{yyyy-MM-dd}.%i.json.gz</fileNamePattern>
-            <maxFileSize>50MB</maxFileSize>
-            <maxHistory>30</maxHistory>
-            <totalSizeCap>2GB</totalSizeCap>
+            <fileNamePattern>./logs/like-knu-%d{yyyy-MM}.%i.json.gz</fileNamePattern>
+            <maxFileSize>500MB</maxFileSize>
+            <maxHistory>3</maxHistory>
+            <totalSizeCap>5GB</totalSizeCap>
         </rollingPolicy>
     </appender>
 </included>
