@@ -5,18 +5,18 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestClient;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Slf4j
 @Component
 public class AcademicCalendarRequestManager {
 
     private final WebProperties webProperties;
-    private final RestClient restClient;
+    private final WebClient webClient;
 
-    public AcademicCalendarRequestManager(WebProperties webProperties, RestClient restClient) {
+    public AcademicCalendarRequestManager(WebProperties webProperties, WebClient webClient) {
         this.webProperties = webProperties;
-        this.restClient = restClient;
+        this.webClient = webClient;
     }
 
     public String fetchAcademicCalendarPage(int year, int month) {
@@ -26,12 +26,13 @@ public class AcademicCalendarRequestManager {
         formData.add("year", String.valueOf(year));
         formData.add("month", String.valueOf(month));
 
-        String responseBody = restClient.post()
+        String responseBody = webClient.post()
                 .uri(uri)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(formData)
+                .bodyValue(formData)
                 .retrieve()
-                .body(String.class);
+                .bodyToMono(String.class)
+                .block();
         if (responseBody == null) {
             log.error("[{}] Response body is null!", getClass().getName());
             throw new IllegalArgumentException(String.format("[%s] Response body is null!", getClass().getName()));

@@ -31,7 +31,10 @@ public class CalendarCache {
         memory.put(currentYear, Collections.synchronizedSet(new HashSet<>()));
         memory.put(currentYear.plusYears(1), Collections.synchronizedSet(new HashSet<>()));
 
-        academicCalendarRepository.findByStartDateGreaterThanEqual(LocalDate.now())
+        LocalDate startDate = LocalDate.now()
+                .minusMonths(1)
+                .withDayOfMonth(1);
+        academicCalendarRepository.findByStartDateGreaterThanEqual(startDate)
                 .stream()
                 .map(AcademicCalendarMessage::from)
                 .forEach(this::cache);
