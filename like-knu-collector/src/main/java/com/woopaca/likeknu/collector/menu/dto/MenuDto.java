@@ -25,7 +25,8 @@ public record MenuDto(LocalDate date, String menu) {
             menu = menu.replaceAll(", ", " ")
                     .replaceAll(",", " ")
                     .replaceAll(" plus ", " ")
-                    .replaceAll("/", " ");
+                    .replaceAll("/", " ")
+                    .replaceAll("\\.", " ");
         }
 
         DateTimeFormatter matchFormatter = findMatchFormatter(date);
