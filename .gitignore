@@ -45,3 +45,5 @@ logs/
 **/.env
 
 like-knu-api/src/main/resources/monitoring/loki/data
+
+.serena/
