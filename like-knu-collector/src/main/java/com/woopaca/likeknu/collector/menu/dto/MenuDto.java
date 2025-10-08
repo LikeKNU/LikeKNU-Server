@@ -22,11 +22,8 @@ public record MenuDto(LocalDate date, String menu) {
         String date = menuAttribute.getDate();
         String menu = menuAttribute.getMenu();
         if (!menu.contains("1,000원") && !menu.contains("50명한정")) {
-            menu = menu.replaceAll(", ", " ")
-                    .replaceAll(",", " ")
-                    .replaceAll(" plus ", " ")
-                    .replaceAll("/", " ")
-                    .replaceAll("\\.", " ");
+            menu = menu.replaceAll(", |,| plus |/|\\.", " ")
+                    .replaceAll("\\s{2,}", " ");
         }
 
         DateTimeFormatter matchFormatter = findMatchFormatter(date);
