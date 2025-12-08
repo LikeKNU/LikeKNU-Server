@@ -31,5 +31,6 @@
 
     <root level="INFO">
         <appender-ref ref="JSON-FILE" />
+        <appender-ref ref="FILE" />
     </root>
 </configuration>
