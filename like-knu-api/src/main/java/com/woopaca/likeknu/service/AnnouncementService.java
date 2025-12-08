@@ -4,10 +4,13 @@ import com.woopaca.likeknu.Campus;
 import com.woopaca.likeknu.Category;
 import com.woopaca.likeknu.controller.dto.announcement.AnnouncementListResponse;
 import com.woopaca.likeknu.controller.dto.base.PageDto;
+import com.woopaca.likeknu.entity.AdAnnouncement;
 import com.woopaca.likeknu.entity.Announcement;
 import com.woopaca.likeknu.entity.Device;
+import com.woopaca.likeknu.repository.AdAnnouncementRepository;
 import com.woopaca.likeknu.repository.AnnouncementRepository;
 import com.woopaca.likeknu.repository.DeviceRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -15,10 +18,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
+@Slf4j
 @Service
 public class AnnouncementService {
 
@@ -26,10 +33,12 @@ public class AnnouncementService {
 
     private final AnnouncementRepository announcementRepository;
     private final DeviceRepository deviceRepository;
+    private final AdAnnouncementRepository adAnnouncementRepository;
 
-    public AnnouncementService(AnnouncementRepository announcementRepository, DeviceRepository deviceRepository) {
+    public AnnouncementService(AnnouncementRepository announcementRepository, DeviceRepository deviceRepository, AdAnnouncementRepository adAnnouncementRepository) {
         this.announcementRepository = announcementRepository;
         this.deviceRepository = deviceRepository;
+        this.adAnnouncementRepository = adAnnouncementRepository;
     }
 
     public List<AnnouncementListResponse> getAnnouncements(Campus campus, Category category, PageDto pageDto, String deviceId) {
@@ -37,10 +46,16 @@ public class AnnouncementService {
         Pageable pageable = PageRequest.of(requestPage, DEFAULT_ANNOUNCEMENT_PAGE_SIZE,
                 Sort.by(Order.desc("announcementDate"), Order.desc("collectedAt")));
 
+        List<AdAnnouncement> adAnnouncements = fetchAdAnnouncementsSafely(requestPage);
         Slice<Announcement> announcementsPage =
                 announcementRepository.findByCampusInAndCategory(Set.of(campus, Campus.ALL), category, pageable);
 
-        return getAnnouncementListResponses(deviceId, announcementsPage);
+        List<AnnouncementListResponse> adAnnouncementResponses = getAdAnnouncementResponses(adAnnouncements);
+        List<AnnouncementListResponse> announcementResponses = getAnnouncementResponses(deviceId, announcementsPage);
+
+        return Stream.of(adAnnouncementResponses, announcementResponses)
+                .flatMap(List::stream)
+                .toList();
     }
 
     public List<AnnouncementListResponse> searchAnnouncements(Campus campus, PageDto pageDto, String keyword, String deviceId) {
@@ -51,10 +66,23 @@ public class AnnouncementService {
         Slice<Announcement> announcementsPage = announcementRepository
                 .findByCampusInAndAnnouncementTitleContains(Set.of(campus, Campus.ALL), keyword, pageable);
 
-        return getAnnouncementListResponses(deviceId, announcementsPage);
+        return getAnnouncementResponses(deviceId, announcementsPage);
     }
 
-    private List<AnnouncementListResponse> getAnnouncementListResponses(String deviceId, Slice<Announcement> announcements) {
+    private List<AdAnnouncement> fetchAdAnnouncementsSafely(int requestPage) {
+        if (requestPage != 0) {
+            return Collections.emptyList();
+        }
+
+        try {
+            return adAnnouncementRepository.findByIsAdExposedIsTrue();
+        } catch (Exception e) {
+            log.warn("[AnnouncementService] 광고 공지사항 조회 실패.", e);
+            return Collections.emptyList();
+        }
+    }
+
+    private List<AnnouncementListResponse> getAnnouncementResponses(String deviceId, Slice<Announcement> announcements) {
         if (deviceId != null) {
             Optional<Device> findDevice = deviceRepository.findById(deviceId);
             if (findDevice.isPresent()) {
@@ -66,6 +94,16 @@ public class AnnouncementService {
         }
         return announcements.stream()
                 .map(AnnouncementListResponse::of)
+                .toList();
+    }
+
+    private List<AnnouncementListResponse> getAdAnnouncementResponses(List<AdAnnouncement> adAnnouncements) {
+        List<AdAnnouncement> shuffled = new ArrayList<>(adAnnouncements);
+        Collections.shuffle(shuffled);
+
+        return shuffled.stream()
+                .map(AnnouncementListResponse::ofAd)
+                .limit(2)
                 .toList();
     }
 }
