@@ -18,12 +18,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -46,16 +44,10 @@ public class AnnouncementService {
         Pageable pageable = PageRequest.of(requestPage, DEFAULT_ANNOUNCEMENT_PAGE_SIZE,
                 Sort.by(Order.desc("announcementDate"), Order.desc("collectedAt")));
 
-        List<AdAnnouncement> adAnnouncements = fetchAdAnnouncementsSafely(requestPage);
         Slice<Announcement> announcementsPage =
                 announcementRepository.findByCampusInAndCategory(Set.of(campus, Campus.ALL), category, pageable);
 
-        List<AnnouncementListResponse> adAnnouncementResponses = getAdAnnouncementResponses(adAnnouncements);
-        List<AnnouncementListResponse> announcementResponses = getAnnouncementResponses(deviceId, announcementsPage);
-
-        return Stream.of(adAnnouncementResponses, announcementResponses)
-                .flatMap(List::stream)
-                .toList();
+        return getAnnouncementResponses(deviceId, announcementsPage);
     }
 
     public List<AnnouncementListResponse> searchAnnouncements(Campus campus, PageDto pageDto, String keyword, String deviceId) {
@@ -69,11 +61,14 @@ public class AnnouncementService {
         return getAnnouncementResponses(deviceId, announcementsPage);
     }
 
-    private List<AdAnnouncement> fetchAdAnnouncementsSafely(int requestPage) {
-        if (requestPage != 0) {
-            return Collections.emptyList();
-        }
+    public List<AnnouncementListResponse> getAdAnnouncements() {
+        List<AdAnnouncement> adAnnouncements = fetchAdAnnouncementsSafely();
+        return adAnnouncements.stream()
+                .map(AnnouncementListResponse::ofAd)
+                .toList();
+    }
 
+    private List<AdAnnouncement> fetchAdAnnouncementsSafely() {
         try {
             return adAnnouncementRepository.findByIsAdExposedIsTrue();
         } catch (Exception e) {
@@ -94,16 +89,6 @@ public class AnnouncementService {
         }
         return announcements.stream()
                 .map(AnnouncementListResponse::of)
-                .toList();
-    }
-
-    private List<AnnouncementListResponse> getAdAnnouncementResponses(List<AdAnnouncement> adAnnouncements) {
-        List<AdAnnouncement> shuffled = new ArrayList<>(adAnnouncements);
-        Collections.shuffle(shuffled);
-
-        return shuffled.stream()
-                .map(AnnouncementListResponse::ofAd)
-                .limit(2)
                 .toList();
     }
 }

@@ -6,6 +6,7 @@ import com.woopaca.likeknu.controller.dto.announcement.AnnouncementListResponse;
 import com.woopaca.likeknu.controller.dto.base.PageDto;
 import com.woopaca.likeknu.entity.Announcement;
 import com.woopaca.likeknu.fixture.AnnouncementFixture;
+import com.woopaca.likeknu.repository.AdAnnouncementRepository;
 import com.woopaca.likeknu.service.AnnouncementService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -41,6 +42,9 @@ class AnnouncementControllerTest {
 
     @MockBean
     AnnouncementService announcementService;
+
+    @MockBean
+    AdAnnouncementRepository adAnnouncementRepository;
 
     Announcement announcement1;
     Announcement announcement2;
