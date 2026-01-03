@@ -1,6 +1,7 @@
 package com.woopaca.likeknu.collector.menu.scheduler;
 
 import com.woopaca.likeknu.collector.menu.MenuCollector;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -10,12 +11,12 @@ import java.util.List;
 @Service
 public class MenuSchedulingService {
 
+    private final ApplicationEventPublisher applicationEventPublisher;
     private final List<MenuCollector> menuCollectors;
-    private final MenuProducer menuProducer;
 
-    public MenuSchedulingService(List<MenuCollector> menuCollectors, MenuProducer menuProducer) {
+    public MenuSchedulingService(List<MenuCollector> menuCollectors, ApplicationEventPublisher applicationEventPublisher) {
         this.menuCollectors = menuCollectors;
-        this.menuProducer = menuProducer;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Scheduled(cron = "50 0/10 9-18 * * *")
@@ -23,6 +24,6 @@ public class MenuSchedulingService {
         menuCollectors.stream()
                 .map(MenuCollector::collectMenus)
                 .flatMap(Collection::stream)
-                .forEach(menuProducer::produce);
+                .forEach(applicationEventPublisher::publishEvent);
     }
 }

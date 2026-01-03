@@ -11,6 +11,7 @@ import com.woopaca.likeknu.collector.announcement.recruitment.RecruitmentNewsAnn
 import com.woopaca.likeknu.collector.announcement.studentnews.StudentNewsAnnouncementClient;
 import com.woopaca.likeknu.collector.announcement.studentnews.StudentNewsAnnouncementParser;
 import com.woopaca.likeknu.collector.menu.constants.Campus;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ import java.util.List;
 @Service
 public class AnnouncementCollectScheduleService {
 
-    private final AnnouncementProducer announcementProducer;
+    private final ApplicationEventPublisher applicationEventPublisher;
     private final StudentNewsAnnouncementParser studentNewsAnnouncementParser;
     private final DormitoryAnnouncementClient dormitoryAnnouncementClient;
     private final DormitoryAnnouncementPageParser dormitoryAnnouncementPageParser;
@@ -30,8 +31,8 @@ public class AnnouncementCollectScheduleService {
     private final RecruitmentNewsAnnouncementClient recruitmentNewsAnnouncementClient;
     private final RecruitmentNewsAnnouncementParser recruitmentNewsAnnouncementParser;
 
-    public AnnouncementCollectScheduleService(AnnouncementProducer announcementProducer, StudentNewsAnnouncementParser studentNewsAnnouncementParser, DormitoryAnnouncementClient dormitoryAnnouncementClient, DormitoryAnnouncementPageParser dormitoryAnnouncementPageParser, LibraryAnnouncementParser libraryAnnouncementParser, LibraryAnnouncementClient libraryAnnouncementClient, StudentNewsAnnouncementClient studentNewsAnnouncementClient, RecruitmentNewsAnnouncementClient recruitmentNewsAnnouncementClient, RecruitmentNewsAnnouncementParser recruitmentNewsAnnouncementParser) {
-        this.announcementProducer = announcementProducer;
+    public AnnouncementCollectScheduleService(ApplicationEventPublisher applicationEventPublisher, StudentNewsAnnouncementParser studentNewsAnnouncementParser, DormitoryAnnouncementClient dormitoryAnnouncementClient, DormitoryAnnouncementPageParser dormitoryAnnouncementPageParser, LibraryAnnouncementParser libraryAnnouncementParser, LibraryAnnouncementClient libraryAnnouncementClient, StudentNewsAnnouncementClient studentNewsAnnouncementClient, RecruitmentNewsAnnouncementClient recruitmentNewsAnnouncementClient, RecruitmentNewsAnnouncementParser recruitmentNewsAnnouncementParser) {
+        this.applicationEventPublisher = applicationEventPublisher;
         this.studentNewsAnnouncementParser = studentNewsAnnouncementParser;
         this.dormitoryAnnouncementClient = dormitoryAnnouncementClient;
         this.dormitoryAnnouncementPageParser = dormitoryAnnouncementPageParser;
@@ -46,14 +47,14 @@ public class AnnouncementCollectScheduleService {
     public void scheduleStudentNewsProduce() {
         String pageSource = studentNewsAnnouncementClient.fetchStudentNewsAnnouncementPage();
         List<Announcement> announcements = studentNewsAnnouncementParser.parseStudentNewsAnnouncementPage(pageSource);
-        announcementProducer.produce(new AnnouncementsMessage(announcements));
+        applicationEventPublisher.publishEvent(new AnnouncementsMessage(announcements));
     }
 
     @Scheduled(cron = "20 */10 8-19 * * MON-FRI")
     public void schedulingLibraryAnnouncementProduce() {
         String response = libraryAnnouncementClient.fetchLibraryAnnouncement();
         List<Announcement> announcements = libraryAnnouncementParser.parseLibraryAnnouncements(response);
-        announcementProducer.produce(new AnnouncementsMessage(announcements));
+        applicationEventPublisher.publishEvent(new AnnouncementsMessage(announcements));
     }
 
     @Scheduled(cron = "40 */10 8-19 * * MON-FRI")
@@ -65,13 +66,13 @@ public class AnnouncementCollectScheduleService {
                     return dormitoryAnnouncementPageParser.parseDormitoryAnnouncementPage(pageSource, campus);
                 })
                 .map(AnnouncementsMessage::new)
-                .forEach(announcementProducer::produce);
+                .forEach(announcements -> applicationEventPublisher.publishEvent(announcements));
     }
 
     @Scheduled(cron = "50 */10 8-19 * * MON-FRI")
     public void scheduleRecruitmentNewsProduce() {
         String pageSource = recruitmentNewsAnnouncementClient.fetchRecruitmentNewsAnnouncementPage();
         List<Announcement> announcements = recruitmentNewsAnnouncementParser.parseRecruitmentNewsAnnouncementPage(pageSource);
-        announcementProducer.produce(new AnnouncementsMessage(announcements));
+        applicationEventPublisher.publishEvent(new AnnouncementsMessage(announcements));
     }
 }

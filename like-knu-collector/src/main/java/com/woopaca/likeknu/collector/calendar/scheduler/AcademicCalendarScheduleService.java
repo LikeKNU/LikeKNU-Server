@@ -4,6 +4,7 @@ import com.woopaca.likeknu.collector.calendar.AcademicCalendarPageParser;
 import com.woopaca.likeknu.collector.calendar.AcademicCalendarRequestManager;
 import com.woopaca.likeknu.collector.calendar.dto.AcademicCalendarDto;
 import com.woopaca.likeknu.collector.calendar.dto.CalendarsMessage;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +15,14 @@ import java.util.stream.IntStream;
 @Service
 public class AcademicCalendarScheduleService {
 
+    private final ApplicationEventPublisher applicationEventPublisher;
     private final AcademicCalendarRequestManager academicCalendarRequestManager;
     private final AcademicCalendarPageParser academicCalendarPageParser;
-    private final AcademicCalendarProducer academicCalendarProducer;
 
-    public AcademicCalendarScheduleService(AcademicCalendarRequestManager academicCalendarRequestManager, AcademicCalendarPageParser academicCalendarPageParser, AcademicCalendarProducer academicCalendarProducer) {
+    public AcademicCalendarScheduleService(ApplicationEventPublisher applicationEventPublisher, AcademicCalendarRequestManager academicCalendarRequestManager, AcademicCalendarPageParser academicCalendarPageParser) {
+        this.applicationEventPublisher = applicationEventPublisher;
         this.academicCalendarRequestManager = academicCalendarRequestManager;
         this.academicCalendarPageParser = academicCalendarPageParser;
-        this.academicCalendarProducer = academicCalendarProducer;
     }
 
     @Scheduled(cron = "0 0 9 * * MON")
@@ -35,6 +36,6 @@ public class AcademicCalendarScheduleService {
                 .flatMap(List::stream)
                 .toList();
 
-        academicCalendarProducer.produce(new CalendarsMessage(academicCalendarList));
+        applicationEventPublisher.publishEvent(new CalendarsMessage(academicCalendarList));
     }
 }
