@@ -3,6 +3,7 @@ package com.woopaca.likeknu.repository;
 import com.woopaca.likeknu.Campus;
 import com.woopaca.likeknu.Category;
 import com.woopaca.likeknu.entity.Announcement;
+import org.springframework.data.domain.Limit;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -30,6 +31,8 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Stri
     Slice<Announcement> findByCampusInAndAnnouncementTitleContains(Set<Campus> campus, String keyword, Pageable pageable);
 
     List<Announcement> findTop30ByCategoryOrderByAnnouncementDateDesc(Category category);
+
+    List<Announcement> findByCategory(Category category, Limit limit, Sort sort);
 
     Optional<Announcement> findByAnnouncementUrl(String url);
 }
