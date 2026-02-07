@@ -41,7 +41,7 @@ public class ExceptionControllerAdvice {
         String stackTrace = Arrays.stream(exception.getStackTrace())
                 .map(StackTraceElement::toString)
                 .collect(Collectors.joining(System.lineSeparator()));
-        log.error("Exception: ", exception);
+        log.error("Exception: {}", exception.getMessage(), exception);
         return ResponseEntity.internalServerError()
                 .body(message);
     }
