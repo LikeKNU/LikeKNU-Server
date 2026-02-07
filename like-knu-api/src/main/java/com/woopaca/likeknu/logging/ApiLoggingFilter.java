@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -47,6 +48,7 @@ public class ApiLoggingFilter extends OncePerRequestFilter {
         ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
 
         try {
+            MDC.put("deviceId", requestWrapper.getHeader("Device-Id"));
             filterChain.doFilter(requestWrapper, responseWrapper);
         } finally {
             long duration = System.currentTimeMillis() - startTime;
@@ -71,6 +73,7 @@ public class ApiLoggingFilter extends OncePerRequestFilter {
 
             apiLogger.info(objectMapper.writeValueAsString(logData));
             responseWrapper.copyBodyToResponse();
+            MDC.clear();
         }
     }
 }

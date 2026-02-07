@@ -15,22 +15,12 @@ scrape_configs:
           - localhost
         labels:
           job: like-knu
-          __path__: /app/logs/*.log
+          __path__: /app/logs/like-knu-json.log
 
     pipeline_stages:
       - json:
           expressions:
             level: level
-            time: time
-            message: message
-            thread: thread_name
-            logger: logger_name
-            exception: stack_trace
+
       - labels:
           level:
-          logger:
-          thread:
-          message:
-          exception:
-      - output:
-          source: message
