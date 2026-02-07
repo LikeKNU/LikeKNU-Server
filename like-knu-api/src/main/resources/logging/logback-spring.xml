@@ -4,22 +4,15 @@
     <timestamp key="BY_DATE" datePattern="yyyy-MM-dd" />
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
     <property name="LOG_PATTERN"
-        value="%yellow([%d{yyyy-MM-dd HH:mm:ss.SSS}]) %magenta([%22.22thread]) %clr(%-5level) | %blue(%50.50logger{50}) | %msg%n" />
+        value="%yellow([%d{yyyy-MM-dd HH:mm:ss.SSS}]) %magenta([%18.18thread]) %clr(%-5level) | %blue(%32.32logger{32}) | %msg%n" />
 
     <include resource="logging/console-appender.xml" />
     <include resource="logging/file-appender.xml" />
     <include resource="logging/json-file-appender.xml" />
 
-    <springProfile name="local,test">
+    <springProfile name="local,local-dev,test">
         <root level="INFO">
             <appender-ref ref="CONSOLE" />
-        </root>
-    </springProfile>
-
-    <springProfile name="local-dev">
-        <root level="INFO">
-            <appender-ref ref="CONSOLE" />
-            <appender-ref ref="JSON-FILE" />
         </root>
     </springProfile>
 
