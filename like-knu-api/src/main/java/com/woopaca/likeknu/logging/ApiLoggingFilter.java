@@ -22,6 +22,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -48,7 +49,8 @@ public class ApiLoggingFilter extends OncePerRequestFilter {
         ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
 
         try {
-            MDC.put("deviceId", requestWrapper.getHeader("Device-Id"));
+            MDC.put("device_id", requestWrapper.getHeader("Device-Id"));
+            MDC.put("trace_id", UUID.randomUUID().toString());
             filterChain.doFilter(requestWrapper, responseWrapper);
         } finally {
             long duration = System.currentTimeMillis() - startTime;

@@ -1,13 +1,12 @@
 package com.woopaca.likeknu.config;
 
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestClient;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import java.nio.charset.StandardCharsets;
 
 @Configuration
 public class RestClientConfiguration {
@@ -18,14 +17,17 @@ public class RestClientConfiguration {
     }
 
     @Bean
-    public RestClient restClient() {
-        return RestClient.create();
+    public HttpComponentsClientHttpRequestFactory requestFactory() {
+        CloseableHttpClient httpClient = HttpClients.custom()
+                .disableRedirectHandling()
+                .build();
+        return new HttpComponentsClientHttpRequestFactory(httpClient);
     }
 
     @Bean
-    public RestTemplate restTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
-        return restTemplate;
+    public RestClient restClient(HttpComponentsClientHttpRequestFactory requestFactory) {
+        return RestClient.builder()
+                .requestFactory(requestFactory)
+                .build();
     }
 }
