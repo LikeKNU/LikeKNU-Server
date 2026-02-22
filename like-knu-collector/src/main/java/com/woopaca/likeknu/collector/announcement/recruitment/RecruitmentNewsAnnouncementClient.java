@@ -2,21 +2,24 @@ package com.woopaca.likeknu.collector.announcement.recruitment;
 
 import com.woopaca.likeknu.collector.announcement.AnnouncementProperties;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 
 @Component
 public class RecruitmentNewsAnnouncementClient {
 
     private final AnnouncementProperties announcementProperties;
-    private final RestTemplate restTemplate;
+    private final RestClient restClient;
 
-    public RecruitmentNewsAnnouncementClient(AnnouncementProperties announcementProperties, RestTemplate restTemplate) {
+    public RecruitmentNewsAnnouncementClient(AnnouncementProperties announcementProperties, RestClient restClient) {
         this.announcementProperties = announcementProperties;
-        this.restTemplate = restTemplate;
+        this.restClient = restClient;
     }
 
     public String fetchRecruitmentNewsAnnouncementPage() {
         String url = announcementProperties.getRecruitmentNewsUrl();
-        return restTemplate.getForObject(url, String.class);
+        return restClient.get()
+                .uri(url)
+                .retrieve()
+                .body(String.class);
     }
 }
